@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.gamearki.freeinput": "ssh://git@github.com/gamearki/FreeInput.git?path=Assets/com.gamearki.freeinput#main",
     "com.unity.feature.2d": "1.0.0",
     "com.unity.ide.visualstudio": "2.0.14",
     "com.unity.ide.vscode": "1.2.5",

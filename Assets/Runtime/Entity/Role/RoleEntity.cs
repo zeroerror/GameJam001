@@ -2,17 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoleEntity : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+public class RoleEntity {
+
+    EntityIDComponent idCom;
+    public EntityIDComponent IDCom => idCom;
+
+    RoleInputComponent inputCom;
+    public RoleInputComponent InputCom => inputCom;
+
+    RoleFSMComponent fsmCom;
+    public RoleFSMComponent FSMCom => fsmCom;
+
+    GameObject go;
+    public GameObject GO => go;
+
+    public RoleEntity() {
+        idCom = new EntityIDComponent();
+        idCom.SetEntityType(EntityType.Role);
+
+        inputCom = new RoleInputComponent();
+        fsmCom = new RoleFSMComponent();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void Inject(GameObject go) {
+        this.go = go;
     }
+
 }

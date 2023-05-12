@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public class RoleRepo {
@@ -22,6 +23,12 @@ public class RoleRepo {
 
     public bool TryRemove(int typeID) {
         return dic.Remove(typeID);
+    }
+
+    public void ForeachAll(Action<RoleEntity> action) {
+        foreach (var pair in dic) {
+            action(pair.Value);
+        }
     }
 
 }

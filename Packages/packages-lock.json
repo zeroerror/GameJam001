@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.gamearki.freeinput": {
+      "version": "ssh://git@github.com/gamearki/FreeInput.git?path=Assets/com.gamearki.freeinput#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "6f519e40d633b473dd122bed491864617c4f91c8"
+    },
     "com.unity.2d.animation": {
       "version": "7.0.4",
       "depth": 1,
