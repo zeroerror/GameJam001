@@ -4,6 +4,6 @@ using UnityEngine;
 
 public struct RoleTM {
  
-
+    public int typeID;
 
 }

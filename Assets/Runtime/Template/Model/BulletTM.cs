@@ -4,6 +4,6 @@ using UnityEngine;
 
 public struct BulletTM {
  
-
+    public int typeID;
 
 }
