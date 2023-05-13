@@ -1,6 +1,4 @@
-using UnityEngine;
-
-public class BulletFSMStateModel_Flying {
+public class WeaponFSMStateModel_Idle {
 
     bool isEntering;
     public bool IsEntering => isEntering;
@@ -10,16 +8,11 @@ public class BulletFSMStateModel_Flying {
     public bool IsExiting => isExiting;
     public void SetIsExiting(bool value) => isExiting = value;
 
-    Vector2 flyDir;
-    public Vector2 FlyDir => flyDir;
-    public void SetFlyDir(Vector2 value) => flyDir = value;
-
-    public BulletFSMStateModel_Flying() {}
+    public WeaponFSMStateModel_Idle() {}
 
     public void Reset() {
         isEntering = false;
         isExiting = false;
-        flyDir = Vector2.zero;
     }
 
 }

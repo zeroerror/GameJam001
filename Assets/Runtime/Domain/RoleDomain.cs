@@ -52,7 +52,7 @@ public class RoleDomain {
             inputCom.SetInputPick(true);
         }
 
-        if (inputGetter.GetPressing(InputKeyCollection.SHOOT)) {
+        if (inputGetter.GetDown(InputKeyCollection.SHOOT)) {
             inputCom.SetInputShoot(true);
         }
 
@@ -133,7 +133,7 @@ public class RoleDomain {
 
         // Check WeaponForm Connection & Get Bullet
         bool hasShoot = false;
-        var shootFromPos = role.LogicPos;
+        var shootFromPos = role.LogicPos + new Vector3(0, 2, 0);
         var endPos = inputCom.ChosenPoint;
         var flyDir = (endPos - shootFromPos).normalized;
         var weaponFormSlotCom = role.WeaponFormSlotCom;
@@ -141,25 +141,28 @@ public class RoleDomain {
         if (true) {
             if (weaponFormDomain.TryGetBulletFromWeaponForm_1(out var bullet)) {
                 bullet.IDCom.SetFather(role.IDCom.ToEntityIDArgs());
+                bullet.SetPos(shootFromPos);
                 bulletFSMDomain.Enter_Flying(bullet, flyDir);
                 hasShoot = true;
-                Debug.Log($"Shoot The Bullet From WeaponForm 1");
+                Debug.Log($"发射子弹：从武器库 1");
             }
         }
         if (weaponFormSlotCom.isConnectedToWeaponForm2) {
             if (weaponFormDomain.TryGetBulletFromWeaponForm_2(out var bullet)) {
-                // Shoot The Bullet
+                bullet.IDCom.SetFather(role.IDCom.ToEntityIDArgs());
+                bullet.SetPos(shootFromPos);
                 bulletFSMDomain.Enter_Flying(bullet, flyDir);
                 hasShoot = true;
-                Debug.Log($"Shoot The Bullet From WeaponForm 2");
+                Debug.Log($"发射子弹：从武器库 2");
             }
         }
         if (weaponFormSlotCom.isConnectedToWeaponForm3) {
             if (weaponFormDomain.TryGetBulletFromWeaponForm_3(out var bullet)) {
-                // Shoot The Bullet
+                bullet.IDCom.SetFather(role.IDCom.ToEntityIDArgs());
+                bullet.SetPos(shootFromPos); 
                 bulletFSMDomain.Enter_Flying(bullet, flyDir);
                 hasShoot = true;
-                Debug.Log($"Shoot The Bullet From WeaponForm 3");
+                Debug.Log($"发射子弹：从武器库 3");
             }
         }
 

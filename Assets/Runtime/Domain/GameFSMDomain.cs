@@ -4,8 +4,10 @@ public class GameFSMDomain {
 
     MainContext mainContext;
     RootDomain rootDomain;
-    public void Inject(MainContext mainContext, RootDomain rootDomain) {
+    WeaponFormDomain weaponFormDomain;
+    public void Inject(MainContext mainContext, WeaponFormDomain weaponFormDomain, RootDomain rootDomain) {
         this.mainContext = mainContext;
+        this.weaponFormDomain = weaponFormDomain;
         this.rootDomain = rootDomain;
     }
 
@@ -31,8 +33,9 @@ public class GameFSMDomain {
             return;
         }
 
-    // ========= Input
         var roleDomain = rootDomain.roleDomain;
+        var bulletDomain = rootDomain.bulletDomain;
+        // ========= Input
         roleDomain.PlayerRole_BackInput();
         roleDomain.PlayerRole_AnimWeaponToPos();
 
@@ -43,7 +46,7 @@ public class GameFSMDomain {
             if (state == GameFSMState.Lobby) {
                 TickLobbyLogic(gameEntity, dt);
             } else if (state == GameFSMState.Battle) {
-                TickBattleLogic(gameEntity, dt);
+                TickBattle(gameEntity, dt);
             }
 
             TickAnyLogic(gameEntity, dt);
@@ -52,6 +55,7 @@ public class GameFSMDomain {
 
         // ========= Renderer
         roleDomain.EasingRenderer(dt);
+        bulletDomain.EasingRenderer(dt);
     }
 
     public void TickAnyLogic(GameEntity gameEntity, float dt) {
@@ -61,19 +65,23 @@ public class GameFSMDomain {
 
     }
 
-    public void TickBattleLogic(GameEntity gameEntity, float dt) {
+    public void TickBattle(GameEntity gameEntity, float dt) {
         var roleDomain = rootDomain.roleDomain;
         var roleFSMDomain = rootDomain.roleFSMDomain;
+        var bulletFSMDomain = rootDomain.bulletFSMDomain;
         var phxDomain = rootDomain.phxDomain;
 
         var stateModel = gameEntity.FSMCom.BattleStateModel;
         if (stateModel.IsEntering) {
             stateModel.SetIsEntering(false);
-            roleDomain.TrySpawnPlayerRole();
             phxDomain.SetGlobalGravity(new Vector2(0, -20f));
+
+            roleDomain.TrySpawnPlayerRole();
+            weaponFormDomain.TrySpawnWeaponFormThree();
         }
 
         roleFSMDomain.TickFSM(dt);
+        bulletFSMDomain.TickFSM(dt);
         phxDomain.Tick(dt);
     }
 

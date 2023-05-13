@@ -34,8 +34,8 @@ public class Factory {
         }
 
         var bulletTemplate = mainContext.rootTemplate.bulletTemplate;
-        if (!bulletTemplate.TryGet(bulletType, out var tm)) {
-            Debug.LogError($"Template failed: bulletType={bulletType}");
+        if (!bulletTemplate.TryGetNormalBullet(out var tm)) {
+            Debug.LogError($"Template TryGetNormalBullet Failed!!!");
             bullet = null;
             return false;
         }

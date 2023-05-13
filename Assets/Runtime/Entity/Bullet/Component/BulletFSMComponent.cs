@@ -23,10 +23,11 @@ public class BulletFSMComponent {
         explodingStateModel.Reset();
     }
 
-    public void EnterFlying() {
+    public void EnterFlying(Vector2 flyDir) {
         var model = flyingStateModel;
         model.Reset();
         model.SetIsEntering(true);
+        model.SetFlyDir(flyDir);
         state = BulletFSMState.Flying;
     }
 

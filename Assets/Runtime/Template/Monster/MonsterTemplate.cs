@@ -8,10 +8,11 @@ public class MonsterTemplate {
 
     public MonsterTemplate() {
         dic = new Dictionary<int, MonsterTM>();
-        var allSO = Resources.LoadAll<MonsterSO>("Runtime/Template/SO");
+        var allSO = Resources.LoadAll<MonsterSO>("Monster");
         for (int i = 0; i < allSO.Length; i++) {
             var tm = allSO[i].tm;
             dic.Add(tm.typeID, tm);
+            Debug.Log($"怪物模板数据 +++ ====> {tm.typeID}");
         }
     }
 

@@ -5,8 +5,10 @@ public class WeaponFormEntity {
     EntityIDComponent idCom;
     public EntityIDComponent IDCom => idCom;
 
+    WeaponFormFSMComponent fsmCom;
+    public WeaponFormFSMComponent FSMCom => fsmCom;
+
     GameObject rootGO;
-    GameObject logicGO;
     GameObject rendererGO;
 
     BulletType bulletType;
@@ -24,21 +26,21 @@ public class WeaponFormEntity {
         idCom = new EntityIDComponent();
         idCom.SetEntityType(EntityType.WeaponForm);
 
+        fsmCom = new WeaponFormFSMComponent();
+
         infoModel = new WeaponFormInfoModel();
     }
 
     public void Inject(GameObject rootGO) {
         this.rootGO = rootGO;
-        this.logicGO = rootGO.transform.Find("LOGIC").gameObject;
         this.rendererGO = rootGO.transform.Find("RENDERER").gameObject;
         Debug.Assert(rootGO != null, "rootGO == null");
-        Debug.Assert(logicGO != null, "logicGO == null");
         Debug.Assert(rendererGO != null, "rendererGO == null");
     }
 
     // 根据 WeaponFormUpgradeModel 升级
     public void LevelUp() {
-        
+
     }
 
 }

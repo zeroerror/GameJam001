@@ -13,7 +13,7 @@ public class RoleInputComponent {
     bool inputShoot;
     public bool InputShoot => inputShoot;
     public void SetInputShoot(bool value) => this.inputShoot = value;
-    
+
     bool inputPick;
     public bool InputPick => inputPick;
     public void SetInputPick(bool value) => this.inputPick = value;
@@ -27,6 +27,7 @@ public class RoleInputComponent {
     public void Reset() {
         moveHorDir = 0;
         inputJump = false;
+        inputShoot = false;
         inputPick = false;
         chosenPoint = Vector2.zero;
     }

@@ -9,11 +9,12 @@ public class BulletRepo {
         dic = new Dictionary<int, BulletEntity>();
     }
 
-    public bool TryAdd(int typeID, BulletEntity bullet) {
-        if (dic.ContainsKey(typeID)) {
+    public bool TryAdd(BulletEntity bullet) {
+        var entityID = bullet.IDCom.EntityID;
+        if (dic.ContainsKey(entityID)) {
             return false;
         }
-        dic.Add(typeID, bullet);
+        dic.Add(entityID, bullet);
         return true;
     }
 
