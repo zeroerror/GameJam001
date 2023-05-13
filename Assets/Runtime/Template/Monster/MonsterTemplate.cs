@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonsterTemplate {
 
-    public Dictionary<int, MonsterTM> dic;
+    Dictionary<int, MonsterTM> dic;
 
     public MonsterTemplate() {
         dic = new Dictionary<int, MonsterTM>();
@@ -14,6 +14,10 @@ public class MonsterTemplate {
             dic.Add(tm.typeID, tm);
             Debug.Log($"怪物模板数据 +++ ====> {tm.typeID}");
         }
+    }
+
+    public bool TryGet(int typeID, out MonsterTM tm) {
+        return dic.TryGetValue(typeID, out tm);
     }
 
 }

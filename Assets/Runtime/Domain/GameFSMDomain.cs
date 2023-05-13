@@ -34,6 +34,7 @@ public class GameFSMDomain {
         }
 
         var roleDomain = rootDomain.roleDomain;
+        var monsterDomain = rootDomain.monsterDomain;
         var bulletDomain = rootDomain.bulletDomain;
         // ========= Input
         roleDomain.PlayerRole_BackInput();
@@ -55,6 +56,7 @@ public class GameFSMDomain {
 
         // ========= Renderer
         roleDomain.EasingRenderer(dt);
+        monsterDomain.EasingRenderer(dt);
         bulletDomain.EasingRenderer(dt);
     }
 
@@ -68,6 +70,7 @@ public class GameFSMDomain {
     public void TickBattle(GameEntity gameEntity, float dt) {
         var roleDomain = rootDomain.roleDomain;
         var roleFSMDomain = rootDomain.roleFSMDomain;
+        var monsterFSMDomain = rootDomain.monsterFSMDomain;
         var bulletFSMDomain = rootDomain.bulletFSMDomain;
         var phxDomain = rootDomain.phxDomain;
 
@@ -85,12 +88,15 @@ public class GameFSMDomain {
             gameEntity.SetWaveSpawnerModelArray(waveModel.waveSpawnerModelArray);
         }
 
+        monsterFSMDomain.TickFSM(dt);
         roleFSMDomain.TickFSM(dt);
         bulletFSMDomain.TickFSM(dt);
         phxDomain.Tick(dt);
 
         // Wave Control
         gameEntity.ForeachWaveSpawnerModel(stateModel.curTime, (spawnModel) => {
+            var monsterDomain = rootDomain.monsterDomain;
+            monsterDomain.TrySpawnMonster(spawnModel, out var monster);
             Debug.Log($"生成怪物 {spawnModel.typeID} ");
         });
         stateModel.curTime += dt;

@@ -29,7 +29,7 @@ public class EntityIDComponent {
 
     int typeID;
     public int TypeID => typeID;
-    public void SetEntityType(int v) => this.typeID = v;
+    public void SetTypeID(int v) => this.typeID = v;
 
     int entityID;
     public int EntityID => entityID;

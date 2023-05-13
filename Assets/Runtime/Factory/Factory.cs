@@ -16,11 +16,55 @@ public class Factory {
             return false;
         }
 
-        // TM TODO
+        // TM 
+        var roleTemplate = mainContext.rootTemplate.roleTemplate;
+        if (!roleTemplate.TryGet(typeID, out var tm)) {
+            Debug.LogError($"角色模板找不到 typeID:{typeID}");
+            role = null;
+            return false;
+        }
 
-        var go = GameObject.Instantiate(prefab) as GameObject;
         role = new RoleEntity();
-        role.Inject(go);
+
+        role.IDCom.SetTypeID(typeID);
+
+        var bodyMod = tm.bodyMod;
+        bodyMod = GameObject.Instantiate(bodyMod) as GameObject;
+        var rootGO = GameObject.Instantiate(prefab) as GameObject;
+        role.Inject(rootGO, bodyMod);
+
+        return true;
+    }
+
+    public bool TryCreateMonster(int typeID, out MonsterEntity monster) {
+        var prefab = Resources.Load("Monster/go_template_monster");
+        if (prefab == null) {
+            Debug.LogError("Monster/go_template_monster Not Found");
+            monster = null;
+            return false;
+        }
+
+        // TM 
+        var monsterTemplate = mainContext.rootTemplate.monsterTemplate;
+        if (!monsterTemplate.TryGet(typeID, out var tm)) {
+            Debug.LogError($"Template TryGet Failed!!! typeID:{typeID}");
+            monster = null;
+            return false;
+        }
+
+        monster = new MonsterEntity();
+
+        monster.IDCom.SetTypeID(typeID);
+
+        monster.SetHP(tm.hp);
+        monster.SetFallPattern(tm.fallPattern);
+        monster.SetFallSpeed(tm.fallSpeed);
+        monster.SetSize(tm.size);
+
+        var bodyMod = tm.bodyMod;
+        bodyMod = GameObject.Instantiate(bodyMod) as GameObject;
+        var rootGO = GameObject.Instantiate(prefab) as GameObject;
+        monster.Inject(rootGO, bodyMod);
 
         return true;
     }
@@ -40,8 +84,10 @@ public class Factory {
             return false;
         }
 
-        var go = GameObject.Instantiate(prefab) as GameObject;
         bullet = new BulletEntity();
+        bullet.IDCom.SetTypeID(tm.typeID);
+
+        var go = GameObject.Instantiate(prefab) as GameObject;
         bullet.Inject(go);
 
         // Set

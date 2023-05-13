@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public class MonsterRepo {
@@ -8,11 +9,12 @@ public class MonsterRepo {
         dic = new Dictionary<int, MonsterEntity>();
     }
 
-    public bool TryAdd(int typeID, MonsterEntity monster) {
-        if (dic.ContainsKey(typeID)) {
+    public bool TryAdd(MonsterEntity monster) {
+        var entityID = monster.IDCom.EntityID;
+        if (dic.ContainsKey(entityID)) {
             return false;
         }
-        dic.Add(typeID, monster);
+        dic.Add(entityID, monster);
         return true;
     }
 
@@ -22,6 +24,12 @@ public class MonsterRepo {
 
     public bool TryRemove(int typeID) {
         return dic.Remove(typeID);
+    }
+
+    public void ForeachAll(Action<MonsterEntity> action) {
+        foreach (var pair in dic) {
+            action(pair.Value);
+        }
     }
 
 }

@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public struct RoleTM {
- 
-    public int typeID;
+
+    [SerializeField] public int typeID;
+    [SerializeField] public GameObject bodyMod;
 
 }

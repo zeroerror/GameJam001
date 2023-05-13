@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e48bcc5932c154aa0ac234fcbd6f50, type: 3}
+  m_Name: so_monster_1000
+  m_EditorClassIdentifier: 
+  tm:
+    typeID: 1000
+    hp: 100
+    fallPattern: 0
+    fallSpeed: 10
+    size: {x: 1, y: 2}
+    bodyMod: {fileID: 5217694478367422031, guid: 3e1a14154b9b1724480ebe0875538d22, type: 3}

@@ -82,7 +82,7 @@ public class RoleFSMDomain {
 
         bool hasMoveDir = moveHorDir != 0;
         if (hasMoveDir) {
-            role.Move_Hor(moveHorDir, dt);
+            role.SetMoveVelocity(moveHorDir, dt);
         }
 
         roleDomain.TryShoot(role);
@@ -110,7 +110,7 @@ public class RoleFSMDomain {
         // Move in the air
         var inputCom = role.InputCom;
         if (inputCom.MoveHorDir != 0) {
-            role.Move_Hor(inputCom.MoveHorDir, dt);
+            role.SetMoveVelocity(inputCom.MoveHorDir, dt);
         }
 
         roleDomain.TryShoot(role);

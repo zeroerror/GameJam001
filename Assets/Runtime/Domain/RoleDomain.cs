@@ -69,7 +69,8 @@ public class RoleDomain {
             return false;
         }
 
-        if (!TrySpawnRole(GlobalCollection.PLAYER_TYPE_ID, out var role)) {
+        var globalConfigTM = mainContext.rootTemplate.globalConfigTM;
+        if (!TrySpawnRole(globalConfigTM.playerRoleTypeID, out var role)) {
             Debug.LogError("创建玩家角色失败");
             return false;
         }
@@ -159,7 +160,7 @@ public class RoleDomain {
         if (weaponFormSlotCom.isConnectedToWeaponForm3) {
             if (weaponFormDomain.TryGetBulletFromWeaponForm_3(out var bullet)) {
                 bullet.IDCom.SetFather(role.IDCom.ToEntityIDArgs());
-                bullet.SetPos(shootFromPos); 
+                bullet.SetPos(shootFromPos);
                 bulletFSMDomain.Enter_Flying(bullet, flyDir);
                 hasShoot = true;
                 Debug.Log($"发射子弹：从武器库 3");

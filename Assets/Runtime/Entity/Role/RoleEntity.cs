@@ -21,6 +21,7 @@ public class RoleEntity {
     GameObject logicGO;
     Rigidbody2D logicRB;
     GameObject rendererGO;
+    GameObject rendererBodyGO;
     GameObject rendererWeaponGO;
 
     public RoleEntity() {
@@ -32,12 +33,15 @@ public class RoleEntity {
         weaponFormSlotCom = new WeaponFormSlotComponent();
     }
 
-    public void Inject(GameObject rootGO) {
+    public void Inject(GameObject rootGO, GameObject bodyMod) {
         this.rootGO = rootGO;
         this.logicGO = rootGO.transform.Find("LOGIC").gameObject;
         this.logicRB = logicGO.GetComponent<Rigidbody2D>();
         this.rendererGO = rootGO.transform.Find("RENDERER").gameObject;
+        this.rendererBodyGO = rendererGO.transform.Find("BODY").gameObject;
         this.rendererWeaponGO = rendererGO.transform.Find("WEAPON").gameObject;
+
+        bodyMod.transform.SetParent(rendererBodyGO.transform, false);
 
         Debug.Assert(rootGO != null, "rootGO == null");
         Debug.Assert(logicRB != null, "rootRB == null");
@@ -51,7 +55,7 @@ public class RoleEntity {
     }
 
     // Update logic rb immediately, and also update renderer's rotation immediately
-    public void Move_Hor(int dir, float dt) {
+    public void SetMoveVelocity(int dir, float dt) {
         logicRB.velocity = new Vector2(dir * moveSpeed, logicRB.velocity.y);
 
         var rot = Quaternion.Euler(0, dir == 1 ? 0 : 180, 0);

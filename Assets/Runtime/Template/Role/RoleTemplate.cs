@@ -16,4 +16,8 @@ public class RoleTemplate {
         }
     }
 
+    public bool TryGet(int typeID, out RoleTM tm) {
+        return dic.TryGetValue(typeID, out tm);
+    }
+
 }
