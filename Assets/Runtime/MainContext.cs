@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class MainContext {
 
+    VFXManager vfxManager;
+    public VFXManager VFXManager => vfxManager;
+
     public FreeInputCore freeInputCore;
 
     public RootTemplate rootTemplate;
@@ -20,7 +23,8 @@ public class MainContext {
         this.gameEntity = new GameEntity();
     }
 
-    public void Inject(FreeInputCore freeInputCore) {
+    public void Inject(VFXManager vfxManager, FreeInputCore freeInputCore) {
+        this.vfxManager = vfxManager;
         this.freeInputCore = freeInputCore;
     }
 

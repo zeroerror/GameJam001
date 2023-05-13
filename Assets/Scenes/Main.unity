@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1736269069}
   - component: {fileID: 1736269068}
+  - component: {fileID: 1736269070}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -152,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c2bed04793da440a764dacd9eda993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vfxManager: {fileID: 1736269070}
 --- !u!4 &1736269069
 Transform:
   m_ObjectHideFlags: 0
@@ -167,3 +169,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1736269070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736269067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f468a87c67bd3b64dbf92f5135b71c8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfx_hit_bullet: {fileID: 8163451916556780370, guid: 6f82a5a8b6dc2db45a0b30768852318d, type: 3}
+  vfx_hit_homebase: {fileID: 7322655384211280093, guid: be0ef8b5edcc19343814a487ba49bde9, type: 3}
+  vfx_shoot_normal: {fileID: 8163451916556780370, guid: 6f82a5a8b6dc2db45a0b30768852318d, type: 3}
+  vfx_shoot_rocket: {fileID: 4218480068898767780, guid: 65fa880ce5d5b1a4291e962df4361cd3, type: 3}

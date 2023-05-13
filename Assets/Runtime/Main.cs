@@ -3,6 +3,7 @@ using GameArki.FreeInput;
 
 public class Main : MonoBehaviour {
 
+    [SerializeField] VFXManager vfxManager;
     MainController mainController;
 
     // First Party
@@ -16,7 +17,7 @@ public class Main : MonoBehaviour {
         Physics2D.simulationMode = SimulationMode2D.Script;
 
         // Controller
-        this.mainController = new MainController();
+        this.mainController = new MainController(vfxManager);
 
     }
 
