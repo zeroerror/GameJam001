@@ -19,6 +19,8 @@ public class WeaponFormEntity {
     WeaponFormInfoModel infoModel;
     public WeaponFormInfoModel InfoModel => infoModel;
 
+    public int curLevel;
+
     // Cache
     public int curBulletCount;     // 当前子弹数量
 
@@ -29,6 +31,8 @@ public class WeaponFormEntity {
         fsmCom = new WeaponFormFSMComponent();
 
         infoModel = new WeaponFormInfoModel();
+
+        this.curLevel = 1;
     }
 
     public void Inject(GameObject rootGO) {
@@ -36,11 +40,26 @@ public class WeaponFormEntity {
         this.rendererGO = rootGO.transform.Find("RENDERER").gameObject;
         Debug.Assert(rootGO != null, "rootGO == null");
         Debug.Assert(rendererGO != null, "rendererGO == null");
+
+        InitRenderer();
     }
 
     // 根据 WeaponFormUpgradeModel 升级
     public void LevelUp() {
+        this.curLevel++;
+        rendererGO.transform.GetChild(this.curLevel).gameObject.SetActive(true);
+    }
 
+    public void InitRenderer() {
+        var childCount = rendererGO.transform.childCount;
+        for (int i = 0; i < childCount; i++) {
+            var child = rendererGO.transform.GetChild(i);
+            if (child == null) {
+                break;
+            }
+            child.gameObject.SetActive(false);
+        }
+        rendererGO.transform.GetChild(this.curLevel).gameObject.SetActive(true);
     }
 
     public void SetPos(Vector2 pos) {

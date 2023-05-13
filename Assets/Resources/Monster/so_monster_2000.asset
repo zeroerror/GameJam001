@@ -16,6 +16,6 @@ MonoBehaviour:
     typeID: 2000
     hp: 200
     fallPattern: 0
-    fallSpeed: -10
+    fallSpeed: -2
     size: {x: 1, y: 2}
     bodyMod: {fileID: 5217694478367422031, guid: d3b86677c0ad0684cba6ca5f100b7efe, type: 3}

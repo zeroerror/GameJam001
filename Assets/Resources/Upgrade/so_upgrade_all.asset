@@ -9,13 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7e48bcc5932c154aa0ac234fcbd6f50, type: 3}
-  m_Name: so_monster_1000
+  m_Script: {fileID: 11500000, guid: fe38e9d8c12056f40ae0223019945efb, type: 3}
+  m_Name: so_upgrade_all
   m_EditorClassIdentifier: 
   tm:
-    typeID: 1000
-    hp: 100
-    fallPattern: 0
-    fallSpeed: -2
-    size: {x: 1, y: 2}
-    bodyMod: {fileID: 5217694478367422031, guid: 3e1a14154b9b1724480ebe0875538d22, type: 3}
+    upgradeType: 010000000200000003000000040000000500000006000000070000000800000009000000
