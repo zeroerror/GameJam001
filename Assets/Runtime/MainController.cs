@@ -9,7 +9,7 @@ public class MainController {
     MainContext mainContext;
     RootDomain rootDomain;
 
-    public MainController() {
+    public MainController(VFXManager vfxManager, SFXManager sfxManager) {
 
         // Input Bind
         this.freeInputCore = new FreeInputCore();
@@ -24,7 +24,7 @@ public class MainController {
         this.rootDomain = new RootDomain();
 
         this.factory.Inject(mainContext);
-        this.mainContext.Inject(freeInputCore);
+        this.mainContext.Inject(vfxManager, sfxManager, freeInputCore);
         this.rootDomain.Inject(mainContext, factory);
 
         // Load First Scene
