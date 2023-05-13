@@ -14,9 +14,11 @@ public struct GlobalConfigTM {
     [SerializeField] public WeaponFormUpgradeTM weaponFormUpgradeTM;
 
     [Header("============================ 武器库初始配置 ============================")]
-    [SerializeField] public WeaponFormUpgradeTM weaponFormInitTM;
+    [SerializeField][Header("武器库 子弹容量")] public int ammoCapacity_init;
+    [SerializeField][Header("武器库 射击间隔(S)")] public float shootCD_init;
+    [SerializeField][Header("武器库 装填时间(S)")] public float reloadCD_init;
+    [SerializeField][Header("初始子弹类型")] public BulletType bulletType_init;
     [Header("============================ 基地血量 ============================")]
     [SerializeField] public int baseHP;
-
 
 }

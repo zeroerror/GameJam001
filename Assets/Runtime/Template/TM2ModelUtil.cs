@@ -29,13 +29,19 @@ public static class TM2ModelUtil {
         return model;
     }
 
-    public static WeaponFormAttrModel GetWeaponFormAttrModel(WeaponFormUpgradeTM tm){
-        WeaponFormAttrModel model  =new WeaponFormAttrModel();
-        model.bulletDamage = tm.bulletDamage;
-        model.ammoCapacity = tm.ammoCapacity;
+    public static WeaponFormAttrModel GetWeaponFormAttrModel(GlobalConfigTM tm) {
+        WeaponFormAttrModel model = new WeaponFormAttrModel();
+        model.ammoCapacity = tm.ammoCapacity_init;
+        model.shootCD = tm.shootCD_init;
+        model.reloadCD = tm.reloadCD_init;
+        return model;
+    }
+
+    public static BulletModel GetBulletModel(BulletTM tm) {
+        BulletModel model;
+        model.bulletType = tm.bulletType;
         model.bulletSize = tm.bulletSize;
-        model.shootCD = tm.shootCD;
-        model.reloadCD = tm.reloadCD;
+        model.bulletDamage = tm.bulletDamage;
         model.bloodThirst = tm.bloodThirst;
         model.fanOut = tm.fanOut;
         model.slow = tm.slow;

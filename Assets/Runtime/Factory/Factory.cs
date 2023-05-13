@@ -71,13 +71,7 @@ public class Factory {
         return true;
     }
 
-    public bool TryCreateBullet(BulletType bulletType,
-                               Vector2 bulletSize,
-                                int bloodThirst,
-                                int fanOut,
-                                float slow,
-                                float hitBackDis,
-                                int bulletDamage,
+    public bool TryCreateBullet(BulletModel bulletModel,
                                 out BulletEntity bullet) {
         var prefab = Resources.Load("Bullet/go_template_bullet");
         if (prefab == null) {
@@ -93,19 +87,19 @@ public class Factory {
         bullet.Inject(rootGO);
 
         // 子弹伤害
-        bullet.bulletDamage = bulletDamage;
+        bullet.bulletDamage = bulletModel.bulletDamage;
         // 子弹尺寸
-        bullet.bulletSize = bulletSize;
+        bullet.bulletSize = bulletModel.bulletSize;
         // 子弹吸血
-        bullet.bloodThirst = bloodThirst;
+        bullet.bloodThirst = bulletModel.bloodThirst;
         // 散射
-        bullet.fanOut = fanOut;
+        bullet.fanOut = bulletModel.fanOut;
         // 减速 percent
-        bullet.slow = slow;
+        bullet.slow = bulletModel.slow;
         // 击退
-        bullet.hitBackDis = hitBackDis;
+        bullet.hitBackDis = bulletModel.hitBackDis;
 
-        return true ;
+        return true;
     }
 
 }

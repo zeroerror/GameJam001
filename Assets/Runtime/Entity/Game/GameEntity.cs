@@ -13,6 +13,9 @@ public class GameEntity {
     public bool wavePaused;
     public bool hasWaveUpgrade;
 
+    public int baseHP;
+    public int baseMaxHP;
+
     public GameEntity() {
         this.fsmCom = new GameFSMComponent();
     }

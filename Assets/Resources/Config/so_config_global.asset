@@ -20,23 +20,19 @@ MonoBehaviour:
     weaponFormPos3: {x: 15, y: 0}
     playerRoleTypeID: 1000
     weaponFormUpgradeTM:
-      bloodThirst: 0
-      fanOut: 0
-      slow: 0
-      hitBackDis: 0
       ammoCapacity: 0
-      bulletDamage: 500
-      bulletSize: {x: 0, y: 0}
       shootCD: 0
       reloadCD: 0
-    weaponFormInitTM:
-      bloodThirst: 0
-      fanOut: 0
-      slow: 0
-      hitBackDis: 0
-      ammoCapacity: 0
-      bulletDamage: 100
-      bulletSize: {x: 0, y: 0}
-      shootCD: 0
-      reloadCD: 0
+      bulletTM:
+        bulletType: 0
+        bloodThirst: 0
+        fanOut: 0
+        slow: 0
+        hitBackDis: 0
+        bulletDamage: 0
+        bulletSize: {x: 0, y: 0}
+    ammoCapacity_init: 0
+    shootCD_init: 1
+    reloadCD_init: 0
+    bulletType_init: 0
     baseHP: 20

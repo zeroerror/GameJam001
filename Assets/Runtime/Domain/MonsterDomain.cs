@@ -68,7 +68,6 @@ public class MonsterDomain {
         var damage = bulletEntity.bulletDamage;
         var clampHP = System.Math.Clamp(monsterEntity.HP - damage, 0, int.MaxValue);
         monsterEntity.SetHP(clampHP);
-        Debug.Log($"ZZZ clampHP:{clampHP} damage:{damage}");
 
     }
 

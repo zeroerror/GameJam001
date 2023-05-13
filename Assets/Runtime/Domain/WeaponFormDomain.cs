@@ -5,11 +5,16 @@ public class WeaponFormDomain {
     MainContext mainContext;
     Factory factory;
     BulletDomain bulletDomain;
+    WeaponFormFSMDomain weaponFormFSMDomain;
 
-    public void Inject(MainContext mainContext, Factory factory, BulletDomain bulletDomain) {
+    public void Inject(MainContext mainContext,
+                       Factory factory,
+                       BulletDomain bulletDomain,
+                       WeaponFormFSMDomain weaponFormFSMDomain) {
         this.mainContext = mainContext;
         this.factory = factory;
         this.bulletDomain = bulletDomain;
+        this.weaponFormFSMDomain = weaponFormFSMDomain;
     }
 
     public void TrySpawnWeaponFormThree() {
@@ -45,10 +50,10 @@ public class WeaponFormDomain {
         weaponForm.SetPos(pos);
 
         var globalConfigTM = mainContext.rootTemplate.globalConfigTM;
-        var weaponFormInitTM = globalConfigTM.weaponFormInitTM;
-        var attrModel = TM2ModelUtil.GetWeaponFormAttrModel(weaponFormInitTM);
-        attrModel.baseHP = globalConfigTM.baseHP;
-        attrModel.hp = globalConfigTM.baseHP;
+        var attrModel = TM2ModelUtil.GetWeaponFormAttrModel(globalConfigTM);
+        mainContext.rootTemplate.bulletTemplate.TryGet(globalConfigTM.bulletType_init,
+                                                       out var bulletTM);
+        attrModel.bulletModel = TM2ModelUtil.GetBulletModel(bulletTM);
         weaponForm.SetWeaponFormAttrModel(attrModel);
 
         var rootRepo = mainContext.rootRepo;
@@ -59,6 +64,8 @@ public class WeaponFormDomain {
         } else if (index == 3) {
             rootRepo.weaponForm3 = weaponForm;
         }
+
+        weaponFormFSMDomain.Enter_Idle(weaponForm);
 
         return true;
     }
@@ -76,6 +83,8 @@ public class WeaponFormDomain {
     }
 
     public bool TryGetBulletFromWeaponForm(int index, out BulletEntity bullet) {
+        bullet = null;
+
         var repo = mainContext.rootRepo;
         WeaponFormEntity weaponForm = null;
         if (index == 1) {
@@ -88,20 +97,23 @@ public class WeaponFormDomain {
             Debug.LogError("index error");
         }
 
-        var attrModel = weaponForm.AttrModel;
-        var bulletType = weaponForm.BulletType;
-        if (bulletDomain.TrySpawnBullet(bulletType,
-                                        attrModel.bulletSize,
-                                        attrModel.bloodThirst,
-                                        attrModel.fanOut,
-                                        attrModel.slow,
-                                        attrModel.hitBackDis,
-                                        attrModel.bulletDamage,
-                                        out bullet)) {
-            bullet.SetFlySpeed(10);
-            return true;
+        // FSM CHECK
+        var fsmCom = weaponForm.FSMCom;
+        var state = fsmCom.State;
+        if (state != WeaponFormFSMState.Idle) {
+            return false;
         }
 
+        var attrModel = weaponForm.AttrModel;
+        var bulletType = weaponForm.BulletType;
+        if (!bulletDomain.TrySpawnBullet(attrModel.bulletModel,
+                                         out bullet)) {
+
+            return false;
+        }
+
+        weaponFormFSMDomain.Enter_Shooting(weaponForm);
+        bullet.SetFlySpeed(10);
         return true;
     }
 
@@ -121,24 +133,24 @@ public class WeaponFormDomain {
         var idCom3 = weaponForm3.IDCom;
         var entityID = weaponFormIDArgs.entityID;
 
+        var gameEntity = mainContext.GameEntity;
+        var hp = gameEntity.baseHP;
+
         if (idCom1.EntityID == entityID) {
-            var hp = weaponForm1.AttrModel.hp;
             var clampHP = System.Math.Clamp(hp - 1, 0, int.MaxValue);
-            monsterEntity.SetHP(clampHP);
+            gameEntity.baseHP = clampHP;
             return;
         }
 
         if (idCom2.EntityID == entityID) {
-            var hp = weaponForm2.AttrModel.hp;
             var clampHP = System.Math.Clamp(hp - 1, 0, int.MaxValue);
-            monsterEntity.SetHP(clampHP);
+            gameEntity.baseHP = clampHP;
             return;
         }
 
         if (idCom3.EntityID == entityID) {
-            var hp = weaponForm3.AttrModel.hp;
             var clampHP = System.Math.Clamp(hp - 1, 0, int.MaxValue);
-            monsterEntity.SetHP(clampHP);
+            gameEntity.baseHP = clampHP;
             return;
         }
     }

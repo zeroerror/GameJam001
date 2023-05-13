@@ -36,19 +36,17 @@ public class GameFSMDomain {
         var roleDomain = rootDomain.roleDomain;
         var monsterDomain = rootDomain.monsterDomain;
         var bulletDomain = rootDomain.bulletDomain;
+
         // ========= Input
         roleDomain.PlayerRole_BackInput();
         roleDomain.PlayerRole_AnimWeaponToPos();
 
         // ========= Logic
-        // TickResTime(dt);
-        // var tickCount = PickRealTickCount();
         if (state == GameFSMState.Lobby) {
             TickLobbyLogic(gameEntity, dt);
         } else if (state == GameFSMState.Battle) {
             TickBattle(gameEntity, dt);
         }
-
         TickAnyLogic(gameEntity, dt);
 
         // ========= Renderer
@@ -69,7 +67,9 @@ public class GameFSMDomain {
         var roleFSMDomain = rootDomain.roleFSMDomain;
         var monsterFSMDomain = rootDomain.monsterFSMDomain;
         var bulletFSMDomain = rootDomain.bulletFSMDomain;
+        var weaponFormFSMDomain = rootDomain.weaponFormFSMDomain;
         var phxDomain = rootDomain.phxDomain;
+        var globalConfigTM = mainContext.rootTemplate.globalConfigTM;
 
         var stateModel = gameEntity.FSMCom.BattleStateModel;
         if (stateModel.IsEntering) {
@@ -83,11 +83,15 @@ public class GameFSMDomain {
             waveTemplate.TryGetWaveTM(out var tm);
             var waveModel = TM2ModelUtil.GetWaveModel(tm);
             gameEntity.SetWaveSpawnerModelArray(waveModel.waveSpawnerModelArray);
+            gameEntity.baseHP = globalConfigTM.baseHP;
+            gameEntity.baseMaxHP = globalConfigTM.baseHP;
         }
 
         monsterFSMDomain.TickFSM(dt);
+
         roleFSMDomain.TickFSM(dt);
         bulletFSMDomain.TickFSM(dt);
+        weaponFormFSMDomain.TickFSM(dt);
         phxDomain.Tick(dt);
 
         // Wave Control
@@ -157,39 +161,11 @@ public class GameFSMDomain {
         weaponForm.LevelUp();
         var globalConfigTM = mainContext.rootTemplate.globalConfigTM;
         var weaponFormUpgradeTM = globalConfigTM.weaponFormUpgradeTM;
+        var bulletTM = weaponFormUpgradeTM.bulletTM;
 
-        if (upgradeType == UpgradeType.BloodThirst) {
-            weaponForm.AttrModel.bloodThirst += weaponFormUpgradeTM.bloodThirst;
-            return;
-        }
-
-        if (upgradeType == UpgradeType.FanOut) {
-            weaponForm.AttrModel.fanOut += weaponFormUpgradeTM.fanOut;
-            return;
-        }
-
-        if (upgradeType == UpgradeType.Slow) {
-            weaponForm.AttrModel.slow += weaponFormUpgradeTM.slow;
-            return;
-        }
-
-        if (upgradeType == UpgradeType.HitBack) {
-            weaponForm.AttrModel.hitBackDis += weaponFormUpgradeTM.hitBackDis;
-            return;
-        }
-
+        // - WeaponForm
         if (upgradeType == UpgradeType.AmmoCapacity) {
             weaponForm.AttrModel.ammoCapacity += weaponFormUpgradeTM.ammoCapacity;
-            return;
-        }
-
-        if (upgradeType == UpgradeType.BulletDamage) {
-            weaponForm.AttrModel.bulletDamage += weaponFormUpgradeTM.bulletDamage;
-            return;
-        }
-
-        if (upgradeType == UpgradeType.BulletSize) {
-            weaponForm.AttrModel.bulletSize += weaponFormUpgradeTM.bulletSize;
             return;
         }
 
@@ -200,6 +176,37 @@ public class GameFSMDomain {
 
         if (upgradeType == UpgradeType.ReloadCD) {
             weaponForm.AttrModel.reloadCD += weaponFormUpgradeTM.reloadCD;
+            return;
+        }
+
+        // - Bullet        
+        if (upgradeType == UpgradeType.BloodThirst) {
+            weaponForm.AttrModel.bulletModel.bloodThirst += bulletTM.bloodThirst;
+            return;
+        }
+
+        if (upgradeType == UpgradeType.FanOut) {
+            weaponForm.AttrModel.bulletModel.fanOut += bulletTM.fanOut;
+            return;
+        }
+
+        if (upgradeType == UpgradeType.Slow) {
+            weaponForm.AttrModel.bulletModel.slow += bulletTM.slow;
+            return;
+        }
+
+        if (upgradeType == UpgradeType.HitBack) {
+            weaponForm.AttrModel.bulletModel.hitBackDis += bulletTM.hitBackDis;
+            return;
+        }
+
+        if (upgradeType == UpgradeType.BulletDamage) {
+            weaponForm.AttrModel.bulletModel.bulletDamage += bulletTM.bulletDamage;
+            return;
+        }
+
+        if (upgradeType == UpgradeType.BulletSize) {
+            weaponForm.AttrModel.bulletModel.bulletSize += bulletTM.bulletSize;
             return;
         }
     }

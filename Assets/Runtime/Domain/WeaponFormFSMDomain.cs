@@ -11,6 +11,12 @@ public class WeaponFormFSMDomain {
     }
 
     public void TickFSM(float dt) {
+        var weaponForm1 = mainContext.rootRepo.weaponForm1;
+        var weaponForm2 = mainContext.rootRepo.weaponForm2;
+        var weaponForm3 = mainContext.rootRepo.weaponForm3;
+        TickFSM(weaponForm1, dt);
+        TickFSM(weaponForm2, dt);
+        TickFSM(weaponForm3, dt);
     }
 
     void TickFSM(WeaponFormEntity weaponForm, float dt) {
@@ -23,19 +29,15 @@ public class WeaponFormFSMDomain {
         if (state == WeaponFormFSMState.Idle) {
             TickIdle(weaponForm, dt);
         } else if (state == WeaponFormFSMState.Reloading) {
-            TickIdle(weaponForm, dt);
+            TickReloading(weaponForm, dt);
         } else if (state == WeaponFormFSMState.Shooting) {
-            TickIdle(weaponForm, dt);
+            TickShooting(weaponForm, dt);
         }
 
         TickAny(weaponForm, dt);
     }
 
     public void TickAny(WeaponFormEntity weaponForm, float dt) {
-        var hp = weaponForm.AttrModel.hp;
-        if (hp <= 0) {
-            Enter_Shooting(weaponForm);
-        }
     }
 
     public void TickIdle(WeaponFormEntity weaponForm, float dt) {
@@ -69,8 +71,17 @@ public class WeaponFormFSMDomain {
             model.SetIsEntering(false);
         }
 
-        // ================== EXIT CHECK
+        model.time += dt;
 
+        // ================== EXIT CHECK
+        var attrModel = weaponForm.AttrModel;
+        var bulletType = weaponForm.BulletType;
+        if (bulletType == BulletType.Normal) {
+            if (model.time >= attrModel.shootCD) {
+                Enter_Idle(weaponForm);
+                return;
+            }
+        }
     }
 
     public void TickDying(WeaponFormEntity weaponForm, float dt) {

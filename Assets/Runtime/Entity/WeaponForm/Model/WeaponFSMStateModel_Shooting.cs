@@ -8,11 +8,14 @@ public class WeaponFSMStateModel_Shooting {
     public bool IsExiting => isExiting;
     public void SetIsExiting(bool value) => isExiting = value;
 
+    public float time;
+
     public WeaponFSMStateModel_Shooting() {}
 
     public void Reset() {
         isEntering = false;
         isExiting = false;
+        time = 0f;
     }
 
 }

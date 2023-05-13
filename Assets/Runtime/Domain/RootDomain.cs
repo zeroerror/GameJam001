@@ -12,6 +12,7 @@ public class RootDomain {
     public MainContext mainContext;
 
     public WeaponFormDomain weaponFormDomain;
+    public WeaponFormFSMDomain weaponFormFSMDomain;
 
     public RootDomain() {
         this.roleFSMDomain = new RoleFSMDomain();
@@ -23,6 +24,7 @@ public class RootDomain {
         this.gameFSMDomain = new GameFSMDomain();
         this.phxDomain = new PhxDomain();
         this.weaponFormDomain = new WeaponFormDomain();
+        this.weaponFormFSMDomain = new WeaponFormFSMDomain();
     }
 
     public void Inject(MainContext mainContext, Factory factory) {
@@ -36,7 +38,8 @@ public class RootDomain {
         this.monsterFSMDomain.Inject(mainContext, monsterDomain);
         this.gameFSMDomain.Inject(mainContext, weaponFormDomain, this);
         this.phxDomain.Inject(mainContext, this);
-        this.weaponFormDomain.Inject(mainContext, factory, bulletDomain);
+        this.weaponFormDomain.Inject(mainContext, factory, bulletDomain, weaponFormFSMDomain);
+        this.weaponFormFSMDomain.Inject(mainContext, weaponFormDomain);
     }
 
 }

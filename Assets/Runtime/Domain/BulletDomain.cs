@@ -12,21 +12,9 @@ public class BulletDomain {
         this.bulletFSMDomain = bulletFSMDomain;
     }
 
-    public bool TrySpawnBullet(BulletType bulletType,
-                                Vector2 bulletSize,
-                                int bloodThirst,
-                                int fanOut,
-                                float slow,
-                                float hitBackDis,
-                                int bulletDamage,
+    public bool TrySpawnBullet(BulletModel bulletModel,
                                out BulletEntity bullet) {
-        if (!factory.TryCreateBullet(bulletType,
-                                     bulletSize,
-                                     bloodThirst,
-                                     fanOut,
-                                     slow,
-                                     hitBackDis,
-                                     bulletDamage,
+        if (!factory.TryCreateBullet(bulletModel,
                                      out bullet)) {
             Debug.LogError("TrySpawnBullet failed");
             return false;
