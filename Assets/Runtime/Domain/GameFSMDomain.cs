@@ -33,7 +33,8 @@ public class GameFSMDomain {
 
         // ========= Input
         var roleDomain = rootDomain.roleDomain;
-        roleDomain.BackInput();
+        roleDomain.PlayerRole_BackInput();
+        roleDomain.PlayerRole_AnimWeaponToPos();
 
         // ========= Logic
         TickResTime(dt);

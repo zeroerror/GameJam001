@@ -18,6 +18,7 @@ public class RoleEntity {
     GameObject logicGO;
     Rigidbody2D logicRB;
     GameObject rendererGO;
+    GameObject rendererWeaponGO;
 
     public RoleEntity() {
         idCom = new EntityIDComponent();
@@ -32,11 +33,13 @@ public class RoleEntity {
         this.logicGO = rootGO.transform.Find("LOGIC").gameObject;
         this.logicRB = logicGO.GetComponent<Rigidbody2D>();
         this.rendererGO = rootGO.transform.Find("RENDERER").gameObject;
+        this.rendererWeaponGO = rendererGO.transform.Find("WEAPON").gameObject;
 
         Debug.Assert(rootGO != null, "rootGO == null");
         Debug.Assert(logicRB != null, "rootRB == null");
         Debug.Assert(logicGO != null, "logicGO == null");
         Debug.Assert(rendererGO != null, "rendererGO == null");
+        Debug.Assert(rendererWeaponGO != null, "rendererWeaponGO == null");
     }
 
     public void SetDontDestroyOnLoad() {
@@ -52,12 +55,18 @@ public class RoleEntity {
         rendererGO.transform.rotation = rot;
     }
 
-    public void StopMove_Hor(){
+    public void StopMove_Hor() {
         logicRB.velocity = new Vector2(0, logicRB.velocity.y);
     }
 
     public void Jump() {
         logicRB.velocity = new Vector2(logicRB.velocity.x, jumpSpeed);
+    }
+
+    public void AnimWeaponToPos(Vector3 pos) {
+        var weaponTF = rendererWeaponGO.transform;
+        var dir = (pos - weaponTF.position).normalized;
+        weaponTF.rotation = Quaternion.AngleAxis(Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg, Vector3.forward);
     }
 
     // Easing renderer to logic

@@ -12,39 +12,45 @@ public class RoleDomain {
         this.roleFSMDomain = roleFSMDomain;
     }
 
-    public void BackInput() {
+    public void PlayerRole_BackInput() {
         var roleRepo = mainContext.rootRepo.roleRepo;
+        var playerRole = roleRepo.PlayerRole;
+        if (playerRole == null) {
+            return;
+        }
+
         var inputGetter = mainContext.freeInputCore.Getter;
-        roleRepo.ForeachAll((role) => {
-            var inputCom = role.InputCom;
+        var inputCom = playerRole.InputCom;
 
-            int moveHorDir = 0;
-            bool hasMoveHorDir = false;
-            if (inputGetter.GetPressing(InputKeyCollection.MOVE_LEFT)) {
-                moveHorDir -= 1;
-                hasMoveHorDir = true;
-            }
-            if (inputGetter.GetPressing(InputKeyCollection.MOVE_RIGHT)) {
-                moveHorDir += 1;
-                hasMoveHorDir = true;
-            }
-            if (hasMoveHorDir) {
-                inputCom.SetMoveHorDir(moveHorDir);
-            }
+        int moveHorDir = 0;
+        bool hasMoveHorDir = false;
+        if (inputGetter.GetPressing(InputKeyCollection.MOVE_LEFT)) {
+            moveHorDir -= 1;
+            hasMoveHorDir = true;
+        }
+        if (inputGetter.GetPressing(InputKeyCollection.MOVE_RIGHT)) {
+            moveHorDir += 1;
+            hasMoveHorDir = true;
+        }
+        if (hasMoveHorDir) {
+            inputCom.SetMoveHorDir(moveHorDir);
+        }
 
-            if (inputGetter.GetDown(InputKeyCollection.JUMP)) {
-                inputCom.SetInputJump(true);
-            }
+        if (inputGetter.GetDown(InputKeyCollection.JUMP)) {
+            inputCom.SetInputJump(true);
+        }
 
-            if (inputGetter.GetDown(InputKeyCollection.PICK)) {
-                inputCom.SetInputPick(true);
-            }
+        if (inputGetter.GetDown(InputKeyCollection.PICK)) {
+            inputCom.SetInputPick(true);
+        }
 
-            if (inputGetter.GetPressing(InputKeyCollection.SHOOT)) {
-                inputCom.SetInputShoot(true);
-            }
+        if (inputGetter.GetPressing(InputKeyCollection.SHOOT)) {
+            inputCom.SetInputShoot(true);
+        }
 
-        });
+        var pointerPos = Camera.main.ScreenPointToRay(Input.mousePosition).origin;
+        inputCom.SetChosenPoint(pointerPos);
+        Debug.DrawLine(Vector3.zero, pointerPos, Color.red);
     }
 
     public bool TrySpawnPlayerRole() {
@@ -92,6 +98,22 @@ public class RoleDomain {
         roleRepo.ForeachAll((role) => {
             role.EasingToDstPos(dt);
         });
+    }
+
+    public void PlayerRole_AnimWeaponToPos(){
+        var roleRepo = mainContext.rootRepo.roleRepo;
+        var playerRole = roleRepo.PlayerRole;
+        if (playerRole == null) {
+            return;
+        }
+
+        AnimWeaponToPos(playerRole);
+    }
+
+    public void AnimWeaponToPos(RoleEntity role) {
+        var inputCom = role.InputCom;
+        var chosenPoint = inputCom.ChosenPoint;
+        role.AnimWeaponToPos(chosenPoint);
     }
 
 }

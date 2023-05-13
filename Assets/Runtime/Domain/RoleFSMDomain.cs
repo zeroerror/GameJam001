@@ -11,11 +11,11 @@ public class RoleFSMDomain {
     public void TickFSM(float dt) {
         var roleRepo = mainContext.rootRepo.roleRepo;
         roleRepo.ForeachAll((role) => {
-            TickFSW(role, dt);
+            TickFSM(role, dt);
         });
     }
 
-    void TickFSW(RoleEntity role, float dt) {
+    void TickFSM(RoleEntity role, float dt) {
         var fsmCom = role.FSMCom;
         var state = fsmCom.State;
         if (state == RoleFSMState.None) {
