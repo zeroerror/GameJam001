@@ -355,7 +355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7875310189616900363}
   m_Layer: 0
-  m_Name: go_role_template
+  m_Name: go_template_role
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

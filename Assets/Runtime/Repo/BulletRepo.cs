@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public class BulletRepo {
@@ -22,6 +23,12 @@ public class BulletRepo {
 
     public bool TryRemove(int typeID) {
         return dic.Remove(typeID);
+    }
+
+    public void ForeachAll(Action<BulletEntity> action) {
+        foreach (var pair in dic) {
+            action(pair.Value);
+        }
     }
 
 }

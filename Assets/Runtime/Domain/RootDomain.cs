@@ -4,6 +4,7 @@ public class RootDomain {
     public RoleFSMDomain roleFSMDomain;
     public MonsterDomain monsterDomain;
     public BulletDomain bulletDomain;
+    public BulletFSMDomain bulletFSMDomain;
     public GameFSMDomain gameFSMDomain;
     public PhxDomain phxDomain;
 
@@ -14,6 +15,7 @@ public class RootDomain {
         this.roleFSMDomain = new RoleFSMDomain();
         this.roleDomain = new RoleDomain();
         this.bulletDomain = new BulletDomain();
+        this.bulletFSMDomain = new BulletFSMDomain();
         this.monsterDomain = new MonsterDomain();
         this.gameFSMDomain = new GameFSMDomain();
         this.phxDomain = new PhxDomain();
@@ -25,6 +27,7 @@ public class RootDomain {
         this.roleFSMDomain.Inject(mainContext);
         this.roleDomain.Inject(mainContext, factory, roleFSMDomain);
         this.bulletDomain.Inject(mainContext);
+        this.bulletFSMDomain.Inject(mainContext);
         this.monsterDomain.Inject(mainContext);
         this.gameFSMDomain.Inject(mainContext, this);
         this.phxDomain.Inject(mainContext);

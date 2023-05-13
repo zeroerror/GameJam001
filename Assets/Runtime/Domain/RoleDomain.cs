@@ -74,6 +74,10 @@ public class RoleDomain {
 
         Debug.Log("创建玩家角色成功");
 
+        // TTTT
+        factory.TryCreateBullet(123213211,out var bullet);
+        bullet.SetPos(new Vector2(5, 4));
+
         return true;
     }
 
