@@ -3,11 +3,24 @@ using UnityEngine;
 public class GameFSMDomain {
 
     MainContext mainContext;
-    RoleDomain roleDomain;
-
-    public void Inject(MainContext mainContext,RoleDomain roleDomain) {
+    RootDomain rootDomain;
+    public void Inject(MainContext mainContext, RootDomain rootDomain) {
         this.mainContext = mainContext;
-        this.roleDomain = roleDomain;
+        this.rootDomain = rootDomain;
+    }
+
+    float resTime;
+    void TickResTime(float dt) => resTime += dt;
+
+    int PickRealTickCount() {
+        var intervalTime = 1f / 120f;
+        int tickCount = 0;
+        while (resTime >= intervalTime) {
+            resTime -= intervalTime;
+            tickCount++;
+        }
+
+        return tickCount;
     }
 
     public void TickFSM(float dt) {
@@ -18,34 +31,49 @@ public class GameFSMDomain {
             return;
         }
 
-        if (state == GameFSMState.Lobby) {
-            TickLobby(gameEntity, dt);
-        } else if (state == GameFSMState.Battle) {
-            TickBattle(gameEntity, dt);
+        // ========= Input
+        var roleDomain = rootDomain.roleDomain;
+        roleDomain.BackInput();
+
+        // ========= Logic
+        TickResTime(dt);
+        var tickCount = PickRealTickCount();
+        for (int i = 0; i < tickCount; i++) {
+            if (state == GameFSMState.Lobby) {
+                TickLobbyLogic(gameEntity, dt);
+            } else if (state == GameFSMState.Battle) {
+                TickBattleLogic(gameEntity, dt);
+            }
+
+            TickAnyLogic(gameEntity, dt);
         }
 
-        TickAny(gameEntity, dt);
+
+        // ========= Renderer
+        roleDomain.EasingRenderer(dt);
     }
 
-    public void TickAny(GameEntity gameEntity, float dt) {
+    public void TickAnyLogic(GameEntity gameEntity, float dt) {
     }
 
-    public void TickLobby(GameEntity gameEntity, float dt) {
+    public void TickLobbyLogic(GameEntity gameEntity, float dt) {
 
     }
 
-    public void TickBattle(GameEntity gameEntity, float dt) {
+    public void TickBattleLogic(GameEntity gameEntity, float dt) {
+        var roleDomain = rootDomain.roleDomain;
+        var roleFSMDomain = rootDomain.roleFSMDomain;
+        var phxDomain = rootDomain.phxDomain;
+
         var stateModel = gameEntity.FSMCom.BattleStateModel;
         if (stateModel.IsEntering) {
             stateModel.SetIsEntering(false);
             roleDomain.TrySpawnPlayerRole();
+            phxDomain.SetGlobalGravity(new Vector2(0, -20f));
         }
 
-        // ========= Input
-        roleDomain.BackInput();
-
-        // ========= Renderer
-        roleDomain.EasingRenderer(dt);
+        roleFSMDomain.TickFSM(dt);
+        phxDomain.Tick(dt);
     }
 
     public void Enter_Lobby(GameEntity Game) {

@@ -46,36 +46,90 @@ public class RoleFSMDomain {
 
         if (model.IsEntering) {
             model.SetIsEntering(false);
+
+            role.StopMove_Hor();
         }
 
         var inputCom = role.InputCom;
         if (inputCom.MoveHorDir != 0) {
             Enter_Moving(role, inputCom.MoveHorDir);
+            return;
+        }
+
+        if (inputCom.InputJump) {
+            Enter_Jumping(role);
+            return;
         }
     }
 
     public void TickMoving(RoleEntity role, float dt) {
         var fsmCom = role.FSMCom;
         var model = fsmCom.MovingStateModel;
+        var inputCom = role.InputCom;
+
+        var moveHorDir = 0;
+        if (model.IsEntering) {
+            model.SetIsEntering(false);
+            moveHorDir = model.HorDir;
+        } else {
+            moveHorDir = inputCom.MoveHorDir;
+        }
+
+        bool hasMoveDir = moveHorDir != 0;
+        if (hasMoveDir) {
+            role.Move_Hor(moveHorDir, dt);
+        }
+
+        // ================== Exit 
+        if (!hasMoveDir) {
+            Enter_Idle(role);
+        }
+
+        if (inputCom.InputJump) {
+            Enter_Jumping(role);
+            return;
+        }
+    }
+
+    public void TickJump(RoleEntity role, float dt) {
+        var fsmCom = role.FSMCom;
+        var model = fsmCom.JumpingStateModel;
+
+        if (model.IsEntering) {
+            model.SetIsEntering(false);
+            role.Jump();
+        }
+
+        // Move in the air
+        var inputCom = role.InputCom;
+        if (inputCom.MoveHorDir != 0) {
+            role.Move_Hor(inputCom.MoveHorDir, dt);
+        }
+
+        // ================== Exit 
+        bool isGounded = true;
+        if (!isGounded) {
+            return;
+        }
+
+        if (inputCom.MoveHorDir != 0) {
+            Enter_Moving(role, inputCom.MoveHorDir);
+            return;
+        }
+
+        Enter_Idle(role);
+        return;
+    }
+
+    public void TickAttacking(RoleEntity role, float dt) {
+        var fsmCom = role.FSMCom;
+        var model = fsmCom.AttackingStateModel;
 
         if (model.IsEntering) {
             model.SetIsEntering(false);
         }
 
-        role.Move_Hor(model.HorDir, dt);
-
-        var inputCom = role.InputCom;
-        if (inputCom.MoveHorDir == 0) {
-            Enter_Idle(role);
-        }
-
-        model.SetHorDir(inputCom.MoveHorDir);
-    }
-
-    public void TickJump(RoleEntity role, float dt) {
-    }
-
-    public void TickAttacking(RoleEntity role, float dt) {
+        // ================== Exit 
     }
 
     public void Enter_Idle(RoleEntity role) {
@@ -88,6 +142,12 @@ public class RoleFSMDomain {
         var fsmCom = role.FSMCom;
         fsmCom.EnterMoving(horDir);
         Debug.Log("RoleFSM: ======> Enter_Moving");
+    }
+
+    public void Enter_Jumping(RoleEntity role) {
+        var fsmCom = role.FSMCom;
+        fsmCom.EnterJumping();
+        Debug.Log("RoleFSM: ======> Enter_Jumping");
     }
 
 }
