@@ -20,6 +20,10 @@ public class MonsterFSMComponent {
         fallingStateModel.Reset();
     }
 
+    public void Exit() {
+        Reset();
+    }
+
     public void EnterFalling() {
         var model = fallingStateModel;
         model.Reset();

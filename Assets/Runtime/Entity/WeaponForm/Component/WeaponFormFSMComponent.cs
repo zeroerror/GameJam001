@@ -28,6 +28,10 @@ public class WeaponFormFSMComponent {
         shootingStateModel.Reset();
     }
 
+    public void Exit(){
+        Reset();
+    }
+
     public void EnterIdle() {
         var model = idleStateModel;
         model.Reset();
@@ -47,6 +51,13 @@ public class WeaponFormFSMComponent {
         model.Reset();
         model.SetIsEntering(true);
         state = WeaponFormFSMState.Shooting;
+    }
+    
+    public void EnterDying() {
+        var model = shootingStateModel;
+        model.Reset();
+        model.SetIsEntering(true);
+        state = WeaponFormFSMState.Dying;
     }
 
 }

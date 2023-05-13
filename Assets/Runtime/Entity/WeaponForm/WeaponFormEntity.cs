@@ -16,8 +16,9 @@ public class WeaponFormEntity {
     public void SetBulletType(BulletType v) => this.bulletType = v;
 
     // Info
-    WeaponFormInfoModel infoModel;
-    public WeaponFormInfoModel InfoModel => infoModel;
+    WeaponFormAttrModel attrModel;
+    public WeaponFormAttrModel AttrModel => attrModel;
+    public void SetWeaponFormAttrModel(WeaponFormAttrModel v) => this.attrModel = v;
 
     public int curLevel;
 
@@ -30,7 +31,7 @@ public class WeaponFormEntity {
 
         fsmCom = new WeaponFormFSMComponent();
 
-        infoModel = new WeaponFormInfoModel();
+        attrModel = new WeaponFormAttrModel();
 
         this.curLevel = 1;
     }

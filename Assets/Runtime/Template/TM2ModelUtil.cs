@@ -25,7 +25,20 @@ public static class TM2ModelUtil {
         model.spawnTime = tm.spawnTime;
         model.typeID = tm.typeID;
         return model;
+    }
 
+    public static WeaponFormAttrModel GetWeaponFormAttrModel(WeaponFormUpgradeTM tm){
+        WeaponFormAttrModel model  =new WeaponFormAttrModel();
+        model.bulletDamage = tm.bulletDamage;
+        model.ammoCount = tm.ammoCount;
+        model.bulletSize = tm.bulletSize;
+        model.shootCoolDown = tm.shootCoolDown;
+        model.bulletReloadCD = tm.bulletReloadCD;
+        model.bloodThirst = tm.bloodThirst;
+        model.fanOut = tm.fanOut;
+        model.slow = tm.slow;
+        model.hitBackDis = tm.hitBackDis;
+        return model;
     }
 
 }

@@ -71,17 +71,17 @@ public class Factory {
         return true;
     }
 
-    public bool TryCreateBullet(BulletType bulletType, in BulleAttrModel bulleAttrModel, out BulletEntity bullet) {
+    public bool TryCreateBullet(BulletType bulletType,
+                               Vector2 bulletSize,
+                                int bloodThirst,
+                                int fanOut,
+                                float slow,
+                                float hitBackDis,
+                                int bulletDamage,
+                                out BulletEntity bullet) {
         var prefab = Resources.Load("Bullet/go_template_bullet");
         if (prefab == null) {
             Debug.LogError("Bullet/go_template_bullet Not Found");
-            bullet = null;
-            return false;
-        }
-
-        var bulletTemplate = mainContext.rootTemplate.bulletTemplate;
-        if (!bulletTemplate.TryGetNormalBullet(out var tm)) {
-            Debug.LogError($"Template TryGetNormalBullet Failed!!!");
             bullet = null;
             return false;
         }
@@ -92,12 +92,20 @@ public class Factory {
         bullet.Ctor();
         bullet.Inject(rootGO);
 
-        bullet.IDCom.SetTypeID(tm.typeID);
+        // 子弹伤害
+        bullet.bulletDamage = bulletDamage;
+        // 子弹尺寸
+        bullet.bulletSize = bulletSize;
+        // 子弹吸血
+        bullet.bloodThirst = bloodThirst;
+        // 散射
+        bullet.fanOut = fanOut;
+        // 减速 percent
+        bullet.slow = slow;
+        // 击退
+        bullet.hitBackDis = hitBackDis;
 
-        // Set
-        bullet.SetBulletAttrModel(bulleAttrModel);
-
-        return true;
+        return true ;
     }
 
 }

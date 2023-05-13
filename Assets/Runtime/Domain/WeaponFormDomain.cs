@@ -44,6 +44,13 @@ public class WeaponFormDomain {
         weaponForm.Inject(rootGO);
         weaponForm.SetPos(pos);
 
+        var globalConfigTM = mainContext.rootTemplate.globalConfigTM;
+        var weaponFormInitTM = globalConfigTM.weaponFormInitTM;
+        var attrModel = TM2ModelUtil.GetWeaponFormAttrModel(weaponFormInitTM);
+        attrModel.baseHP = globalConfigTM.baseHP;
+        attrModel.hp = globalConfigTM.baseHP;
+        weaponForm.SetWeaponFormAttrModel(attrModel);
+
         var rootRepo = mainContext.rootRepo;
         if (index == 1) {
             rootRepo.weaponForm1 = weaponForm;
@@ -81,15 +88,59 @@ public class WeaponFormDomain {
             Debug.LogError("index error");
         }
 
-        var infoModel = weaponForm.InfoModel;
+        var attrModel = weaponForm.AttrModel;
         var bulletType = weaponForm.BulletType;
-        var bulletAttrModel = infoModel.BulleAttrModel;
-        if (bulletDomain.TrySpawnBullet(bulletType, bulletAttrModel, out bullet)) {
+        if (bulletDomain.TrySpawnBullet(bulletType,
+                                        attrModel.bulletSize,
+                                        attrModel.bloodThirst,
+                                        attrModel.fanOut,
+                                        attrModel.slow,
+                                        attrModel.hitBackDis,
+                                        attrModel.bulletDamage,
+                                        out bullet)) {
             bullet.SetFlySpeed(10);
             return true;
         }
 
         return true;
+    }
+
+    public void HandleBeHitByMonster(in EntityIDArgs weaponFormIDArgs, in EntityIDArgs monsterIDArgs) {
+        var monsterRepo = mainContext.rootRepo.monsterRepo;
+        if (!monsterRepo.TryGet(monsterIDArgs.typeID, out var monsterEntity)) {
+            Debug.LogError($"怪物打击武器库失败 不存在 {monsterIDArgs}");
+            return;
+        }
+
+        var weaponForm1 = mainContext.rootRepo.weaponForm1;
+        var weaponForm2 = mainContext.rootRepo.weaponForm2;
+        var weaponForm3 = mainContext.rootRepo.weaponForm3;
+
+        var idCom1 = weaponForm1.IDCom;
+        var idCom2 = weaponForm2.IDCom;
+        var idCom3 = weaponForm3.IDCom;
+        var entityID = weaponFormIDArgs.entityID;
+
+        if (idCom1.EntityID == entityID) {
+            var hp = weaponForm1.AttrModel.hp;
+            var clampHP = System.Math.Clamp(hp - 1, 0, int.MaxValue);
+            monsterEntity.SetHP(clampHP);
+            return;
+        }
+
+        if (idCom2.EntityID == entityID) {
+            var hp = weaponForm2.AttrModel.hp;
+            var clampHP = System.Math.Clamp(hp - 1, 0, int.MaxValue);
+            monsterEntity.SetHP(clampHP);
+            return;
+        }
+
+        if (idCom3.EntityID == entityID) {
+            var hp = weaponForm3.AttrModel.hp;
+            var clampHP = System.Math.Clamp(hp - 1, 0, int.MaxValue);
+            monsterEntity.SetHP(clampHP);
+            return;
+        }
     }
 
 }

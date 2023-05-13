@@ -32,6 +32,10 @@ public class WeaponFormFSMDomain {
     }
 
     public void TickAny(WeaponFormEntity weaponForm, float dt) {
+        var hp = weaponForm.AttrModel.hp;
+        if (hp <= 0) {
+            Enter_Shooting(weaponForm);
+        }
     }
 
     public void TickIdle(WeaponFormEntity weaponForm, float dt) {
@@ -43,7 +47,6 @@ public class WeaponFormFSMDomain {
         }
 
         // ================== EXIT CHECK
-
     }
 
     public void TickReloading(WeaponFormEntity weaponForm, float dt) {
@@ -57,7 +60,7 @@ public class WeaponFormFSMDomain {
         // ================== EXIT CHECK
 
     }
-    
+
     public void TickShooting(WeaponFormEntity weaponForm, float dt) {
         var fsmCom = weaponForm.FSMCom;
         var model = fsmCom.ShootingStateModel;
@@ -68,6 +71,12 @@ public class WeaponFormFSMDomain {
 
         // ================== EXIT CHECK
 
+    }
+
+    public void TickDying(WeaponFormEntity weaponForm, float dt) {
+        var fsmCom = weaponForm.FSMCom;
+        fsmCom.Exit();
+        // ================== EXIT CHECK
     }
 
     public void Enter_Idle(WeaponFormEntity weaponForm) {
@@ -86,6 +95,12 @@ public class WeaponFormFSMDomain {
         var fsmCom = weaponForm.FSMCom;
         fsmCom.EnterShooting();
         Debug.Log($"WeaponFormFSM: ======> Enter_Shooting");
+    }
+
+    public void Enter_Dying(WeaponFormEntity weaponForm) {
+        var fsmCom = weaponForm.FSMCom;
+        fsmCom.EnterDying();
+        Debug.Log($"WeaponFormFSM: ======> Enter_Dying");
     }
 
 }

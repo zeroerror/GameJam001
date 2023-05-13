@@ -14,9 +14,23 @@ public class BulletEntity : MonoBehaviour {
     Rigidbody2D logicRB;
     GameObject rendererGO;
 
-    BulleAttrModel attrModel;
-    public BulleAttrModel AttrModel => attrModel;
-    public void SetBulletAttrModel(BulleAttrModel v) => this.attrModel = v;
+    // 子弹伤害
+    public int bulletDamage;
+
+    // 子弹尺寸
+    public Vector2 bulletSize;
+
+    // 子弹吸血
+    public int bloodThirst;
+
+    // 散射
+    public int fanOut;
+
+    // 减速 percent
+    public float slow;
+
+    // 击退
+    public float hitBackDis;
 
     float flySpeed;
     public float FlySpeed => flySpeed;
@@ -31,6 +45,13 @@ public class BulletEntity : MonoBehaviour {
         idCom.SetEntityType(EntityType.Bullet);
 
         fsmCom = new BulletFSMComponent();
+    }
+
+    public void TearDown(){
+        // PHX
+        OnTriggerEnter = null;
+        OnTriggerExit = null;
+        GameObject.Destroy(rootGO);
     }
 
     public void Inject(GameObject rootGO) {

@@ -44,4 +44,46 @@ public class MonsterDomain {
         });
     }
 
+    public void HandleBeHitByBullet(in EntityIDArgs monster, in EntityIDArgs bullet) {
+        var monsterRepo = mainContext.rootRepo.monsterRepo;
+        if (!monsterRepo.TryGet(monster.entityID, out var monsterEntity)) {
+            Debug.LogError($"怪物打击失败 不存在 ");
+            return;
+        }
+
+        var fsmCom = monsterEntity.FSMCom;
+        var state = fsmCom.State;
+        if (state == MonsterFSMState.Dying) {
+            return;
+        }
+
+        var bulletRepo = mainContext.rootRepo.bulletRepo;
+        if (!bulletRepo.TryGet(bullet.entityID, out var bulletEntity)) {
+            Debug.LogError($"怪物打击失败 子弹不存在 ");
+            return;
+        }
+
+        var damage = bulletEntity.bulletDamage;
+        var clampHP = System.Math.Clamp(monsterEntity.HP - damage, 0, int.MaxValue);
+        monsterEntity.SetHP(clampHP);
+        Debug.Log($"ZZZ clampHP:{clampHP} damage:{damage}");
+
+    }
+
+    public void HandleHitWeaponForm(in EntityIDArgs monster,in EntityIDArgs weaponForm){
+        var monsterRepo = mainContext.rootRepo.monsterRepo;
+        if (!monsterRepo.TryGet(monster.entityID, out var monsterEntity)) {
+            Debug.LogError($"怪物打击失败 不存在 ");
+            return;
+        }
+
+        var fsmCom = monsterEntity.FSMCom;
+        var state = fsmCom.State;
+        if (state == MonsterFSMState.Dying) {
+            return;
+        }
+
+        monsterFSMDomain.Enter_Dying(monsterEntity);
+    }
+
 }

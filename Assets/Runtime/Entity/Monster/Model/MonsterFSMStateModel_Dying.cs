@@ -8,7 +8,7 @@ public class MonsterFSMStateModel_Dying {
     public bool IsExiting => isExiting;
     public void SetIsExiting(bool value) => isExiting = value;
 
-    public MonsterFSMStateModel_Dying() {}
+    public MonsterFSMStateModel_Dying() { }
 
     public void Reset() {
         isEntering = false;

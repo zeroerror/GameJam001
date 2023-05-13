@@ -19,3 +19,24 @@ MonoBehaviour:
     weaponFormPos2: {x: 0, y: 0}
     weaponFormPos3: {x: 15, y: 0}
     playerRoleTypeID: 1000
+    weaponFormTM:
+      bloodThirst: 0
+      fanOut: 0
+      slow: 0
+      hitBackDis: 0
+      ammoCount: 0
+      bulletDamage: 0
+      bulletSize: {x: 0, y: 0}
+      shootCoolDown: 0
+      bulletReloadCD: 0
+    weaponFormInitTM:
+      bloodThirst: 0
+      fanOut: 0
+      slow: 0
+      hitBackDis: 0
+      ammoCount: 0
+      bulletDamage: 100
+      bulletSize: {x: 0, y: 0}
+      shootCoolDown: 0
+      bulletReloadCD: 0
+    baseHP: 20

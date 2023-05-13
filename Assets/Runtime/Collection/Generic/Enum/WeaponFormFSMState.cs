@@ -4,5 +4,6 @@ public enum WeaponFormFSMState {
     Idle,
     Reloading,
     Shooting,
+    Dying,
 
 }

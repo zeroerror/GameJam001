@@ -58,6 +58,8 @@ public class BulletFSMDomain {
         var model = fsmCom.ExplodingStateModel;
 
         // ================== Exit 
+        bullet.TearDown();
+        fsmCom.Exit();
     }
 
     public void Enter_Flying(BulletEntity bullet, Vector2 flyDir) {

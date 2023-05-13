@@ -33,7 +33,11 @@ public class MonsterFSMDomain {
         TickAny(Monster, dt);
     }
 
-    public void TickAny(MonsterEntity Monster, float dt) {
+    public void TickAny(MonsterEntity monster, float dt) {
+        var hp = monster.HP;
+        if(hp <= 0) {
+            Enter_Dying(monster);
+        }
     }
 
     public void TickFalling(MonsterEntity monster, float dt) {
@@ -57,6 +61,7 @@ public class MonsterFSMDomain {
         }
 
         // ================== Exit 
+        fsmCom.Exit();
     }
 
     public void Enter_Falling(MonsterEntity Monster) {
@@ -68,7 +73,7 @@ public class MonsterFSMDomain {
     public void Enter_Dying(MonsterEntity Monster) {
         var fsmCom = Monster.FSMCom;
         fsmCom.EnterDying();
-        Debug.Log("MonsterFSM: ======> Enter_Moving");
+        Debug.Log("MonsterFSM: ======> Enter_Dying");
     }
 
 }

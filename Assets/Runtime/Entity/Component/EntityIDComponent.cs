@@ -1,7 +1,7 @@
 public struct EntityIDArgs {
 
     public EntityType entityType;
-    public short entityID;
+    public int entityID;
     public int typeID;
     public string entityName;
     public CampType campType;
@@ -53,6 +53,7 @@ public class EntityIDComponent {
 
     public EntityIDArgs ToEntityIDArgs() {
         var args = new EntityIDArgs();
+        args.entityID = entityID;
         args.entityType = entityType;
         args.typeID = typeID;
         args.entityName = entityName;
