@@ -3,15 +3,15 @@ using UnityEngine;
 public class WeaponFormAttrModel {
 
     // 子弹容量
-    public int ammoCount;
+    public int ammoCapacity;
     // 子弹伤害
     public int bulletDamage;
     // 子弹尺寸
     public Vector2 bulletSize;
     // 射击间隔
-    public float shootCoolDown;
+    public float shootCD;
     // 塔的装填时间
-    public float bulletReloadCD;
+    public float reloadCD;
     // 子弹吸血
     public int bloodThirst;
     // 散射

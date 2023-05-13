@@ -11,7 +11,7 @@ public struct GlobalConfigTM {
     [SerializeField] public int playerRoleTypeID;
 
     [Header("============================ 升级配置 ============================")]
-    [SerializeField] public WeaponFormUpgradeTM weaponFormTM;
+    [SerializeField] public WeaponFormUpgradeTM weaponFormUpgradeTM;
 
     [Header("============================ 武器库初始配置 ============================")]
     [SerializeField] public WeaponFormUpgradeTM weaponFormInitTM;

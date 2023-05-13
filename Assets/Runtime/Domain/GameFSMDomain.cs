@@ -41,18 +41,15 @@ public class GameFSMDomain {
         roleDomain.PlayerRole_AnimWeaponToPos();
 
         // ========= Logic
-        TickResTime(dt);
-        var tickCount = PickRealTickCount();
-        for (int i = 0; i < tickCount; i++) {
-            if (state == GameFSMState.Lobby) {
-                TickLobbyLogic(gameEntity, dt);
-            } else if (state == GameFSMState.Battle) {
-                TickBattle(gameEntity, dt);
-            }
-
-            TickAnyLogic(gameEntity, dt);
+        // TickResTime(dt);
+        // var tickCount = PickRealTickCount();
+        if (state == GameFSMState.Lobby) {
+            TickLobbyLogic(gameEntity, dt);
+        } else if (state == GameFSMState.Battle) {
+            TickBattle(gameEntity, dt);
         }
 
+        TickAnyLogic(gameEntity, dt);
 
         // ========= Renderer
         roleDomain.EasingRenderer(dt);
@@ -104,7 +101,7 @@ public class GameFSMDomain {
         if (gameEntity.wavePaused) {
             // 检测当前波敌人均已死亡
             var monsterRepo = mainContext.rootRepo.monsterRepo;
-            if (!monsterRepo.HasAliveMonster()) {
+            if (!monsterRepo.HasAliveMonster() && !gameEntity.hasWaveUpgrade) {
                 gameEntity.wavePaused = false;
                 gameEntity.hasWaveUpgrade = true;
                 Debug.Log($"当前波次敌人消灭完成:{gameEntity.curWaveIndex}");
@@ -118,16 +115,14 @@ public class GameFSMDomain {
         if (gameEntity.hasWaveUpgrade) {
             gameEntity.hasWaveUpgrade = false;
             // 升级选择
-            var randomUpgradeType1 = GetRandomUpgradeTypeExcept(UpgradeType.None);
-            var randomUpgradeType2 = GetRandomUpgradeTypeExcept(randomUpgradeType1);
-            var randomUpgradeType3 = GetRandomUpgradeTypeExcept(randomUpgradeType2);
-            Debug.Log($"升级选择 {randomUpgradeType1} {randomUpgradeType2} {randomUpgradeType3} ");
+            GetThreeRandomUpgradeType(out var upgradeType1, out var upgradeType2, out var upgradeType3);
+            Debug.Log($"升级选择 {upgradeType1} {upgradeType2} {upgradeType3} ");
             var weaponForm1 = mainContext.rootRepo.weaponForm1;
             var weaponForm2 = mainContext.rootRepo.weaponForm2;
             var weaponForm3 = mainContext.rootRepo.weaponForm3;
-            weaponForm1.LevelUp();
-            weaponForm2.LevelUp();
-            weaponForm3.LevelUp();
+            UpgradeWeaponForm(weaponForm1, upgradeType1);
+            UpgradeWeaponForm(weaponForm2, upgradeType2);
+            UpgradeWeaponForm(weaponForm3, upgradeType3);
         }
     }
 
@@ -141,6 +136,12 @@ public class GameFSMDomain {
         fsmCom.EnterBattle();
     }
 
+    void GetThreeRandomUpgradeType(out UpgradeType upgradeType1, out UpgradeType upgradeType2, out UpgradeType upgradeType3) {
+        upgradeType1 = GetRandomUpgradeTypeExcept(UpgradeType.None);
+        upgradeType2 = GetRandomUpgradeTypeExcept(upgradeType1);
+        upgradeType3 = GetRandomUpgradeTypeExcept(upgradeType2);
+    }
+
     UpgradeType GetRandomUpgradeTypeExcept(UpgradeType type) {
         var upgradeTM = mainContext.rootTemplate.upgradeTM;
         var len = upgradeTM.upgradeTypeArray.Length;
@@ -150,6 +151,57 @@ public class GameFSMDomain {
         }
 
         return upgradeTM.upgradeTypeArray[randomIndex];
+    }
+
+    void UpgradeWeaponForm(WeaponFormEntity weaponForm, UpgradeType upgradeType) {
+        weaponForm.LevelUp();
+        var globalConfigTM = mainContext.rootTemplate.globalConfigTM;
+        var weaponFormUpgradeTM = globalConfigTM.weaponFormUpgradeTM;
+
+        if (upgradeType == UpgradeType.BloodThirst) {
+            weaponForm.AttrModel.bloodThirst += weaponFormUpgradeTM.bloodThirst;
+            return;
+        }
+
+        if (upgradeType == UpgradeType.FanOut) {
+            weaponForm.AttrModel.fanOut += weaponFormUpgradeTM.fanOut;
+            return;
+        }
+
+        if (upgradeType == UpgradeType.Slow) {
+            weaponForm.AttrModel.slow += weaponFormUpgradeTM.slow;
+            return;
+        }
+
+        if (upgradeType == UpgradeType.HitBack) {
+            weaponForm.AttrModel.hitBackDis += weaponFormUpgradeTM.hitBackDis;
+            return;
+        }
+
+        if (upgradeType == UpgradeType.AmmoCapacity) {
+            weaponForm.AttrModel.ammoCapacity += weaponFormUpgradeTM.ammoCapacity;
+            return;
+        }
+
+        if (upgradeType == UpgradeType.BulletDamage) {
+            weaponForm.AttrModel.bulletDamage += weaponFormUpgradeTM.bulletDamage;
+            return;
+        }
+
+        if (upgradeType == UpgradeType.BulletSize) {
+            weaponForm.AttrModel.bulletSize += weaponFormUpgradeTM.bulletSize;
+            return;
+        }
+
+        if (upgradeType == UpgradeType.ShootCD) {
+            weaponForm.AttrModel.shootCD += weaponFormUpgradeTM.shootCD;
+            return;
+        }
+
+        if (upgradeType == UpgradeType.ReloadCD) {
+            weaponForm.AttrModel.reloadCD += weaponFormUpgradeTM.reloadCD;
+            return;
+        }
     }
 
 }

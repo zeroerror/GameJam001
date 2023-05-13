@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28a59a17b1e954d41a24d094c50baee9, type: 3}
-  m_Name: so_wave_1000
+  m_Name: so_wave_default
   m_EditorClassIdentifier: 
   tm:
     typeID: 1000
@@ -31,3 +31,19 @@ MonoBehaviour:
       isWaveEnd: 1
       spawnTime: 5
       typeID: 2000
+    - waveID: 3
+      isWaveEnd: 0
+      spawnTime: 7
+      typeID: 2000
+    - waveID: 3
+      isWaveEnd: 1
+      spawnTime: 7
+      typeID: 2000
+    - waveID: 4
+      isWaveEnd: 0
+      spawnTime: 9
+      typeID: 3000
+    - waveID: 3
+      isWaveEnd: 1
+      spawnTime: 9
+      typeID: 3000

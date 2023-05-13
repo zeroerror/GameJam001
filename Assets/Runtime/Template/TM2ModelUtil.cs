@@ -32,10 +32,10 @@ public static class TM2ModelUtil {
     public static WeaponFormAttrModel GetWeaponFormAttrModel(WeaponFormUpgradeTM tm){
         WeaponFormAttrModel model  =new WeaponFormAttrModel();
         model.bulletDamage = tm.bulletDamage;
-        model.ammoCount = tm.ammoCount;
+        model.ammoCapacity = tm.ammoCapacity;
         model.bulletSize = tm.bulletSize;
-        model.shootCoolDown = tm.shootCoolDown;
-        model.bulletReloadCD = tm.bulletReloadCD;
+        model.shootCD = tm.shootCD;
+        model.reloadCD = tm.reloadCD;
         model.bloodThirst = tm.bloodThirst;
         model.fanOut = tm.fanOut;
         model.slow = tm.slow;

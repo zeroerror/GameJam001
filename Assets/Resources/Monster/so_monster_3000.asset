@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7e48bcc5932c154aa0ac234fcbd6f50, type: 3}
-  m_Name: so_monster_2000
+  m_Name: so_monster_3000
   m_EditorClassIdentifier: 
   tm:
-    typeID: 2000
-    hp: 1000
-    fallPattern: 1
-    fallSpeed: -2
+    typeID: 3000
+    hp: 2000
+    fallPattern: 2
+    fallSpeed: -1
     size: {x: 1, y: 2}
-    bodyMod: {fileID: 5217694478367422031, guid: d3b86677c0ad0684cba6ca5f100b7efe, type: 3}
+    bodyMod: {fileID: 5217694478367422031, guid: 45d6b5bf0e219cc4192c36ebe645132f, type: 3}
