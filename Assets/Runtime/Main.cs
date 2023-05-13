@@ -18,6 +18,8 @@ public class Main : MonoBehaviour {
         // Controller
         this.mainController = new MainController(vfxManager, sfxManager, uiManager);
 
+        uiManager.Ctor();
+
         uiManager.Login_Open(() => {
             mainController.Enter();
             uiManager.Login_Close();
