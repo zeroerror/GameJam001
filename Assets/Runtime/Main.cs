@@ -21,12 +21,8 @@ public class Main : MonoBehaviour {
     }
 
     void Update() {
-        this.mainController.Update();
-    }
-
-    void FixedUpdate() {
-        var dt = Time.fixedDeltaTime;
-        this.mainController.Tick(dt);
+        var dt = Time.deltaTime;
+        this.mainController.Update(dt);
     }
 
 }

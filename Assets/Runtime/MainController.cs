@@ -33,20 +33,9 @@ public class MainController {
         gameFSMDomain.Enter_Battle(mainContext.GameEntity);
     }
 
-
-    public void Update() {
-        var dt = Time.deltaTime;
+    public void Update(float dt) {
         var gameFSMDomain = rootDomain.gameFSMDomain;
         gameFSMDomain.TickFSM(dt);
-    }
-
-    public void Tick(float dt) {
-        var gameEntity = mainContext.GameEntity;
-        if (gameEntity.FSMCom.State == GameFSMState.Battle) {
-            // ========= Logic
-            var roleFSMDomain = rootDomain.roleFSMDomain;
-            roleFSMDomain.TickFSM(dt);
-        }
     }
 
 }

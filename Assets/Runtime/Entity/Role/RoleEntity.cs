@@ -11,10 +11,12 @@ public class RoleEntity {
     RoleFSMComponent fsmCom;
     public RoleFSMComponent FSMCom => fsmCom;
 
-    float speed = 5f;
+    float moveSpeed = 5f;
+    float jumpSpeed = 10f;
 
     GameObject rootGO;
     GameObject logicGO;
+    Rigidbody2D logicRB;
     GameObject rendererGO;
 
     public RoleEntity() {
@@ -27,21 +29,35 @@ public class RoleEntity {
 
     public void Inject(GameObject rootGO) {
         this.rootGO = rootGO;
-        logicGO = rootGO.transform.Find("LOGIC").gameObject;
-        rendererGO = rootGO.transform.Find("RENDERER").gameObject;
-        Debug.Assert(logicGO != null, "logicGO != null");
-        Debug.Assert(rendererGO != null, "rendererGO != null");
+        this.logicGO = rootGO.transform.Find("LOGIC").gameObject;
+        this.logicRB = logicGO.GetComponent<Rigidbody2D>();
+        this.rendererGO = rootGO.transform.Find("RENDERER").gameObject;
+
+        Debug.Assert(rootGO != null, "rootGO == null");
+        Debug.Assert(logicRB != null, "rootRB == null");
+        Debug.Assert(logicGO != null, "logicGO == null");
+        Debug.Assert(rendererGO != null, "rendererGO == null");
     }
 
     public void SetDontDestroyOnLoad() {
         GameObject.DontDestroyOnLoad(rootGO);
     }
 
-    // Update logic immediately, and also update renderer's rotation immediately
+    // Update logic rb immediately, and also update renderer's rotation immediately
     public void Move_Hor(int dir, float dt) {
-        logicGO.transform.position += new Vector3(dir * speed * dt, 0, 0);
-        logicGO.transform.rotation = Quaternion.Euler(0, dir == 1 ? 0 : 180, 0);
-        rendererGO.transform.rotation = logicGO.transform.rotation;
+        logicRB.velocity = new Vector2(dir * moveSpeed, logicRB.velocity.y);
+
+        var rot = Quaternion.Euler(0, dir == 1 ? 0 : 180, 0);
+        logicGO.transform.rotation = rot;
+        rendererGO.transform.rotation = rot;
+    }
+
+    public void StopMove_Hor(){
+        logicRB.velocity = new Vector2(0, logicRB.velocity.y);
+    }
+
+    public void Jump() {
+        logicRB.velocity = new Vector2(logicRB.velocity.x, jumpSpeed);
     }
 
     // Easing renderer to logic
