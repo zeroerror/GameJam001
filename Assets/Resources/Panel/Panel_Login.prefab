@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 2318715365134048801}
   - component: {fileID: 2318715365134048807}
   - component: {fileID: 2318715365134048806}
+  - component: {fileID: 5056623399817225313}
   m_Layer: 0
   m_Name: Panel_Login
   m_TagString: Untagged
@@ -212,3 +213,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5056623399817225313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2318715365134048800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d54732fd3db9346ba23fb1f008ec6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
