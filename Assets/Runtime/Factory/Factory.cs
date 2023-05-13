@@ -52,7 +52,14 @@ public class Factory {
             return false;
         }
 
-        monster = new MonsterEntity();
+        var rootGO = GameObject.Instantiate(prefab) as GameObject;
+        var logicGO = rootGO.transform.Find("LOGIC").gameObject;
+        monster = logicGO.AddComponent<MonsterEntity>();
+        monster.Ctor();
+
+        var bodyMod = tm.bodyMod;
+        bodyMod = GameObject.Instantiate(bodyMod) as GameObject;
+        monster.Inject(rootGO, bodyMod);
 
         monster.IDCom.SetTypeID(typeID);
 
@@ -60,11 +67,6 @@ public class Factory {
         monster.SetFallPattern(tm.fallPattern);
         monster.SetFallSpeed(tm.fallSpeed);
         monster.SetSize(tm.size);
-
-        var bodyMod = tm.bodyMod;
-        bodyMod = GameObject.Instantiate(bodyMod) as GameObject;
-        var rootGO = GameObject.Instantiate(prefab) as GameObject;
-        monster.Inject(rootGO, bodyMod);
 
         return true;
     }
@@ -84,11 +86,13 @@ public class Factory {
             return false;
         }
 
-        bullet = new BulletEntity();
-        bullet.IDCom.SetTypeID(tm.typeID);
+        var rootGO = GameObject.Instantiate(prefab) as GameObject;
+        var logicGO = rootGO.transform.Find("LOGIC").gameObject;
+        bullet = logicGO.AddComponent<BulletEntity>();
+        bullet.Ctor();
+        bullet.Inject(rootGO);
 
-        var go = GameObject.Instantiate(prefab) as GameObject;
-        bullet.Inject(go);
+        bullet.IDCom.SetTypeID(tm.typeID);
 
         // Set
         bullet.SetBulletAttrModel(bulleAttrModel);

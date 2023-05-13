@@ -3,6 +3,7 @@ public class RootRepo{
     public RoleRepo roleRepo;
     public BulletRepo bulletRepo;
     public MonsterRepo monsterRepo;
+    public PhxEventRepo phxEventRepo;
 
     public WeaponFormEntity weaponForm1;
     public WeaponFormEntity weaponForm2;
@@ -12,6 +13,7 @@ public class RootRepo{
         this.roleRepo = new RoleRepo();
         this.bulletRepo = new BulletRepo();
         this.monsterRepo = new MonsterRepo();
+        this.phxEventRepo =new PhxEventRepo();
     }
 
 }

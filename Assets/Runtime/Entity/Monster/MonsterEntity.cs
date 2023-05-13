@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class MonsterEntity {
+public class MonsterEntity : MonoBehaviour {
 
     EntityIDComponent idCom;
     public EntityIDComponent IDCom => idCom;
@@ -31,7 +32,11 @@ public class MonsterEntity {
     GameObject rendererBodyGO;
     GameObject rendererWeaponGO;
 
-    public MonsterEntity() {
+    // Phx
+    public Action OnTriggerEnter;
+    public Action OnTriggerExit;
+
+    public void Ctor() {
         idCom = new EntityIDComponent();
         idCom.SetEntityType(EntityType.Monster);
 
@@ -79,4 +84,11 @@ public class MonsterEntity {
     public Vector3 LogicPos => logicGO.transform.position;
     public Vector3 RendererPos => rendererGO.transform.position;
 
+    void OnTriggerEnter2D(Collider2D other) {
+        this.OnTriggerEnter?.Invoke();
+    }
+
+    void OnTriggerExit2D(Collider2D other) {
+        this.OnTriggerExit?.Invoke();
+    }
 }

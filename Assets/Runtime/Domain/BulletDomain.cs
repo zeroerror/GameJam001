@@ -21,6 +21,10 @@ public class BulletDomain {
         bullet.IDCom.SetEntityID(id);
         var bulletRepo = mainContext.rootRepo.bulletRepo;
         bulletRepo.TryAdd(bullet);
+
+        // PHX
+        bullet.OnTriggerEnter += HandleTriggerEnter;
+        bullet.OnTriggerExit += HandleTriggerExit;
         return true;
     }
 
@@ -33,6 +37,16 @@ public class BulletDomain {
 
     public void EasingRenderer(BulletEntity bullet, float dt) {
         bullet.EasingToDstPos(dt);
+    }
+
+    void HandleTriggerEnter(EntityIDArgs one, EntityIDArgs two) {
+        var phxEventRepo = mainContext.rootRepo.phxEventRepo;
+        phxEventRepo.TryAdd(one, two);
+    }
+
+    void HandleTriggerExit(EntityIDArgs one, EntityIDArgs two) {
+        var phxEventRepo = mainContext.rootRepo.phxEventRepo;
+        phxEventRepo.TryAdd(one, two);
     }
 
 }
