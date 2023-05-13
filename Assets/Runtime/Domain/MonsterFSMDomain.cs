@@ -12,8 +12,12 @@ public class MonsterFSMDomain {
 
     public void TickFSM(float dt) {
         var monsterRepo = mainContext.rootRepo.monsterRepo;
-        monsterRepo.ForeachAll((Monster) => {
-            TickFSM(Monster, dt);
+        monsterRepo.ForeachAll((monster) => {
+            if (monster.FSMCom.State == MonsterFSMState.None) {
+                return;
+            }
+            
+            TickFSM(monster, dt);
         });
     }
 
@@ -35,7 +39,7 @@ public class MonsterFSMDomain {
 
     public void TickAny(MonsterEntity monster, float dt) {
         var hp = monster.HP;
-        if(hp <= 0) {
+        if (hp <= 0) {
             Enter_Dying(monster);
         }
     }
@@ -52,12 +56,13 @@ public class MonsterFSMDomain {
         // ================== EXIT CHECK
     }
 
-    public void TickDying(MonsterEntity Monster, float dt) {
-        var fsmCom = Monster.FSMCom;
+    public void TickDying(MonsterEntity monster, float dt) {
+        var fsmCom = monster.FSMCom;
         var model = fsmCom.DyingStateModel;
 
         if (model.IsEntering) {
             model.SetIsEntering(false);
+            monster.TearDown();
         }
 
         // ================== Exit 

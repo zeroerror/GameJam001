@@ -40,7 +40,9 @@ public class MonsterDomain {
     public void EasingRenderer(float dt) {
         var monsterRepo = mainContext.rootRepo.monsterRepo;
         monsterRepo.ForeachAll((monster) => {
-            monster.EasingToDstPos(dt);
+            if (monster.FSMCom.State != MonsterFSMState.None) {
+                monster.EasingToDstPos(dt);
+            }
         });
     }
 
@@ -70,7 +72,7 @@ public class MonsterDomain {
 
     }
 
-    public void HandleHitWeaponForm(in EntityIDArgs monster,in EntityIDArgs weaponForm){
+    public void HandleHitWeaponForm(in EntityIDArgs monster, in EntityIDArgs weaponForm) {
         var monsterRepo = mainContext.rootRepo.monsterRepo;
         if (!monsterRepo.TryGet(monster.entityID, out var monsterEntity)) {
             Debug.LogError($"怪物打击失败 不存在 ");

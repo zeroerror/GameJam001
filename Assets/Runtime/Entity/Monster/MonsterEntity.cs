@@ -43,6 +43,13 @@ public class MonsterEntity : MonoBehaviour {
         fsmCom = new MonsterFSMComponent();
     }
 
+    public void TearDown() {
+        // PHX
+        OnTriggerEnter = null;
+        OnTriggerExit = null;
+        GameObject.Destroy(rootGO);
+    }
+
     public void Inject(GameObject rootGO, GameObject bodyMod) {
         this.rootGO = rootGO;
         this.logicGO = rootGO.transform.Find("LOGIC").gameObject;
@@ -67,6 +74,7 @@ public class MonsterEntity : MonoBehaviour {
 
     // Easing renderer to logic
     public void EasingToDstPos(float dt) {
+        if (rendererGO == null) return;
         rendererGO.transform.position = logicGO.transform.position;
     }
 
