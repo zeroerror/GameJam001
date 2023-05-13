@@ -4,12 +4,13 @@ using GameArki.FreeInput;
 public class Main : MonoBehaviour {
 
     [SerializeField] VFXManager vfxManager;
+    [SerializeField] SFXManager sfxManager;
     MainController mainController;
 
     // First Party
     FreeInputCore freeInputCore;
 
-    void Awake() {
+    void Start() {
 
         GameObject.DontDestroyOnLoad(gameObject);
 
@@ -17,7 +18,7 @@ public class Main : MonoBehaviour {
         Physics2D.simulationMode = SimulationMode2D.Script;
 
         // Controller
-        this.mainController = new MainController(vfxManager);
+        this.mainController = new MainController(vfxManager, sfxManager);
 
     }
 
