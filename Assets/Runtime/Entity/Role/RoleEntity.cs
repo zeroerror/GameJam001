@@ -52,7 +52,10 @@ public class RoleEntity {
 
         var rot = Quaternion.Euler(0, dir == 1 ? 0 : 180, 0);
         logicGO.transform.rotation = rot;
+
+        var stayWeaponRot = rendererWeaponGO.transform.rotation;
         rendererGO.transform.rotation = rot;
+        rendererWeaponGO.transform.rotation = stayWeaponRot;
     }
 
     public void StopMove_Hor() {

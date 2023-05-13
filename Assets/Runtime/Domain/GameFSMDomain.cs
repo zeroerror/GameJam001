@@ -31,7 +31,7 @@ public class GameFSMDomain {
             return;
         }
 
-        // ========= Input
+    // ========= Input
         var roleDomain = rootDomain.roleDomain;
         roleDomain.PlayerRole_BackInput();
         roleDomain.PlayerRole_AnimWeaponToPos();
