@@ -4,7 +4,7 @@ public class Factory {
 
     MainContext mainContext;
 
-    public Factory(MainContext mainContext) {
+    public void Inject(MainContext mainContext) {
         this.mainContext = mainContext;
     }
 

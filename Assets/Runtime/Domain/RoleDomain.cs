@@ -1,10 +1,15 @@
+using UnityEngine;
+
 public class RoleDomain {
 
     MainContext mainContext;
     Factory factory;
+    RoleFSMDomain roleFSMDomain;
 
-    public RoleDomain(MainContext mainContext, Factory factory) {
+    public void Inject(MainContext mainContext, Factory factory, RoleFSMDomain roleFSMDomain) {
         this.mainContext = mainContext;
+        this.factory = factory;
+        this.roleFSMDomain = roleFSMDomain;
     }
 
     public void BackInput() {
@@ -14,12 +19,16 @@ public class RoleDomain {
             var inputCom = role.InputCom;
 
             int moveHorDir = 0;
+            bool hasMoveHorDir = false;
             if (inputGetter.GetPressing(InputKeyCollection.MOVE_LEFT)) {
                 moveHorDir -= 1;
-            } else if (inputGetter.GetPressing(InputKeyCollection.MOVE_RIGHT)) {
-                moveHorDir += 1;
+                hasMoveHorDir = true;
             }
-            if (moveHorDir != 0) {
+            if (inputGetter.GetPressing(InputKeyCollection.MOVE_RIGHT)) {
+                moveHorDir += 1;
+                hasMoveHorDir = true;
+            }
+            if (hasMoveHorDir) {
                 inputCom.SetMoveHorDir(moveHorDir);
             }
 
@@ -38,7 +47,31 @@ public class RoleDomain {
         });
     }
 
-    public bool TryCreateRole(int typeID, out RoleEntity role) {
+    public bool TrySpawnPlayerRole() {
+        var roleRepo = mainContext.rootRepo.roleRepo;
+        if (roleRepo.PlayerRole != null) {
+            Debug.LogError("玩家角色已经存在");
+            return false;
+        }
+
+        if (!TrySpawnRole(GlobalCollection.PLAYER_TYPE_ID, out var role)) {
+            Debug.LogError("创建玩家角色失败");
+            return false;
+        }
+
+        role.SetPos(new Vector2(0, 0));
+
+        roleRepo.SetPlayerRole(role);
+        role.SetDontDestroyOnLoad();
+
+        roleFSMDomain.Enter_Idle(role);
+
+        Debug.Log("创建玩家角色成功");
+
+        return true;
+    }
+
+    public bool TrySpawnRole(int typeID, out RoleEntity role) {
         if (!factory.TryCreateRole(typeID, out role)) {
             return false;
         }
@@ -51,7 +84,14 @@ public class RoleDomain {
         var roleRepo = mainContext.rootRepo.roleRepo;
         roleRepo.TryAdd(typeID, role);
 
-        return false;
+        return true;
+    }
+
+    public void EasingRenderer(float dt) {
+        var roleRepo = mainContext.rootRepo.roleRepo;
+        roleRepo.ForeachAll((role) => {
+            role.EasingToDstPos(dt);
+        });
     }
 
 }

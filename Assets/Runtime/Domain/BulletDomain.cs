@@ -2,7 +2,7 @@ public class BulletDomain {
 
     MainContext mainContext;
 
-    public BulletDomain(MainContext mainContext) {
+    public void Inject(MainContext mainContext) {
         this.mainContext = mainContext;
     }
 

@@ -5,6 +5,10 @@ public class RoleRepo {
 
     public Dictionary<int, RoleEntity> dic;
 
+    RoleEntity playerRole;
+    public RoleEntity PlayerRole => playerRole;
+    public void SetPlayerRole(RoleEntity role) => playerRole = role;
+
     public RoleRepo() {
         dic = new Dictionary<int, RoleEntity>();
     }

@@ -9,8 +9,6 @@ public class MainController {
     MainContext mainContext;
     RootDomain rootDomain;
 
-    bool isReady;
-
     public MainController() {
 
         // Input Bind
@@ -21,33 +19,34 @@ public class MainController {
         inputSetter.Bind(InputKeyCollection.JUMP, KeyCode.Space);
         inputSetter.Bind(InputKeyCollection.SHOOT, KeyCode.Mouse0);
 
-        this.factory = new Factory(mainContext);
-        this.mainContext = new MainContext(freeInputCore);
-        this.rootDomain = new RootDomain(mainContext, factory);
+        this.factory = new Factory();
+        this.mainContext = new MainContext();
+        this.rootDomain = new RootDomain();
+
+        this.factory.Inject(mainContext);
+        this.mainContext.Inject(freeInputCore);
+        this.rootDomain.Inject(mainContext, factory);
 
         // Load First Scene
         SceneManager.LoadScene("Game");
-        isReady = true;
+        var gameFSMDomain = rootDomain.gameFSMDomain;
+        gameFSMDomain.Enter_Battle(mainContext.GameEntity);
     }
 
 
     public void Update() {
-        if (!isReady) {
-            return;
-        }
-
-        // Input
-        var roleDomain = rootDomain.roleDomain;
-        roleDomain.BackInput();
+        var dt = Time.deltaTime;
+        var gameFSMDomain = rootDomain.gameFSMDomain;
+        gameFSMDomain.TickFSM(dt);
     }
 
     public void Tick(float dt) {
-        if (!isReady) {
-            return;
+        var gameEntity = mainContext.GameEntity;
+        if (gameEntity.FSMCom.State == GameFSMState.Battle) {
+            // ========= Logic
+            var roleFSMDomain = rootDomain.roleFSMDomain;
+            roleFSMDomain.TickFSM(dt);
         }
-
-        var roleFSMDomain = rootDomain.roleFSMDomain;
-        roleFSMDomain.TickFSM(dt);
     }
 
 }
