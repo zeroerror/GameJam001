@@ -3,9 +3,11 @@ using UnityEngine;
 public class RoleFSMDomain {
 
     MainContext mainContext;
+    RoleDomain roleDomain;
 
-    public void Inject(MainContext mainContext) {
+    public void Inject(MainContext mainContext, RoleDomain roleDomain) {
         this.mainContext = mainContext;
+        this.roleDomain = roleDomain;
     }
 
     public void TickFSM(float dt) {
@@ -50,6 +52,9 @@ public class RoleFSMDomain {
             role.StopMove_Hor();
         }
 
+        roleDomain.TryShoot(role);
+
+        // ================== EXIT CHECK
         var inputCom = role.InputCom;
         if (inputCom.MoveHorDir != 0) {
             Enter_Moving(role, inputCom.MoveHorDir);
@@ -80,6 +85,8 @@ public class RoleFSMDomain {
             role.Move_Hor(moveHorDir, dt);
         }
 
+        roleDomain.TryShoot(role);
+
         // ================== Exit 
         if (!hasMoveDir) {
             Enter_Idle(role);
@@ -106,6 +113,8 @@ public class RoleFSMDomain {
             role.Move_Hor(inputCom.MoveHorDir, dt);
         }
 
+        roleDomain.TryShoot(role);
+        
         // ================== Exit 
         bool isGounded = true;
         if (!isGounded) {

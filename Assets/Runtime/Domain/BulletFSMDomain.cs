@@ -42,6 +42,7 @@ public class BulletFSMDomain {
             model.SetIsEntering(false);
         }
 
+        // Flyinggggggggggggggggggggg
     }
 
     public void TickExploding(BulletEntity bullet, float dt) {
@@ -51,10 +52,10 @@ public class BulletFSMDomain {
         // ================== Exit 
     }
 
-    public void Enter_Flying(BulletEntity bullet) {
+    public void Enter_Flying(BulletEntity bullet, Vector2 dir) {
         var fsmCom = bullet.FSMCom;
         fsmCom.EnterFlying();
-        Debug.Log("RoleFSM: ======> Enter_Flying");
+        Debug.Log($"RoleFSM: ======> Enter_Flying dir:{dir}");
     }
 
     public void Exploding(BulletEntity bullet) {

@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct BulletTM {
- 
+public struct WeaponFormTM {
+
     public int typeID;
 
 }

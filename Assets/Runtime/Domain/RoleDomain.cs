@@ -5,11 +5,19 @@ public class RoleDomain {
     MainContext mainContext;
     Factory factory;
     RoleFSMDomain roleFSMDomain;
+    WeaponFormDomain weaponFormDomain;
+    BulletFSMDomain bulletFSMDomain;
 
-    public void Inject(MainContext mainContext, Factory factory, RoleFSMDomain roleFSMDomain) {
+    public void Inject(MainContext mainContext,
+                       Factory factory,
+                       RoleFSMDomain roleFSMDomain,
+                       BulletFSMDomain bulletFSMDomain,
+                       WeaponFormDomain weaponFormDomain) {
         this.mainContext = mainContext;
         this.factory = factory;
+        this.bulletFSMDomain = bulletFSMDomain;
         this.roleFSMDomain = roleFSMDomain;
+        this.weaponFormDomain = weaponFormDomain;
     }
 
     public void PlayerRole_BackInput() {
@@ -49,6 +57,7 @@ public class RoleDomain {
         }
 
         var pointerPos = Camera.main.ScreenPointToRay(Input.mousePosition).origin;
+        pointerPos.z = 0;
         inputCom.SetChosenPoint(pointerPos);
         Debug.DrawLine(Vector3.zero, pointerPos, Color.red);
     }
@@ -73,10 +82,6 @@ public class RoleDomain {
         roleFSMDomain.Enter_Idle(role);
 
         Debug.Log("创建玩家角色成功");
-
-        // TTTT
-        factory.TryCreateBullet(123213211,out var bullet);
-        bullet.SetPos(new Vector2(5, 4));
 
         return true;
     }
@@ -104,7 +109,7 @@ public class RoleDomain {
         });
     }
 
-    public void PlayerRole_AnimWeaponToPos(){
+    public void PlayerRole_AnimWeaponToPos() {
         var roleRepo = mainContext.rootRepo.roleRepo;
         var playerRole = roleRepo.PlayerRole;
         if (playerRole == null) {
@@ -118,6 +123,47 @@ public class RoleDomain {
         var inputCom = role.InputCom;
         var chosenPoint = inputCom.ChosenPoint;
         role.AnimWeaponToPos(chosenPoint);
+    }
+
+    public bool TryShoot(RoleEntity role) {
+        var inputCom = role.InputCom;
+        if (!inputCom.InputShoot) {
+            return false;
+        }
+
+        // Check WeaponForm Connection & Get Bullet
+        bool hasShoot = false;
+        var shootFromPos = role.LogicPos;
+        var endPos = inputCom.ChosenPoint;
+        var flyDir = (endPos - shootFromPos).normalized;
+        var weaponFormSlotCom = role.WeaponFormSlotCom;
+        // temp this
+        if (true) {
+            if (weaponFormDomain.TryGetBulletFromWeaponForm_1(out var bullet)) {
+                bullet.IDCom.SetFather(role.IDCom.ToEntityIDArgs());
+                bulletFSMDomain.Enter_Flying(bullet, flyDir);
+                hasShoot = true;
+                Debug.Log($"Shoot The Bullet From WeaponForm 1");
+            }
+        }
+        if (weaponFormSlotCom.isConnectedToWeaponForm2) {
+            if (weaponFormDomain.TryGetBulletFromWeaponForm_2(out var bullet)) {
+                // Shoot The Bullet
+                bulletFSMDomain.Enter_Flying(bullet, flyDir);
+                hasShoot = true;
+                Debug.Log($"Shoot The Bullet From WeaponForm 2");
+            }
+        }
+        if (weaponFormSlotCom.isConnectedToWeaponForm3) {
+            if (weaponFormDomain.TryGetBulletFromWeaponForm_3(out var bullet)) {
+                // Shoot The Bullet
+                bulletFSMDomain.Enter_Flying(bullet, flyDir);
+                hasShoot = true;
+                Debug.Log($"Shoot The Bullet From WeaponForm 3");
+            }
+        }
+
+        return hasShoot;
     }
 
 }

@@ -18,9 +18,9 @@ public class RoleInputComponent {
     public bool InputPick => inputPick;
     public void SetInputPick(bool value) => this.inputPick = value;
 
-    Vector2 chosenPoint;
-    public Vector2 ChosenPoint => chosenPoint;
-    public void SetChosenPoint(Vector2 value) => this.chosenPoint = value;
+    Vector3 chosenPoint;
+    public Vector3 ChosenPoint => chosenPoint;
+    public void SetChosenPoint(Vector3 value) => this.chosenPoint = value;
 
     public RoleInputComponent() { }
 

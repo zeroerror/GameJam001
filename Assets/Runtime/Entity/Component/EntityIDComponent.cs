@@ -47,11 +47,17 @@ public class EntityIDComponent {
     public ControlType ControlType => controlType;
     public void SetControlType(ControlType value) => this.controlType = value;
 
-    int fromFieldTypeID;
-    public int FromFieldTypeID => fromFieldTypeID;
-    public void SetFromFieldTypeID(int value) => this.fromFieldTypeID = value;
-
     EntityIDArgs father;
     public EntityIDArgs Father => father;
+    public void SetFather(in EntityIDArgs v) => this.father = v;
 
+    public EntityIDArgs ToEntityIDArgs() {
+        var args = new EntityIDArgs();
+        args.entityType = entityType;
+        args.typeID = typeID;
+        args.entityName = entityName;
+        args.campType = campType;
+        args.controlType = controlType;
+        return args;
+    }
 }

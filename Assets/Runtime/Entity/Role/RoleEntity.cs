@@ -11,6 +11,9 @@ public class RoleEntity {
     RoleFSMComponent fsmCom;
     public RoleFSMComponent FSMCom => fsmCom;
 
+    WeaponFormSlotComponent weaponFormSlotCom;
+    public WeaponFormSlotComponent WeaponFormSlotCom => weaponFormSlotCom;
+
     float moveSpeed = 5f;
     float jumpSpeed = 10f;
 
@@ -26,6 +29,7 @@ public class RoleEntity {
 
         inputCom = new RoleInputComponent();
         fsmCom = new RoleFSMComponent();
+        weaponFormSlotCom = new WeaponFormSlotComponent();
     }
 
     public void Inject(GameObject rootGO) {
@@ -87,5 +91,8 @@ public class RoleEntity {
         logicGO.transform.rotation = rotation;
         rendererGO.transform.rotation = rotation;
     }
+
+    public Vector3 LogicPos => logicGO.transform.position;
+    public Vector3 RendererPos => rendererGO.transform.position;
 
 }

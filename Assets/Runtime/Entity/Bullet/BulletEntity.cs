@@ -12,13 +12,9 @@ public class BulletEntity {
     GameObject logicGO;
     GameObject rendererGO;
 
-    float hitBackDis;
-    public float HitBackDis => hitBackDis;
-    public void SetHitBackDis(float v) => this.hitBackDis = v;
-
-    float hitBackTime;
-    public float HitBackTime => hitBackTime;
-    public void SetHitBackTime(float v) => this.hitBackTime = v;
+    BulleAttrModel attrModel;
+    public BulleAttrModel AttrModel => attrModel;
+    public void SetBulletAttrModel(BulleAttrModel v) => this.attrModel = v;
 
     public BulletEntity() {
         idCom = new EntityIDComponent();

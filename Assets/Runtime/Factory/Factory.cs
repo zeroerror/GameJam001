@@ -25,7 +25,7 @@ public class Factory {
         return true;
     }
 
-    public bool TryCreateBullet(int typeID, out BulletEntity bullet) {
+    public bool TryCreateBullet(BulletType bulletType, in BulleAttrModel bulleAttrModel, out BulletEntity bullet) {
         var prefab = Resources.Load("Bullet/go_template_bullet");
         if (prefab == null) {
             Debug.LogError("Bullet/go_template_bullet Not Found");
@@ -33,11 +33,19 @@ public class Factory {
             return false;
         }
 
-        // TM TODO
+        var bulletTemplate = mainContext.rootTemplate.bulletTemplate;
+        if (!bulletTemplate.TryGet(bulletType, out var tm)) {
+            Debug.LogError($"Template failed: bulletType={bulletType}");
+            bullet = null;
+            return false;
+        }
 
         var go = GameObject.Instantiate(prefab) as GameObject;
         bullet = new BulletEntity();
         bullet.Inject(go);
+
+        // Set
+        bullet.SetBulletAttrModel(bulleAttrModel);
 
         return true;
     }
