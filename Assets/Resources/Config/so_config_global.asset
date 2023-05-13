@@ -15,4 +15,7 @@ MonoBehaviour:
   tm:
     monsterSpawnPosY: 20
     monsterSpawnPosXRange: {x: -20, y: 20}
+    weaponFormPos1: {x: -15, y: 0}
+    weaponFormPos2: {x: 0, y: 0}
+    weaponFormPos3: {x: 15, y: 0}
     playerRoleTypeID: 1000

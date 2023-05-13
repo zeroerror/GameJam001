@@ -43,4 +43,9 @@ public class WeaponFormEntity {
 
     }
 
+    public void SetPos(Vector2 pos) {
+        var p = new Vector3(pos.x, pos.y, 0);
+        rendererGO.transform.position = p;
+    }
+
 }

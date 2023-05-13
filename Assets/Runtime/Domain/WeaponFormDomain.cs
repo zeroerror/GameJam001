@@ -21,12 +21,16 @@ public class WeaponFormDomain {
             return;
         }
 
-        TrySpawnWeaponForm(1);
-        TrySpawnWeaponForm(2);
-        TrySpawnWeaponForm(3);
+        var globalConfigTM = mainContext.rootTemplate.globalConfigTM;
+        var pos1 = globalConfigTM.weaponFormPos1;
+        var pos2 = globalConfigTM.weaponFormPos2;
+        var pos3 = globalConfigTM.weaponFormPos3;
+        TrySpawnWeaponForm(1, pos1);
+        TrySpawnWeaponForm(2, pos2);
+        TrySpawnWeaponForm(3, pos3);
     }
 
-    public bool TrySpawnWeaponForm(int index) {
+    public bool TrySpawnWeaponForm(int index, Vector2 pos) {
         var str = "WeaponForm/go_template_weaponform";
         var prefab = Resources.Load(str);
         if (prefab == null) {
@@ -34,9 +38,12 @@ public class WeaponFormDomain {
             return false;
         }
 
-        var go = GameObject.Instantiate(prefab) as GameObject;
+        var rootGO = GameObject.Instantiate(prefab) as GameObject;
+        GameObject.DontDestroyOnLoad(rootGO);
         var weaponForm = new WeaponFormEntity();
-        weaponForm.Inject(go);
+        weaponForm.Inject(rootGO);
+        weaponForm.SetPos(pos);
+
         var rootRepo = mainContext.rootRepo;
         if (index == 1) {
             rootRepo.weaponForm1 = weaponForm;
