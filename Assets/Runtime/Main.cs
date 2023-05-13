@@ -1,14 +1,12 @@
 using UnityEngine;
-using GameArki.FreeInput;
 
 public class Main : MonoBehaviour {
 
     [SerializeField] VFXManager vfxManager;
     [SerializeField] SFXManager sfxManager;
-    MainController mainController;
+    [SerializeField] UIManager uiManager;
 
-    // First Party
-    FreeInputCore freeInputCore;
+    MainController mainController;
 
     void Start() {
 
@@ -18,13 +16,19 @@ public class Main : MonoBehaviour {
         Physics2D.simulationMode = SimulationMode2D.Script;
 
         // Controller
-        this.mainController = new MainController(vfxManager, sfxManager);
+        this.mainController = new MainController(vfxManager, sfxManager, uiManager);
+
+        uiManager.Login_Open(() => {
+            mainController.Enter();
+            uiManager.Login_Close();
+        });
 
     }
 
     void Update() {
         var dt = Time.deltaTime;
-        this.mainController.Update(dt);
+        uiManager.Tick(dt);
+        mainController.Update(dt);
     }
 
 }

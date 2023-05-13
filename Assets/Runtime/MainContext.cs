@@ -9,6 +9,9 @@ public class MainContext {
     SFXManager sfxManager;
     public SFXManager SFXManager => sfxManager;
 
+    UIManager uiManager;
+    public UIManager UIManager => uiManager;
+
     public FreeInputCore freeInputCore;
 
     public RootTemplate rootTemplate;
@@ -26,9 +29,10 @@ public class MainContext {
         this.gameEntity = new GameEntity();
     }
 
-    public void Inject(VFXManager vfxManager, SFXManager sfxManager, FreeInputCore freeInputCore) {
+    public void Inject(VFXManager vfxManager, SFXManager sfxManager, UIManager uiManager, FreeInputCore freeInputCore) {
         this.vfxManager = vfxManager;
         this.sfxManager = sfxManager;
+        this.uiManager = uiManager;
         this.freeInputCore = freeInputCore;
     }
 
