@@ -2,7 +2,7 @@ public class MonsterDomain {
 
     MainContext mainContext;
 
-    public MonsterDomain(MainContext mainContext) {
+    public void Inject(MainContext mainContext) {
         this.mainContext = mainContext;
     }
 
