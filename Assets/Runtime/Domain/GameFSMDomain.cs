@@ -78,11 +78,22 @@ public class GameFSMDomain {
 
             roleDomain.TrySpawnPlayerRole();
             weaponFormDomain.TrySpawnWeaponFormThree();
+
+            var waveTemplate = mainContext.rootTemplate.waveTemplate;
+            waveTemplate.TryGetWaveTM(out var tm);
+            var waveModel = TM2ModelUtil.GetWaveModel(tm);
+            gameEntity.SetWaveSpawnerModelArray(waveModel.waveSpawnerModelArray);
         }
 
         roleFSMDomain.TickFSM(dt);
         bulletFSMDomain.TickFSM(dt);
         phxDomain.Tick(dt);
+
+        // Wave Control
+        gameEntity.ForeachWaveSpawnerModel(stateModel.curTime, (spawnModel) => {
+            Debug.Log($"生成怪物 {spawnModel.typeID} ");
+        });
+        stateModel.curTime += dt;
     }
 
     public void Enter_Lobby(GameEntity Game) {

@@ -8,11 +8,14 @@ public class GameFSMStateModel_Battle {
     public bool IsExiting => isExiting;
     public void SetIsExiting(bool value) => isExiting = value;
 
-    public GameFSMStateModel_Battle() {}
+    public float curTime;
+
+    public GameFSMStateModel_Battle() { }
 
     public void Reset() {
         isEntering = false;
         isExiting = false;
+        curTime = 0;
     }
 
 }
