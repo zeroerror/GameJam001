@@ -94,12 +94,41 @@ public class GameFSMDomain {
         phxDomain.Tick(dt);
 
         // Wave Control
+        var curWaveIndex = gameEntity.curWaveIndex;
         gameEntity.ForeachWaveSpawnerModel(stateModel.curTime, (spawnModel) => {
             var monsterDomain = rootDomain.monsterDomain;
             monsterDomain.TrySpawnMonster(spawnModel, out var monster);
-            Debug.Log($"生成怪物 {spawnModel.typeID} ");
         });
-        stateModel.curTime += dt;
+
+        // Wave Pause
+        if (gameEntity.wavePaused) {
+            // 检测当前波敌人均已死亡
+            var monsterRepo = mainContext.rootRepo.monsterRepo;
+            if (!monsterRepo.HasAliveMonster()) {
+                gameEntity.wavePaused = false;
+                gameEntity.hasWaveUpgrade = true;
+                Debug.Log($"当前波次敌人消灭完成:{gameEntity.curWaveIndex}");
+            }
+        }
+
+        if (!gameEntity.wavePaused) {
+            stateModel.curTime += dt;
+        }
+
+        if (gameEntity.hasWaveUpgrade) {
+            gameEntity.hasWaveUpgrade = false;
+            // 升级选择
+            var randomUpgradeType1 = GetRandomUpgradeTypeExcept(UpgradeType.None);
+            var randomUpgradeType2 = GetRandomUpgradeTypeExcept(randomUpgradeType1);
+            var randomUpgradeType3 = GetRandomUpgradeTypeExcept(randomUpgradeType2);
+            Debug.Log($"升级选择 {randomUpgradeType1} {randomUpgradeType2} {randomUpgradeType3} ");
+            var weaponForm1 = mainContext.rootRepo.weaponForm1;
+            var weaponForm2 = mainContext.rootRepo.weaponForm2;
+            var weaponForm3 = mainContext.rootRepo.weaponForm3;
+            weaponForm1.LevelUp();
+            weaponForm2.LevelUp();
+            weaponForm3.LevelUp();
+        }
     }
 
     public void Enter_Lobby(GameEntity Game) {
@@ -110,6 +139,17 @@ public class GameFSMDomain {
     public void Enter_Battle(GameEntity Game) {
         var fsmCom = Game.FSMCom;
         fsmCom.EnterBattle();
+    }
+
+    UpgradeType GetRandomUpgradeTypeExcept(UpgradeType type) {
+        var upgradeTM = mainContext.rootTemplate.upgradeTM;
+        var len = upgradeTM.upgradeTypeArray.Length;
+        int randomIndex = Random.Range(0, len);
+        while (type == upgradeTM.upgradeTypeArray[randomIndex]) {
+            randomIndex = Random.Range(0, len);
+        }
+
+        return upgradeTM.upgradeTypeArray[randomIndex];
     }
 
 }

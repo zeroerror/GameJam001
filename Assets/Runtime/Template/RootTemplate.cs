@@ -7,6 +7,7 @@ public class RootTemplate {
     public WaveTemplate waveTemplate;
 
     public GlobalConfigTM globalConfigTM;
+    public UpgradeTM upgradeTM;
 
     public RootTemplate() {
         roleTemplate = new RoleTemplate();
@@ -14,6 +15,7 @@ public class RootTemplate {
         waveTemplate = new WaveTemplate();
 
         this.globalConfigTM = Resources.LoadAll<GlobalConfigSO>("Config")[0].tm;
+        this.upgradeTM = Resources.LoadAll<UpgradeSO>("Upgrade")[0].tm;
     }
 
 }

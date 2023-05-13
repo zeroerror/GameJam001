@@ -22,6 +22,8 @@ public static class TM2ModelUtil {
 
     public static WaveSpawnerModel GetWaveSpawnerModel(WaveSpawnerTM tm) {
         WaveSpawnerModel model = new WaveSpawnerModel();
+        model.waveID = tm.waveID;
+        model.isWaveEnd = tm.isWaveEnd;
         model.spawnTime = tm.spawnTime;
         model.typeID = tm.typeID;
         return model;

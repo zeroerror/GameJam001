@@ -32,4 +32,15 @@ public class MonsterRepo {
         }
     }
 
+    public bool HasAliveMonster() {
+        foreach (var pair in dic) {
+            var monster = pair.Value;
+            if (monster.FSMCom.State != MonsterFSMState.Dying
+            && monster.FSMCom.State != MonsterFSMState.None) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

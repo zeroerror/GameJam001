@@ -15,11 +15,19 @@ MonoBehaviour:
   tm:
     typeID: 1000
     waveSpawnerTMArray:
-    - spawnTime: 5
+    - waveID: 1
+      isWaveEnd: 0
+      spawnTime: 3
       typeID: 1000
-    - spawnTime: 5
+    - waveID: 1
+      isWaveEnd: 1
+      spawnTime: 3
       typeID: 1000
-    - spawnTime: 10
+    - waveID: 2
+      isWaveEnd: 0
+      spawnTime: 5
       typeID: 2000
-    - spawnTime: 10
+    - waveID: 2
+      isWaveEnd: 1
+      spawnTime: 5
       typeID: 2000
