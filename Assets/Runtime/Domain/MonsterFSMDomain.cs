@@ -28,13 +28,13 @@ public class MonsterFSMDomain {
             return;
         }
 
+        TickAny(Monster, dt);
+        
         if (state == MonsterFSMState.Falling) {
             TickFalling(Monster, dt);
         } else if (state == MonsterFSMState.Dying) {
             TickDying(Monster, dt);
         }
-
-        TickAny(Monster, dt);
     }
 
     public void TickAny(MonsterEntity monster, float dt) {

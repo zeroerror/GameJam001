@@ -101,21 +101,25 @@ public class GameFSMDomain {
             monsterDomain.TrySpawnMonster(spawnModel, out var monster);
         });
 
-        // Wave Pause
-        if (gameEntity.wavePaused) {
-            // 检测当前波敌人均已死亡
+        // 波暂停逻辑 在这里-----------------------------------------------------------------
+        if (gameEntity.WavePaused) {
             var monsterRepo = mainContext.rootRepo.monsterRepo;
             if (!monsterRepo.HasAliveMonster() && !gameEntity.hasWaveUpgrade) {
-                gameEntity.wavePaused = false;
-                gameEntity.hasWaveUpgrade = true;
                 Debug.Log($"当前波次敌人消灭完成:{gameEntity.curWaveIndex}");
+
+                // 放到UI回调里面
+                gameEntity.ContinueWave();
+                gameEntity.hasWaveUpgrade = true;
+                stateModel.curTime = 0f;
+
             }
         }
 
-        if (!gameEntity.wavePaused) {
+        if (!gameEntity.WavePaused) {
             stateModel.curTime += dt;
         }
 
+        // 升级逻辑 在这里-----------------------------------------------------------------
         if (gameEntity.hasWaveUpgrade) {
             gameEntity.hasWaveUpgrade = false;
             // 升级选择
