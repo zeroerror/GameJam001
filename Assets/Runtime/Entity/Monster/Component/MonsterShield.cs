@@ -1,12 +1,22 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponFormChild : MonoBehaviour {
+public class MonsterShield : MonoBehaviour {
 
-    public WeaponFormEntity weaponFormEntity;
+    public MonsterEntity monsterEntity;
 
-    public void Inject(WeaponFormEntity weaponFormEntity) {
-        this.weaponFormEntity = weaponFormEntity;
+    List<BulletEntity> frame_block_bullets;
+    public void ForeachFrameBlockBullets(Action<BulletEntity> action) {
+        foreach (var bullet in frame_block_bullets) {
+            action(bullet);
+        }
+    }
+    public void ClearFrameBlockBulletList() => frame_block_bullets.Clear();
+
+    public void Inject(MonsterEntity monsterEntity) {
+        this.monsterEntity = monsterEntity;
+        this.frame_block_bullets = new List<BulletEntity>();
     }
 
     // PHX
@@ -18,14 +28,20 @@ public class WeaponFormChild : MonoBehaviour {
         var monster = other.GetComponent<MonsterEntity>();
         if (monster != null) {
             otherIDCom = monster.IDCom;
+        } else {
+            var role = other.GetComponent<RoleEntity>();
+            if (role != null) {
+                otherIDCom = role.IDCom;
+            } else {
+                var bullet = other.GetComponent<BulletEntity>();
+                if (bullet != null) {
+                    otherIDCom = bullet.IDCom;
+                    frame_block_bullets.Add(bullet);
+                }
+            }
         }
 
-        var role = other.GetComponent<RoleEntity>();
-        if (role != null) {
-            otherIDCom = role.IDCom;
-        }
-
-        var idCom = weaponFormEntity.IDCom;
+        var idCom = monsterEntity.IDCom;
         var oneIDArgs = idCom.ToEntityIDArgs();
         var twoIDArgs = otherIDCom != null ? otherIDCom.ToEntityIDArgs() : new EntityIDArgs();
         var normal = other.transform.position - transform.position;
@@ -48,7 +64,7 @@ public class WeaponFormChild : MonoBehaviour {
             otherIDCom = role.IDCom;
         }
 
-        var idCom = weaponFormEntity.IDCom;
+        var idCom = monsterEntity.IDCom;
         var oneIDArgs = idCom.ToEntityIDArgs();
         var twoIDArgs = otherIDCom != null ? otherIDCom.ToEntityIDArgs() : new EntityIDArgs();
         var normal = other.transform.position - transform.position;

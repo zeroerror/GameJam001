@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class RoleEntity {
+public class RoleEntity : MonoBehaviour {
 
     EntityIDComponent idCom;
     public EntityIDComponent IDCom => idCom;
@@ -24,7 +25,7 @@ public class RoleEntity {
     GameObject rendererBodyGO;
     GameObject rendererWeaponGO;
 
-    public RoleEntity() {
+    public void Ctor() {
         idCom = new EntityIDComponent();
         idCom.SetEntityType(EntityType.Role);
 

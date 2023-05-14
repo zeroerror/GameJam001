@@ -24,14 +24,17 @@ public class Factory {
             return false;
         }
 
-        role = new RoleEntity();
-
-        role.IDCom.SetTypeID(typeID);
+        var rootGO = GameObject.Instantiate(prefab) as GameObject;
+        var logicGO = rootGO.transform.Find("LOGIC").gameObject;
+        role = logicGO.AddComponent<RoleEntity>();
+        role.Ctor();
 
         var bodyMod = tm.bodyMod;
         bodyMod = GameObject.Instantiate(bodyMod) as GameObject;
-        var rootGO = GameObject.Instantiate(prefab) as GameObject;
+
         role.Inject(rootGO, bodyMod);
+
+        role.IDCom.SetTypeID(typeID);
 
         return true;
     }

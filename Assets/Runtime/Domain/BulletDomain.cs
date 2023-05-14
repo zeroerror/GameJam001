@@ -93,7 +93,9 @@ public class BulletDomain {
             return;
         }
 
-        bulletEntity.Bounce(normal);
+        if (bulletEntity.bulletType == BulletType.Bubble) {
+            bulletEntity.Bounce(normal);
+        }
     }
 
 }

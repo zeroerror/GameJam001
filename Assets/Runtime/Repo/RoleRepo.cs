@@ -13,20 +13,21 @@ public class RoleRepo {
         dic = new Dictionary<int, RoleEntity>();
     }
 
-    public bool TryAdd(int typeID, RoleEntity role) {
-        if (dic.ContainsKey(typeID)) {
+    public bool TryAdd(RoleEntity role) {
+        var entityID = role.IDCom.EntityID;
+        if (dic.ContainsKey(entityID)) {
             return false;
         }
-        dic.Add(typeID, role);
+        dic.Add(entityID, role);
         return true;
     }
 
-    public bool TryGet(int typeID, out RoleEntity role) {
-        return dic.TryGetValue(typeID, out role);
+    public bool TryGet(int entityID, out RoleEntity role) {
+        return dic.TryGetValue(entityID, out role);
     }
 
-    public bool TryRemove(int typeID) {
-        return dic.Remove(typeID);
+    public bool TryRemove(int entityID) {
+        return dic.Remove(entityID);
     }
 
     public void ForeachAll(Action<RoleEntity> action) {

@@ -92,7 +92,6 @@ public class GameFSMDomain {
         }
 
         monsterFSMDomain.TickFSM(dt);
-
         roleFSMDomain.TickFSM(dt);
         bulletFSMDomain.TickFSM(dt);
         weaponFormFSMDomain.TickFSM(dt);

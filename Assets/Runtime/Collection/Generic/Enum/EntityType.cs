@@ -1,7 +1,7 @@
 public enum EntityType {
-    None,
-    Role = 0,
-    Bullet = 1,
-    Monster = 2,
-    WeaponForm = 3,
+    None = 0,
+    Role,
+    Bullet,
+    Monster,
+    WeaponForm,
 }

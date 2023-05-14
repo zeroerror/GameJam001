@@ -37,11 +37,8 @@ public class MonsterEntity : MonoBehaviour {
     GameObject rendererWeaponGO;
     SpriteRenderer mesh;
 
-    Transform shieldRoot;
-
-    // Phx
-    public Action OnTriggerEnter;
-    public Action OnTriggerExit;
+    public Transform shieldRoot;
+    public MonsterShield monsterShield;
 
     // temp
     public bool isNotValid;
@@ -69,7 +66,10 @@ public class MonsterEntity : MonoBehaviour {
         this.rendererGO = rootGO.transform.Find("RENDERER").gameObject;
         this.rendererBodyGO = rendererGO.transform.Find("BODY").gameObject;
         this.rendererWeaponGO = rendererGO.transform.Find("WEAPON").gameObject;
+
         this.shieldRoot = rendererGO.transform.Find("ShieldRoot");
+        this.monsterShield = shieldRoot.GetComponentInChildren<PolygonCollider2D>().gameObject.AddComponent<MonsterShield>();
+        this.monsterShield.Inject(this);
 
         mesh = bodyMod.GetComponentInChildren<SpriteRenderer>();
         bodyMod.transform.SetParent(rendererBodyGO.transform, false);
@@ -85,6 +85,7 @@ public class MonsterEntity : MonoBehaviour {
     }
 
     public void Init() {
+        fallPattern = FallPattern.RollingShieldFall;
         if (fallPattern != FallPattern.RollingShieldFall) {
             shieldRoot.gameObject.SetActive(false);
         }
@@ -134,6 +135,10 @@ public class MonsterEntity : MonoBehaviour {
     public Vector3 LogicPos => logicGO.transform.position;
     public Vector3 RendererPos => rendererGO.transform.position;
 
+    // Phx
+    public Action OnTriggerEnter;
+    public Action OnTriggerExit;
+
     void OnTriggerEnter2D(Collider2D other) {
         this.OnTriggerEnter?.Invoke();
     }
@@ -141,4 +146,5 @@ public class MonsterEntity : MonoBehaviour {
     void OnTriggerExit2D(Collider2D other) {
         this.OnTriggerExit?.Invoke();
     }
+
 }
