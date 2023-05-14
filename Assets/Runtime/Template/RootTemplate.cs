@@ -8,7 +8,7 @@ public class RootTemplate {
     public BulletTemplate bulletTemplate    ;
 
     public GlobalConfigTM globalConfigTM;
-    public UpgradeTM upgradeTM;
+    public UpgradeTM[] upgradeTMArray;
 
     public RootTemplate() {
         roleTemplate = new RoleTemplate();
@@ -17,7 +17,7 @@ public class RootTemplate {
         bulletTemplate = new BulletTemplate();
 
         this.globalConfigTM = Resources.LoadAll<GlobalConfigSO>("Config")[0].tm;
-        this.upgradeTM = Resources.LoadAll<UpgradeSO>("Upgrade")[0].tm;
+        this.upgradeTMArray = Resources.LoadAll<UpgradeSO>("Upgrade")[0].tmArray;
     }
 
 }

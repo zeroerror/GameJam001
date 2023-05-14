@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe38e9d8c12056f40ae0223019945efb, type: 3}
   m_Name: so_upgrade_all
   m_EditorClassIdentifier: 
-  tm:
-    upgradeTypeArray: 010000000200000003000000040000000500000006000000070000000800000009000000
-    descArray:
-    - 
+  tmArray:
+  - upgradeType: 1
+    desc: 
     icon: {fileID: 0}
+    factor: 1
+  - upgradeType: 6
+    desc: 
+    icon: {fileID: 0}
+    factor: 100

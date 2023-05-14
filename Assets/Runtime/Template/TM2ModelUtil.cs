@@ -39,7 +39,9 @@ public static class TM2ModelUtil {
 
     public static BulletModel GetBulletModel(BulletTM tm) {
         BulletModel model;
+
         model.bulletType = tm.bulletType;
+
         model.bulletSize = tm.bulletSize;
         model.bulletDamage = tm.bulletDamage;
         model.bloodThirst = tm.bloodThirst;
@@ -47,6 +49,15 @@ public static class TM2ModelUtil {
         model.slow = tm.slow;
         model.hitBackDis = tm.hitBackDis;
         model.flySpeed = tm.flySpeed;
+
+        model.bulletSize_base = tm.bulletSize;
+        model.bulletDamage_base = tm.bulletDamage;
+        model.bloodThirst_base = tm.bloodThirst;
+        model.fanOut_base = tm.fanOut;
+        model.slow_base = tm.slow;
+        model.hitBackDis_base = tm.hitBackDis;
+        model.flySpeed_base = tm.flySpeed;
+        
         return model;
     }
 
