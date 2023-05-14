@@ -18,4 +18,6 @@ MonoBehaviour:
     fallPattern: 0
     fallSpeed: -1
     size: {x: 2, y: 2}
+    isDeadSpawnChildren: 1
+    deadSpawnChildrenTypeID: 6
     bodyMod: {fileID: 6330930642820901393, guid: 5abc97dc5d47c4eb9881502714e45caa, type: 3}
