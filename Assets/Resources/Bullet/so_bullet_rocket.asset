@@ -23,3 +23,4 @@ MonoBehaviour:
     flySpeed: 3
     bulletIcon: {fileID: 21300000, guid: 313d1b3806f234daea586368e66df84d, type: 3}
     weaponIcon: {fileID: 21300000, guid: f9fb4ea72c256984a8522bc4fedb35e2, type: 3}
+    themeColor: {r: 0.34901962, g: 0.4627451, b: 0.69411767, a: 1}
