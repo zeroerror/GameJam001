@@ -246,21 +246,24 @@ public class WeaponFormDomain {
         if (idCom1.EntityID == entityID) {
             Debug.Log($"武器库 1 链接 =========================");
             weaponForm1.roleEntity = roleEntity;
-            roleEntity.SetWeaponSprite(weaponForm1.AttrModel.bulletModel.weaponIcon);
+            var bulletModel = weaponForm1.AttrModel.bulletModel;
+            roleEntity.SetWeaponSprite(bulletModel.weaponIcon, bulletModel.themeColor);
             return;
         }
 
         if (idCom2.EntityID == entityID) {
             Debug.Log($"武器库 2 链接 =========================");
             weaponForm2.roleEntity = roleEntity;
-            roleEntity.SetWeaponSprite(weaponForm2.AttrModel.bulletModel.weaponIcon);
+            var bulletModel = weaponForm2.AttrModel.bulletModel;
+            roleEntity.SetWeaponSprite(bulletModel.weaponIcon, bulletModel.themeColor);
             return;
         }
 
         if (idCom3.EntityID == entityID) {
             Debug.Log($"武器库 3 链接 =========================");
             weaponForm3.roleEntity = roleEntity;
-            roleEntity.SetWeaponSprite(weaponForm3.AttrModel.bulletModel.weaponIcon);
+            var bulletModel = weaponForm3.AttrModel.bulletModel;
+            roleEntity.SetWeaponSprite(bulletModel.weaponIcon, bulletModel.themeColor);
             return;
         }
 
