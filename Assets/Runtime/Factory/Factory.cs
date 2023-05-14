@@ -99,8 +99,7 @@ public class Factory {
         // 子弹伤害
         bullet.bulletDamage = bulletModel.bulletDamage;
         // 子弹尺寸
-        bullet.bulletSize = bulletModel.bulletSize;
-        bullet.boxCollider.size = bulletModel.bulletSize;
+        bullet.SetBulletSize(bulletModel.bulletSize);
         // 子弹吸血
         bullet.bloodThirst = bulletModel.bloodThirst;
         // 散射

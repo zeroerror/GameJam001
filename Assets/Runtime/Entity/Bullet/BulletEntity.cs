@@ -15,7 +15,6 @@ public class BulletEntity : MonoBehaviour {
     public Vector3 LogicPos => logicGO.transform.position;
 
     Rigidbody2D logicRB;
-    public BoxCollider2D boxCollider;
     GameObject rendererGO;
 
     // 子弹类型
@@ -25,7 +24,8 @@ public class BulletEntity : MonoBehaviour {
     public int bulletDamage;
 
     // 子弹尺寸
-    public Vector2 bulletSize;
+     Vector2 bulletSize;
+     public Vector2 BulletSize => bulletSize;
 
     // 子弹吸血
     public int bloodThirst;
@@ -60,13 +60,11 @@ public class BulletEntity : MonoBehaviour {
         this.rootGO = rootGO;
         this.logicGO = rootGO.transform.Find("LOGIC").gameObject;
         this.logicRB = logicGO.GetComponent<Rigidbody2D>();
-        this.boxCollider = logicRB.GetComponent<BoxCollider2D>();
         this.rendererGO = rootGO.transform.Find("RENDERER").gameObject;
 
         Debug.Assert(rootGO != null, "rootGO == null");
         Debug.Assert(logicGO != null, "logicGO == null");
         Debug.Assert(logicRB != null, "logicRB == null");
-        Debug.Assert(boxCollider != null, "collider == null");
         Debug.Assert(rendererGO != null, "rendererGO == null");
     }
 
@@ -101,6 +99,11 @@ public class BulletEntity : MonoBehaviour {
         rendererGO.transform.rotation = rotation;
     }
 
+    public void SetBulletSize(Vector2 size){
+        var scale = new Vector3(size.x, size.y, 1);
+        logicGO.transform.localScale = scale;
+        rendererGO.transform.localScale = scale;
+    }
 
     // PHX
     public Action<EntityIDArgs, EntityIDArgs, Vector2, int, int> OnTriggerEnter;
