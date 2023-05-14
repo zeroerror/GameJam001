@@ -12,6 +12,9 @@ public class MainContext {
     UIManager uiManager;
     public UIManager UIManager => uiManager;
 
+    CameraManager cameraManager;
+    public CameraManager CameraManager => cameraManager;
+
     public FreeInputCore freeInputCore;
 
     public RootTemplate rootTemplate;
@@ -29,10 +32,15 @@ public class MainContext {
         this.gameEntity = new GameEntity();
     }
 
-    public void Inject(VFXManager vfxManager, SFXManager sfxManager, UIManager uiManager, FreeInputCore freeInputCore) {
+    public void Inject(VFXManager vfxManager,
+                       SFXManager sfxManager,
+                       UIManager uiManager,
+                       CameraManager cameraManager,
+                       FreeInputCore freeInputCore) {
         this.vfxManager = vfxManager;
         this.sfxManager = sfxManager;
         this.uiManager = uiManager;
+        this.cameraManager = cameraManager;
         this.freeInputCore = freeInputCore;
     }
 
