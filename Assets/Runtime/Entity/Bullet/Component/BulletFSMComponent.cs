@@ -35,10 +35,11 @@ public class BulletFSMComponent {
         state = BulletFSMState.Flying;
     }
 
-    public void EnterExploding() {
+    public void EnterExploding(float explodeRadius) {
         var model = explodingStateModel;
         model.Reset();
         model.SetIsEntering(true);
+        model.SetExplodeRadius(explodeRadius);
         state = BulletFSMState.Exploding;
     }
 

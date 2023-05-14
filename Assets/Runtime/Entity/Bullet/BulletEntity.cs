@@ -10,9 +10,15 @@ public class BulletEntity : MonoBehaviour {
     public BulletFSMComponent FSMCom => fsmCom;
 
     GameObject rootGO;
+
     GameObject logicGO;
+    public Vector3 LogicPos => logicGO.transform.position;
+
     Rigidbody2D logicRB;
     GameObject rendererGO;
+
+    // 子弹类型
+    public BulletType bulletType;
 
     // 子弹伤害
     public int bulletDamage;

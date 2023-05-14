@@ -86,6 +86,8 @@ public class Factory {
         bullet.Ctor();
         bullet.Inject(rootGO);
 
+        // 子弹类型
+        bullet.bulletType = bulletModel.bulletType;
         // 子弹伤害
         bullet.bulletDamage = bulletModel.bulletDamage;
         // 子弹尺寸

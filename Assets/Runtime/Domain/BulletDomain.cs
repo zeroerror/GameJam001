@@ -74,7 +74,7 @@ public class BulletDomain {
             return;
         }
 
-        bulletFSMDomain.Enter_Exploding(bulletEntity);
+        bulletFSMDomain.Enter_Exploding(bulletEntity, 1000f);
     }
 
     void HandleTriggerEnter(EntityIDArgs one, EntityIDArgs two) {

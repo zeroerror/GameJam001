@@ -65,6 +65,10 @@ public class MonsterDomain {
             return;
         }
 
+        if (bulletEntity.bulletType == BulletType.Rocket) {
+            return;
+        }
+
         var damage = bulletEntity.bulletDamage;
         var clampHP = System.Math.Clamp(monsterEntity.HP - damage, 0, int.MaxValue);
         monsterEntity.SetHP(clampHP);

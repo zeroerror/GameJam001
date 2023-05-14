@@ -8,11 +8,16 @@ public class BulletFSMStateModel_Exploding {
     public bool IsExiting => isExiting;
     public void SetIsExiting(bool value) => isExiting = value;
 
+    float explodeRadius;
+    public float ExplodeRadius => explodeRadius;
+    public void SetExplodeRadius(float value) => explodeRadius = value;
+
     public BulletFSMStateModel_Exploding() {}
 
     public void Reset() {
         isEntering = false;
         isExiting = false;
+        explodeRadius = 0f;
     }
 
 }

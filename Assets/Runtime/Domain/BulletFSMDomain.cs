@@ -48,7 +48,7 @@ public class BulletFSMDomain {
 
         // ================== Exit 
         if (model.time > 5f) {
-            Enter_Exploding(bullet);
+            Enter_Exploding(bullet, 1000);
             return;
         }
     }
@@ -56,6 +56,27 @@ public class BulletFSMDomain {
     public void TickExploding(BulletEntity bullet, float dt) {
         var fsmCom = bullet.FSMCom;
         var model = fsmCom.ExplodingStateModel;
+
+        if (model.IsEntering) {
+            model.SetIsEntering(false);
+            var bulletType = bullet.bulletType;
+            if (bulletType == BulletType.Rocket) {
+                var explodeRadius = model.ExplodeRadius;
+                var monsterRepo = mainContext.rootRepo.monsterRepo;
+                monsterRepo.ForeachAll((monster) => {
+                    if (monster.isNotValid) return;
+                    var monsterPos = monster.LogicPos;
+                    var bulletPos = bullet.LogicPos;
+                    var distance = Vector2.Distance(monsterPos, bulletPos);
+                    if (distance < explodeRadius) {
+                        var damage = bullet.bulletDamage;
+                        var clampHP = System.Math.Clamp(monster.HP - damage, 0, int.MaxValue);
+                        monster.SetHP(clampHP);
+                    }
+                });
+
+            }
+        }
 
         // ================== Exit 
         bullet.TearDown();
@@ -68,10 +89,10 @@ public class BulletFSMDomain {
         Debug.Log($"BulletFSM: ======> Enter_Flying dir:{flyDir}");
     }
 
-    public void Enter_Exploding(BulletEntity bullet) {
+    public void Enter_Exploding(BulletEntity bullet, float explodeRadius) {
         var fsmCom = bullet.FSMCom;
-        fsmCom.EnterExploding();
-        Debug.Log("BulletFSM: ======> Enter_Exploding");
+        fsmCom.EnterExploding(explodeRadius);
+        Debug.Log("BulletFSM: ======> Enter_Exploding 爆炸半径:" + explodeRadius);
     }
 
 

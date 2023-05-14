@@ -104,8 +104,7 @@ public class WeaponFormFSMDomain {
             }
 
         } else if (bulletType == BulletType.Laser) {
-
-            // 普通子弹 
+            // 激光  
 
         } else if (bulletType == BulletType.Triplet) {
             // 三连发 射3发就退出
@@ -123,8 +122,15 @@ public class WeaponFormFSMDomain {
             }
 
         } else if (bulletType == BulletType.Rocket) {
+            // 火箭弹 射一发就退出
+            if (model.triplet_count < 1) {
+                weaponFormDomain.Shoot(weaponForm, shootTarPos);
+                model.triplet_count++;
+            }
 
-            // 普通子弹 
+            if (model.time >= attrModel.shootCD) {
+                Enter_Idle(weaponForm);
+            }
 
         } else if (bulletType == BulletType.Normal) {
 

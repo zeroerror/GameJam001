@@ -36,6 +36,9 @@ public class MonsterEntity : MonoBehaviour {
     public Action OnTriggerEnter;
     public Action OnTriggerExit;
 
+    // temp
+    public bool isNotValid;
+
     public void Ctor() {
         idCom = new EntityIDComponent();
         idCom.SetEntityType(EntityType.Monster);
@@ -47,6 +50,7 @@ public class MonsterEntity : MonoBehaviour {
         // PHX
         OnTriggerEnter = null;
         OnTriggerExit = null;
+        isNotValid = true;
         GameObject.Destroy(rootGO);
     }
 
