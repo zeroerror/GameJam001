@@ -75,7 +75,7 @@ public class RoleDomain {
             return false;
         }
 
-        role.SetPos(new Vector2(0, 0));
+        role.SetPos(new Vector2(0, 3));
 
         roleRepo.SetPlayerRole(role);
         role.SetDontDestroyOnLoad();
