@@ -41,3 +41,39 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: bc
+    uniqueID: 901004539
+    locked: 0
+  - name: model
+    uniqueID: 1419046251
+    locked: 0
+  - name: model_icon
+    uniqueID: 1380960097
+    locked: 0
+  - name: role_body
+    uniqueID: 3432900061
+    locked: 0
+  - name: role_face
+    uniqueID: 3184825729
+    locked: 0
+  - name: enemy_dead_vfx
+    uniqueID: 2189217463
+    locked: 0
+  - name: enemy
+    uniqueID: 3143451885
+    locked: 0
+  - name: prop
+    uniqueID: 3882203489
+    locked: 0
+  - name: weapon
+    uniqueID: 3989818729
+    locked: 0
+  - name: bullet
+    uniqueID: 3946671515
+    locked: 0
+  - name: vfx
+    uniqueID: 2499225825
+    locked: 0
+  - name: ui
+    uniqueID: 2722552175
+    locked: 0
