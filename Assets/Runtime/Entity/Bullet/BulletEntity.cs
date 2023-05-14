@@ -105,10 +105,11 @@ public class BulletEntity : MonoBehaviour {
         rendererGO.transform.localScale = scale;
     }
 
-    public void SetBulletSprite(Sprite sprite, Color color) {
+    public void SetBulletSprite(Sprite sprite, Color color, Material material) {
         var spriteRenderer = rendererGO.GetComponentInChildren<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
         spriteRenderer.color = color;
+        spriteRenderer.material = material;
     }
 
     // PHX

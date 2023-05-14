@@ -60,7 +60,8 @@ public static class TM2ModelUtil {
         model.bulletIcon = tm.bulletIcon;
         model.weaponIcon = tm.weaponIcon;
         model.themeColor = tm.themeColor;
-        
+        model.bulletMaterial = tm.bulletMaterial;
+
         return model;
     }
 
