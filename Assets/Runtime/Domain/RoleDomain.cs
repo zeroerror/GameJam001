@@ -98,7 +98,7 @@ public class RoleDomain {
         idCom.SetEntityID(id);
 
         var roleRepo = mainContext.rootRepo.roleRepo;
-        roleRepo.TryAdd(typeID, role);
+        roleRepo.TryAdd(role);
 
         return true;
     }
@@ -136,16 +136,10 @@ public class RoleDomain {
         bool hasShoot = false;
         var shootTarPos = inputCom.ChosenPoint;
         var weaponFormSlotCom = role.WeaponFormSlotCom;
-        // temp this
-        if (true) {
-            weaponFormDomain.TryShootFromWeaponForm_1(shootTarPos,out var bullet);
-        }
-        if (weaponFormSlotCom.isConnectedToWeaponForm2) {
-            weaponFormDomain.TryShootFromWeaponForm_2(shootTarPos,out var bullet);
-        }
-        if (weaponFormSlotCom.isConnectedToWeaponForm3) {
-            weaponFormDomain.TryShootFromWeaponForm_3(shootTarPos,out var bullet);
-        }
+
+        weaponFormDomain.TryShootFromWeaponForm_1(shootTarPos, out var _);
+        weaponFormDomain.TryShootFromWeaponForm_2(shootTarPos, out var _);
+        weaponFormDomain.TryShootFromWeaponForm_3(shootTarPos, out var _);
 
         return hasShoot;
     }

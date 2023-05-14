@@ -15,9 +15,14 @@ public class WeaponFormChild : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other) {
         EntityIDComponent otherIDCom = null;
-        var monster = other.GetComponentInParent<MonsterEntity>();
+        var monster = other.GetComponent<MonsterEntity>();
         if (monster != null) {
             otherIDCom = monster.IDCom;
+        }
+
+        var role = other.GetComponent<RoleEntity>();
+        if (role != null) {
+            otherIDCom = role.IDCom;
         }
 
         var idCom = weaponFormEntity.IDCom;
@@ -33,9 +38,14 @@ public class WeaponFormChild : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D other) {
         EntityIDComponent otherIDCom = null;
-        var monster = other.GetComponentInParent<MonsterEntity>();
+        var monster = other.GetComponent<MonsterEntity>();
         if (monster != null) {
             otherIDCom = monster.IDCom;
+        }
+
+        var role = other.GetComponent<RoleEntity>();
+        if (role != null) {
+            otherIDCom = role.IDCom;
         }
 
         var idCom = weaponFormEntity.IDCom;
@@ -46,6 +56,8 @@ public class WeaponFormChild : MonoBehaviour {
 
         var layerMask_one = gameObject.layer;
         var layerMask_two = other.gameObject.layer;
+
+        OnTriggerExit?.Invoke(oneIDArgs, twoIDArgs, normal, layerMask_one, layerMask_two);
     }
 
 

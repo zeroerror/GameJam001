@@ -39,10 +39,6 @@ public class MonsterEntity : MonoBehaviour {
 
     Transform shieldRoot;
 
-    // Phx
-    public Action OnTriggerEnter;
-    public Action OnTriggerExit;
-
     // temp
     public bool isNotValid;
     float time;
@@ -134,6 +130,10 @@ public class MonsterEntity : MonoBehaviour {
     public Vector3 LogicPos => logicGO.transform.position;
     public Vector3 RendererPos => rendererGO.transform.position;
 
+    // Phx
+    public Action OnTriggerEnter;
+    public Action OnTriggerExit;
+
     void OnTriggerEnter2D(Collider2D other) {
         this.OnTriggerEnter?.Invoke();
     }
@@ -141,4 +141,5 @@ public class MonsterEntity : MonoBehaviour {
     void OnTriggerExit2D(Collider2D other) {
         this.OnTriggerExit?.Invoke();
     }
+
 }

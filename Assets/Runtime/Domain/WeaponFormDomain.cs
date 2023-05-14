@@ -40,9 +40,9 @@ public class WeaponFormDomain {
         TrySpawnWeaponForm(2, pos2, out var weaponForm2);
         TrySpawnWeaponForm(3, pos3, out var weaponForm3);
 
-        weaponForm1.roleEntity = rootRepo.roleRepo.PlayerRole;
-        weaponForm2.roleEntity = rootRepo.roleRepo.PlayerRole;
-        weaponForm3.roleEntity = rootRepo.roleRepo.PlayerRole;
+        // weaponForm1.roleEntity = rootRepo.roleRepo.PlayerRole;
+        // weaponForm2.roleEntity = rootRepo.roleRepo.PlayerRole;
+        // weaponForm3.roleEntity = rootRepo.roleRepo.PlayerRole;
 
         // PHX
         var weaponFormChildren1 = weaponForm1.weaponFormChildren;
@@ -93,6 +93,7 @@ public class WeaponFormDomain {
         weaponForm.SetWeaponFormAttrModel(attrModel);
         weaponForm.SetBulletType(globalConfigTM.bulletType_init);
         weaponForm.curBulletCount = attrModel.bulletCapacity;
+        weaponForm.IDCom.SetEntityID(index);
 
         var rootRepo = mainContext.rootRepo;
         if (index == 1) {
@@ -161,6 +162,10 @@ public class WeaponFormDomain {
             return false;
         }
 
+        if (weaponForm.roleEntity == null) {
+            return false;
+        }
+
         weaponFormFSMDomain.Enter_Shooting(weaponForm, shootTarPos);
         return true;
     }
@@ -209,7 +214,80 @@ public class WeaponFormDomain {
         }
 
         Debug.LogError($"怪物打击武器库失败 不存在 {weaponFormIDArgs}");
+    }
 
+    public void HandleHitRole(in EntityIDArgs weaponFormIDArgs, in EntityIDArgs roleIDArgs) {
+        var roleRepo = mainContext.rootRepo.roleRepo;
+        if (!roleRepo.TryGet(roleIDArgs.entityID, out var roleEntity)) {
+            Debug.LogError($"角色 链接====》 武器库失败 不存在 {roleIDArgs}");
+            return;
+        }
+
+        var weaponForm1 = mainContext.rootRepo.weaponForm1;
+        var weaponForm2 = mainContext.rootRepo.weaponForm2;
+        var weaponForm3 = mainContext.rootRepo.weaponForm3;
+
+        var idCom1 = weaponForm1.IDCom;
+        var idCom2 = weaponForm2.IDCom;
+        var idCom3 = weaponForm3.IDCom;
+        var entityID = weaponFormIDArgs.entityID;
+
+        if (idCom1.EntityID == entityID) {
+            Debug.Log($"武器库 1 链接 =========================");
+            weaponForm1.roleEntity = roleEntity;
+            return;
+        }
+
+        if (idCom2.EntityID == entityID) {
+            Debug.Log($"武器库 2 链接 =========================");
+            weaponForm2.roleEntity = roleEntity;
+            return;
+        }
+
+        if (idCom3.EntityID == entityID) {
+            Debug.Log($"武器库 3 链接 =========================");
+            weaponForm3.roleEntity = roleEntity;
+            return;
+        }
+
+        Debug.LogError($"怪物打击武器库失败 不存在 {weaponFormIDArgs}");
+    }
+
+    public void HandleExitRole(in EntityIDArgs weaponFormIDArgs, in EntityIDArgs roleIDArgs) {
+        var roleRepo = mainContext.rootRepo.roleRepo;
+        if (!roleRepo.TryGet(roleIDArgs.entityID, out var roleEntity)) {
+            Debug.LogError($"角色打击武器库失败 不存在 {roleIDArgs}");
+            return;
+        }
+
+        var weaponForm1 = mainContext.rootRepo.weaponForm1;
+        var weaponForm2 = mainContext.rootRepo.weaponForm2;
+        var weaponForm3 = mainContext.rootRepo.weaponForm3;
+
+        var idCom1 = weaponForm1.IDCom;
+        var idCom2 = weaponForm2.IDCom;
+        var idCom3 = weaponForm3.IDCom;
+        var entityID = weaponFormIDArgs.entityID;
+
+        if (idCom1.EntityID == entityID) {
+            Debug.Log($"武器库 1 取消链接 ==========================");
+            weaponForm1.roleEntity = null;
+            return;
+        }
+
+        if (idCom2.EntityID == entityID) {
+            Debug.Log($"武器库 2 取消链接 ==========================");
+            weaponForm2.roleEntity = null;
+            return;
+        }
+
+        if (idCom3.EntityID == entityID) {
+            Debug.Log($"武器库 3 取消链接 ==========================");
+            weaponForm3.roleEntity = null;
+            return;
+        }
+
+        Debug.LogError($"怪物打击武器库失败 不存在 {weaponFormIDArgs}");
     }
 
 }

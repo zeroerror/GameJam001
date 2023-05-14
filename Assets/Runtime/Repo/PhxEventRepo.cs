@@ -29,10 +29,22 @@ public class PhxEventRepo {
         }
     }
 
-    public bool TryAdd(in EntityIDArgs one, in EntityIDArgs two, in Vector2 normal, int layerMask_one, int layerMask_two) {
+    public bool TryAddEnter(in EntityIDArgs one, in EntityIDArgs two, in Vector2 normal, int layerMask_one, int layerMask_two) {
         var key = GetKey(one, two);
         var model = new PhxEventModel(one, two, normal, layerMask_one, layerMask_two);
         if (enterDic.TryAdd(key, model)) {
+            Debug.Log($"PHX - 添加碰撞事件\n{model}");
+            return false;
+        }
+
+        Debug.LogWarning($"PHX - 添加碰撞事件 失败！！");
+        return true;
+    }
+
+    public bool TryAddExit(in EntityIDArgs one, in EntityIDArgs two, in Vector2 normal, int layerMask_one, int layerMask_two) {
+        var key = GetKey(one, two);
+        var model = new PhxEventModel(one, two, normal, layerMask_one, layerMask_two);
+        if (exitDic.TryAdd(key, model)) {
             Debug.Log($"PHX - 添加碰撞事件\n{model}");
             return false;
         }
