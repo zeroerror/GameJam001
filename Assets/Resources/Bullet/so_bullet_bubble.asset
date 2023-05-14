@@ -21,6 +21,7 @@ MonoBehaviour:
     bulletDamage: 10
     bulletSize: {x: 1.5, y: 1.5}
     flySpeed: 4
-    bulletIcon: {fileID: 21300000, guid: 4b40fc0f65c85f14fbc9c7c5f40ca686, type: 3}
-    weaponIcon: {fileID: 21300000, guid: 75c679282c4f1e040a00d7d483619977, type: 3}
     themeColor: {r: 0.54901963, g: 0.77254903, b: 0.54901963, a: 1}
+    bulletIcon: {fileID: 21300000, guid: 4b40fc0f65c85f14fbc9c7c5f40ca686, type: 3}
+    bulletMaterial: {fileID: 2100000, guid: bcfbd2fac707b4b9687c36b473954660, type: 2}
+    weaponIcon: {fileID: 21300000, guid: 75c679282c4f1e040a00d7d483619977, type: 3}
