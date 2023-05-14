@@ -36,9 +36,12 @@ public class WeaponFormDomain {
         var pos1 = globalConfigTM.weaponFormPos1;
         var pos2 = globalConfigTM.weaponFormPos2;
         var pos3 = globalConfigTM.weaponFormPos3;
-        TrySpawnWeaponForm(1, pos1, out var weaponForm1);
-        TrySpawnWeaponForm(2, pos2, out var weaponForm2);
-        TrySpawnWeaponForm(3, pos3, out var weaponForm3);
+        BulletType bulletType1 = GetRandomBulletTypeExcept(BulletType.Normal);
+        BulletType bulletType2 = GetRandomBulletTypeExcept(bulletType1);
+        BulletType bulletType3 = GetRandomBulletTypeExcept(bulletType2);
+        TrySpawnWeaponForm(1, pos1, bulletType1, out var weaponForm1);
+        TrySpawnWeaponForm(2, pos2, bulletType2, out var weaponForm2);
+        TrySpawnWeaponForm(3, pos3, bulletType3, out var weaponForm3);
 
         // weaponForm1.roleEntity = rootRepo.roleRepo.PlayerRole;
         // weaponForm2.roleEntity = rootRepo.roleRepo.PlayerRole;
@@ -66,7 +69,7 @@ public class WeaponFormDomain {
         }
     }
 
-    public bool TrySpawnWeaponForm(int index, Vector2 pos, out WeaponFormEntity weaponForm) {
+    public bool TrySpawnWeaponForm(int index, Vector2 pos, BulletType bulletType, out WeaponFormEntity weaponForm) {
         weaponForm = null;
 
         var str = "WeaponForm/go_template_weaponform";
@@ -87,11 +90,13 @@ public class WeaponFormDomain {
 
         var globalConfigTM = mainContext.rootTemplate.globalConfigTM;
         var attrModel = TM2ModelUtil.GetWeaponFormAttrModel(globalConfigTM);
-        mainContext.rootTemplate.bulletTemplate.TryGet(globalConfigTM.bulletType_init,
+        mainContext.rootTemplate.bulletTemplate.TryGet(bulletType,
                                                        out var bulletTM);
         attrModel.bulletModel = TM2ModelUtil.GetBulletModel(bulletTM);
         weaponForm.SetWeaponFormAttrModel(attrModel);
-        weaponForm.SetBulletType(globalConfigTM.bulletType_init);
+
+        weaponForm.SetBulletType(bulletType);
+
         weaponForm.curBulletCount = attrModel.bulletCapacity;
         weaponForm.IDCom.SetEntityID(index);
 
@@ -322,6 +327,31 @@ public class WeaponFormDomain {
         }
 
         Debug.LogError($"怪物打击武器库失败 不存在 {weaponFormIDArgs}");
+    }
+
+    void GetThreeRandomBulletType(out BulletType bulletType1,
+                              out BulletType bulletType2,
+                              out BulletType bulletType3) {
+        bulletType1 = GetRandomBulletTypeExcept(BulletType.Normal);
+        bulletType2 = GetRandomBulletTypeExcept(bulletType1);
+        bulletType3 = GetRandomBulletTypeExcept(bulletType2);
+    }
+
+    BulletType GetRandomBulletTypeExcept(BulletType type) {
+        var tmArray = mainContext.rootTemplate.bulletTemplate.tmArray;
+        var len = tmArray.Length;
+        var randomIndex = Random.Range(0, len);
+
+        int count = 0;
+        while (type == tmArray[randomIndex].bulletType) {
+            randomIndex = Random.Range(0, len);
+            count++;
+            if (count > 100) {
+                break;
+            }
+        }
+
+        return tmArray[randomIndex].bulletType;
     }
 
 }
