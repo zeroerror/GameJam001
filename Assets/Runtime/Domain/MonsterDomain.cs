@@ -5,11 +5,13 @@ public class MonsterDomain {
     MainContext mainContext;
     Factory factory;
     MonsterFSMDomain monsterFSMDomain;
+    PhxDomain phxDomain;
 
-    public void Inject(MainContext mainContext, Factory factory, MonsterFSMDomain monsterFSMDomain) {
+    public void Inject(MainContext mainContext, Factory factory, MonsterFSMDomain monsterFSMDomain, PhxDomain phxDomain) {
         this.mainContext = mainContext;
         this.factory = factory;
         this.monsterFSMDomain = monsterFSMDomain;
+        this.phxDomain = phxDomain;
     }
 
     public bool TrySpawnMonster(WaveSpawnerModel spawnerModel, Vector2 rdPos, out MonsterEntity monster) {
@@ -35,6 +37,11 @@ public class MonsterDomain {
 
         var monsterRepo = mainContext.rootRepo.monsterRepo;
         monsterRepo.TryAdd(monster);
+
+
+        var monsterShield = monster.monsterShield;
+        monsterShield.OnTriggerEnter += phxDomain.HandleTriggerEnter;
+        monsterShield.OnTriggerExit += phxDomain.HandleTriggerExit;
 
         return true;
     }
@@ -68,6 +75,20 @@ public class MonsterDomain {
         }
 
         if (bulletEntity.bulletType == BulletType.Rocket) {
+            return;
+        }
+
+        // shield check
+        var monsterShield = monsterEntity.monsterShield;
+        bool hasBlock = false;
+        monsterShield.ForeachFrameBlockBullets((b) => {
+            if (b.IDCom.EntityID == bulletEntity.IDCom.EntityID) {
+                hasBlock = true;
+            }
+        });
+
+        if (hasBlock) {
+            Debug.Log($"子弹 被 怪物盾牌 阻挡 ");
             return;
         }
 

@@ -22,27 +22,25 @@ public class MonsterFSMDomain {
         });
     }
 
-    void TickFSM(MonsterEntity Monster, float dt) {
-        var fsmCom = Monster.FSMCom;
+    void TickFSM(MonsterEntity monster, float dt) {
+        var fsmCom = monster.FSMCom;
         var state = fsmCom.State;
         if (state == MonsterFSMState.None) {
             return;
         }
 
-        TickAny(Monster, dt);
-
-        if (state == MonsterFSMState.Falling) {
-            TickFalling(Monster, dt);
-        } else if (state == MonsterFSMState.Dying) {
-            TickDying(Monster, dt);
-        }
-    }
-
-    public void TickAny(MonsterEntity monster, float dt) {
         var hp = monster.HP;
         if (hp <= 0 && monster.FSMCom.State != MonsterFSMState.Dying) {
             Enter_Dying(monster);
         }
+
+        if (state == MonsterFSMState.Falling) {
+            TickFalling(monster, dt);
+        } else if (state == MonsterFSMState.Dying) {
+            TickDying(monster, dt);
+        }
+
+        monster.monsterShield.ClearFrameBlockBulletList();
     }
 
     public void TickFalling(MonsterEntity monster, float dt) {
