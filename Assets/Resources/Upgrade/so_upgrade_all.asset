@@ -13,11 +13,27 @@ MonoBehaviour:
   m_Name: so_upgrade_all
   m_EditorClassIdentifier: 
   tmArray:
-  - upgradeType: 1
-    desc: 
-    icon: {fileID: 0}
-    factor: 1
+  - upgradeType: 3
+    desc: "\u7F13\u6162"
+    icon: {fileID: 21300000, guid: 91d69c88590ef1943b4d144d4d207c3d, type: 3}
+    factor: 100
+  - upgradeType: 4
+    desc: "\u51FB\u9000"
+    icon: {fileID: 21300000, guid: cba9bc96949fb5c4a82e66ef091051e0, type: 3}
+    factor: 100
+  - upgradeType: 5
+    desc: "\u5F39\u836F\u91CF"
+    icon: {fileID: 21300000, guid: 93d009d79814dcd47af1eb8e22834507, type: 3}
+    factor: 100
   - upgradeType: 6
-    desc: 
-    icon: {fileID: 0}
+    desc: "\u4F24\u5BB3"
+    icon: {fileID: 21300000, guid: c67df4ad83e8052449401562c3197343, type: 3}
+    factor: 100
+  - upgradeType: 8
+    desc: "\u5C04\u51FB\u51B7\u5374"
+    icon: {fileID: 21300000, guid: bb1eb018f07ba21408ef7a152cf68329, type: 3}
+    factor: 100
+  - upgradeType: 9
+    desc: "\u586B\u88C5\u901F\u5EA6"
+    icon: {fileID: 21300000, guid: a9da262d1ec82a84eafe9a564eecdd47, type: 3}
     factor: 100
