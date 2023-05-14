@@ -96,9 +96,13 @@ public class GameFSMDomain {
 
         // Wave Control
         var curWaveIndex = gameEntity.curWaveIndex;
+        var randomPosList = RandomUtil.GenRandomPosOffsetArray(gameEntity.WaveSpawnerModelArray.Length, 38, 3);
+        int index = 0;
         gameEntity.ForeachWaveSpawnerModel(stateModel.curTime, (spawnModel) => {
+            var rdpos = randomPosList[index];
             var monsterDomain = rootDomain.monsterDomain;
-            monsterDomain.TrySpawnMonster(spawnModel, out var monster);
+            monsterDomain.TrySpawnMonster(spawnModel, rdpos, out var monster);
+            index += 1;
         });
 
         // 波暂停逻辑 在这里-----------------------------------------------------------------
