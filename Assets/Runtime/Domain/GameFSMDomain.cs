@@ -125,13 +125,94 @@ public class GameFSMDomain {
 
         // 升级逻辑 在这里-----------------------------------------------------------------
         if (gameEntity.hasWaveUpgrade) {
-
-            GetThreeRandomUpgradeType(out var upgradeTM1, out var randomIndex1, out var upgradeTM2, out var randomIndex2, out var upgradeTM3, out var randomIndex3);
-
-            // 打开升级UI
             gameEntity.PauseGame();
-            var uiManager = mainContext.UIManager;
-            Panel_UpgradeArgs[] args = new Panel_UpgradeArgs[]{
+            OpenSelectWeaponFormUI();
+        }
+    }
+
+    public void Enter_Lobby(GameEntity Game) {
+        var fsmCom = Game.FSMCom;
+        fsmCom.EnterLobby();
+    }
+
+    public void Enter_Battle(GameEntity Game) {
+        var fsmCom = Game.FSMCom;
+        fsmCom.EnterBattle();
+    }
+
+    // ================= 打开 武器库选定 UI
+    void OpenSelectWeaponFormUI() {
+        var uiManager = mainContext.UIManager;
+        Panel_SelectWeaponFormArgs[] args = new Panel_SelectWeaponFormArgs[]{
+                new Panel_SelectWeaponFormArgs() {
+                    selectionID = 1,
+                    desc = "武器 1",
+                    icon = null
+                },
+                new Panel_SelectWeaponFormArgs() {
+                    selectionID = 2,
+                    desc = "武器 2",
+                    icon = null
+                },
+                new Panel_SelectWeaponFormArgs() {
+                    selectionID = 3,
+                    desc = "武器 3",
+                    icon = null
+                }
+            };
+        uiManager.SelectWeaponForm_Open(((selectionID) => {
+            var rootRepo = mainContext.rootRepo;
+            WeaponFormEntity selectedWeaponForm = selectionID == 1 ?
+            rootRepo.weaponForm1 : selectionID == 2 ?
+            rootRepo.weaponForm2 : rootRepo.weaponForm3;
+            if (selectedWeaponForm.BulletType == BulletType.Normal) {
+                OpenChooseTypeUI(selectedWeaponForm);
+            } else {
+                OpenUpgradeUI(selectedWeaponForm);
+            }
+        }), args);
+    }
+
+    // ================= 打开 子弹选型UI
+    void OpenChooseTypeUI(WeaponFormEntity selectedWeaponForm) {
+        var gameEntity = mainContext.GameEntity;
+        var uiManager = mainContext.UIManager;
+        BulletType selectBulletType = 0;
+        GetThreeRandomBulletType(out var bulletType1, out var bulletType2, out var bulletType3);
+        Panel_ChooseTypeArgs[] chooseTypeArgs = new Panel_ChooseTypeArgs[]{
+                        new Panel_ChooseTypeArgs() {
+                            selectionID = (int)bulletType1,
+                            desc = "X",
+                            icon = null
+                        },
+                        new Panel_ChooseTypeArgs() {
+                            selectionID = (int)bulletType2,
+                            desc = "XX",
+                            icon = null
+                        },
+                        new Panel_ChooseTypeArgs() {
+                            selectionID = (int)bulletType3,
+                            desc = "XXX",
+                            icon = null
+                        }
+                    };
+
+        uiManager.ChooseType_Open(((selectionID) => {
+            selectBulletType = (BulletType)selectionID;
+            gameEntity.hasWaveUpgrade = false;
+            gameEntity.ContinueGame();
+            mainContext.rootTemplate.bulletTemplate.TryGet(selectBulletType, out var bulletTM);
+            selectedWeaponForm.AttrModel.bulletModel = TM2ModelUtil.GetBulletModel(bulletTM);
+            Debug.Log($"选择 武器库 子弹 ==> {selectBulletType}");
+        }), chooseTypeArgs);
+    }
+
+    // ================= 打开 升级UI
+    void OpenUpgradeUI(WeaponFormEntity weaponForm) {
+        var uiManager = mainContext.UIManager;
+        var gameEntity = mainContext.GameEntity;
+        GetThreeRandomUpgradeType(out var upgradeTM1, out var randomIndex1, out var upgradeTM2, out var randomIndex2, out var upgradeTM3, out var randomIndex3);
+        Panel_UpgradeArgs[] upgradeArgs = new Panel_UpgradeArgs[]{
                 new Panel_UpgradeArgs() {
                     selectionID = randomIndex1,
                     desc = upgradeTM1.desc,
@@ -148,30 +229,38 @@ public class GameFSMDomain {
                     icon = upgradeTM3.icon
                 }
             };
-            uiManager.Upgrade_Open(((selectionID) => {
-                gameEntity.hasWaveUpgrade = false;
-                gameEntity.ContinueGame();
-                var upgradeTM_chosen = mainContext.rootTemplate.upgradeTMArray[selectionID];
-                Debug.Log($"选择 升级 ==> {upgradeTM_chosen}");
-                var weaponForm1 = mainContext.rootRepo.weaponForm1;
-                UpgradeWeaponForm(weaponForm1, upgradeTM_chosen);
-            }), args);
+        uiManager.Upgrade_Open(((selectUpgradeTMIndex) => {
+            gameEntity.hasWaveUpgrade = false;
+            gameEntity.ContinueGame();
+            var upgradeTM_chosen = mainContext.rootTemplate.upgradeTMArray[selectUpgradeTMIndex];
+            UpgradeWeaponForm(weaponForm, upgradeTM_chosen);
+            Debug.Log($"选择 升级 武器库 ==> {upgradeTM_chosen}");
+        }), upgradeArgs);
+    }
 
-            // var weaponForm2 = mainContext.rootRepo.weaponForm2;
-            // var weaponForm3 = mainContext.rootRepo.weaponForm3;
-            // UpgradeWeaponForm(weaponForm2, upgradeTM2);
-            // UpgradeWeaponForm(weaponForm3, upgradeTM3);
+    void GetThreeRandomBulletType(out BulletType bulletType1,
+                                  out BulletType bulletType2,
+                                  out BulletType bulletType3) {
+        bulletType1 = GetRandomBulletTypeExcept(BulletType.Normal);
+        bulletType2 = GetRandomBulletTypeExcept(bulletType1);
+        bulletType3 = GetRandomBulletTypeExcept(bulletType2);
+    }
+
+    BulletType GetRandomBulletTypeExcept(BulletType type) {
+        var tmArray = mainContext.rootTemplate.bulletTemplate.tmArray;
+        var len = tmArray.Length;
+        var randomIndex = Random.Range(0, len);
+
+        int count = 0;
+        while (type == tmArray[randomIndex].bulletType) {
+            randomIndex = Random.Range(0, len);
+            count++;
+            if (count > 100) {
+                break;
+            }
         }
-    }
 
-    public void Enter_Lobby(GameEntity Game) {
-        var fsmCom = Game.FSMCom;
-        fsmCom.EnterLobby();
-    }
-
-    public void Enter_Battle(GameEntity Game) {
-        var fsmCom = Game.FSMCom;
-        fsmCom.EnterBattle();
+        return tmArray[randomIndex].bulletType;
     }
 
     void GetThreeRandomUpgradeType(out UpgradeTM upgradeType1, out int randomIndex1, out UpgradeTM upgradeType2, out int randomIndex2, out UpgradeTM upgradeType3, out int randomIndex3) {
