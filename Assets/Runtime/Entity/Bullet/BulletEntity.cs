@@ -15,6 +15,7 @@ public class BulletEntity : MonoBehaviour {
     public Vector3 LogicPos => logicGO.transform.position;
 
     Rigidbody2D logicRB;
+    public BoxCollider2D collider;
     GameObject rendererGO;
 
     // 子弹类型
@@ -63,10 +64,13 @@ public class BulletEntity : MonoBehaviour {
         this.rootGO = rootGO;
         this.logicGO = rootGO.transform.Find("LOGIC").gameObject;
         this.logicRB = logicGO.GetComponent<Rigidbody2D>();
+        this.collider = logicRB.GetComponent<BoxCollider2D>();
         this.rendererGO = rootGO.transform.Find("RENDERER").gameObject;
 
         Debug.Assert(rootGO != null, "rootGO == null");
         Debug.Assert(logicGO != null, "logicGO == null");
+        Debug.Assert(logicRB != null, "logicRB == null");
+        Debug.Assert(collider != null, "collider == null");
         Debug.Assert(rendererGO != null, "rendererGO == null");
     }
 
