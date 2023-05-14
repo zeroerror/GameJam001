@@ -20,6 +20,7 @@ MonoBehaviour:
     weaponFormPos3: {x: 15, y: 2}
     playerRoleTypeID: 1000
     weaponFormIdleToReloadCD: 1
+    bulletMaxFlyTime: 15
     weaponFormUpgradeTM:
       ammoCapacity: 0
       shootCD: 0

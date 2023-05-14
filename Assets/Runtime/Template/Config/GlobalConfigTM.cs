@@ -11,6 +11,7 @@ public struct GlobalConfigTM {
     [SerializeField] public int playerRoleTypeID;
 
     [SerializeField][Header("武器库闲置多久后开始装填")] public float weaponFormIdleToReloadCD;
+    [SerializeField][Header("子弹最长飞行时间")] public float bulletMaxFlyTime;
 
     [Header("============================ 升级配置 ============================")]
     [SerializeField] public WeaponFormUpgradeTM weaponFormUpgradeTM;
