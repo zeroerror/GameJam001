@@ -33,6 +33,10 @@ public class GameFSMDomain {
             return;
         }
 
+        if (gameEntity.IsGamePaused) {
+            return;
+        }
+
         var roleDomain = rootDomain.roleDomain;
         var monsterDomain = rootDomain.monsterDomain;
         var bulletDomain = rootDomain.bulletDomain;
@@ -106,12 +110,9 @@ public class GameFSMDomain {
             var monsterRepo = mainContext.rootRepo.monsterRepo;
             if (!monsterRepo.HasAliveMonster() && !gameEntity.hasWaveUpgrade) {
                 Debug.Log($"当前波次敌人消灭完成:{gameEntity.curWaveIndex}");
-
-                // 放到UI回调里面
                 gameEntity.ContinueWave();
                 gameEntity.hasWaveUpgrade = true;
                 stateModel.curTime = 0f;
-
             }
         }
 
@@ -121,16 +122,42 @@ public class GameFSMDomain {
 
         // 升级逻辑 在这里-----------------------------------------------------------------
         if (gameEntity.hasWaveUpgrade) {
-            gameEntity.hasWaveUpgrade = false;
-            // 升级选择
-            GetThreeRandomUpgradeType(out var upgradeTM1, out var upgradeTM2, out var upgradeTM3);
-            Debug.Log($"升级选择 {upgradeTM1} {upgradeTM2} {upgradeTM3} ");
-            var weaponForm1 = mainContext.rootRepo.weaponForm1;
-            var weaponForm2 = mainContext.rootRepo.weaponForm2;
-            var weaponForm3 = mainContext.rootRepo.weaponForm3;
-            UpgradeWeaponForm(weaponForm1, upgradeTM1);
-            UpgradeWeaponForm(weaponForm2, upgradeTM2);
-            UpgradeWeaponForm(weaponForm3, upgradeTM3);
+
+            GetThreeRandomUpgradeType(out var upgradeTM1, out var randomIndex1, out var upgradeTM2, out var randomIndex2, out var upgradeTM3, out var randomIndex3);
+
+            // 打开升级UI
+            gameEntity.PauseGame();
+            var uiManager = mainContext.UIManager;
+            Panel_UpgradeArgs[] args = new Panel_UpgradeArgs[]{
+                new Panel_UpgradeArgs() {
+                    selectionID = randomIndex1,
+                    desc = upgradeTM1.desc,
+                    icon = upgradeTM1.icon
+                },
+                new Panel_UpgradeArgs() {
+                    selectionID = randomIndex2,
+                    desc = upgradeTM2.desc,
+                    icon = upgradeTM2.icon
+                },
+                new Panel_UpgradeArgs() {
+                    selectionID = randomIndex3,
+                    desc = upgradeTM3.desc,
+                    icon = upgradeTM3.icon
+                }
+            };
+            uiManager.Upgrade_Open(((selectionID) => {
+                gameEntity.hasWaveUpgrade = false;
+                gameEntity.ContinueGame();
+                var upgradeTM = mainContext.rootTemplate.upgradeTMArray[selectionID];
+                Debug.Log($"升级选择 ==> {upgradeTM}");
+            }), args);
+
+            // var weaponForm1 = mainContext.rootRepo.weaponForm1;
+            // var weaponForm2 = mainContext.rootRepo.weaponForm2;
+            // var weaponForm3 = mainContext.rootRepo.weaponForm3;
+            // UpgradeWeaponForm(weaponForm1, upgradeTM1);
+            // UpgradeWeaponForm(weaponForm2, upgradeTM2);
+            // UpgradeWeaponForm(weaponForm3, upgradeTM3);
         }
     }
 
@@ -144,16 +171,16 @@ public class GameFSMDomain {
         fsmCom.EnterBattle();
     }
 
-    void GetThreeRandomUpgradeType(out UpgradeTM upgradeType1, out UpgradeTM upgradeType2, out UpgradeTM upgradeType3) {
-        upgradeType1 = GetRandomUpgradeTypeExcept(UpgradeType.None);
-        upgradeType2 = GetRandomUpgradeTypeExcept(upgradeType1.upgradeType);
-        upgradeType3 = GetRandomUpgradeTypeExcept(upgradeType2.upgradeType);
+    void GetThreeRandomUpgradeType(out UpgradeTM upgradeType1, out int randomIndex1, out UpgradeTM upgradeType2, out int randomIndex2, out UpgradeTM upgradeType3, out int randomIndex3) {
+        upgradeType1 = GetRandomUpgradeTypeExcept(UpgradeType.None, out randomIndex1);
+        upgradeType2 = GetRandomUpgradeTypeExcept(upgradeType1.upgradeType, out randomIndex2);
+        upgradeType3 = GetRandomUpgradeTypeExcept(upgradeType2.upgradeType, out randomIndex3);
     }
 
-    UpgradeTM GetRandomUpgradeTypeExcept(UpgradeType type) {
+    UpgradeTM GetRandomUpgradeTypeExcept(UpgradeType type, out int randomIndex) {
         var upgradeTMArray = mainContext.rootTemplate.upgradeTMArray;
         var len = upgradeTMArray.Length;
-        int randomIndex = Random.Range(0, len);
+        randomIndex = Random.Range(0, len);
 
         int count = 0;
         while (type == upgradeTMArray[randomIndex].upgradeType) {

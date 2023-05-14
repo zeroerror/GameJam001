@@ -15,8 +15,14 @@ public class GameEntity {
     public bool WavePaused => wavePaused;
     public void ContinueWave() {
         wavePaused = false;
-        
+
     }
+
+    bool isGamePaused;
+    public bool IsGamePaused => isGamePaused;
+    public void PauseGame() => isGamePaused = true;
+    public void ContinueGame() => isGamePaused = false;
+
 
     public bool hasWaveUpgrade;
 
