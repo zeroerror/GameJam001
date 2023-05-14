@@ -33,6 +33,8 @@ public class MonsterEntity : MonoBehaviour {
     GameObject rendererBodyGO;
     GameObject rendererWeaponGO;
 
+    Transform shieldRoot;
+
     // Phx
     public Action OnTriggerEnter;
     public Action OnTriggerExit;
@@ -40,7 +42,6 @@ public class MonsterEntity : MonoBehaviour {
     // temp
     public bool isNotValid;
     float time;
-    EasingModel[] easingModelArray;
 
     public void Ctor() {
         idCom = new EntityIDComponent();
@@ -64,6 +65,7 @@ public class MonsterEntity : MonoBehaviour {
         this.rendererGO = rootGO.transform.Find("RENDERER").gameObject;
         this.rendererBodyGO = rendererGO.transform.Find("BODY").gameObject;
         this.rendererWeaponGO = rendererGO.transform.Find("WEAPON").gameObject;
+        this.shieldRoot = rendererGO.transform.Find("ShieldRoot");
 
         bodyMod.transform.SetParent(rendererBodyGO.transform, false);
 
@@ -72,6 +74,13 @@ public class MonsterEntity : MonoBehaviour {
         Debug.Assert(logicGO != null, "logicGO == null");
         Debug.Assert(rendererGO != null, "rendererGO == null");
         Debug.Assert(rendererWeaponGO != null, "rendererWeaponGO == null");
+        Debug.Assert(shieldRoot != null, "shieldRoot == null");
+    }
+
+    public void Init() {
+        if (fallPattern != FallPattern.RollingShieldFall) {
+            shieldRoot.gameObject.SetActive(false);
+        }
     }
 
     // Update logic rb immediately, and also update renderer's rotation immediately
@@ -87,6 +96,9 @@ public class MonsterEntity : MonoBehaviour {
             velo.x = WaveHelper.SinWave(time, xOffset, xSpeed, 0);
         } else if (fallPattern == FallPattern.StraightFall) {
             velo.x = 0;
+        }
+        if (fallPattern == FallPattern.RollingShieldFall) {
+            shieldRoot.Rotate(new Vector3(0, 0, 1));
         }
         velo.y = fallSpeed;
         time += dt;

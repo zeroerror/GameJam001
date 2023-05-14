@@ -68,6 +68,8 @@ public class Factory {
         monster.SetFallSpeed(tm.fallSpeed);
         monster.SetSize(tm.size);
 
+        monster.Init();
+
         return true;
     }
 
