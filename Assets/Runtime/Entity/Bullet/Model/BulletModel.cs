@@ -19,4 +19,7 @@ public struct BulletModel {
     public Vector2 bulletSize_base;
     public float flySpeed_base;
 
+    public Sprite bulletIcon;
+    public Sprite weaponIcon;
+
 }

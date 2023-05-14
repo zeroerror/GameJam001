@@ -111,6 +111,9 @@ public class Factory {
         // 飞行速度
         bullet.flySpeed = bulletModel.flySpeed;
 
+        // 子弹ICON
+        bullet.SetBulletSprite(bulletModel.bulletIcon);
+
         return true;
     }
 

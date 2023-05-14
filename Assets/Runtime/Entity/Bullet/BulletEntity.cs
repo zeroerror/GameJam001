@@ -24,8 +24,8 @@ public class BulletEntity : MonoBehaviour {
     public int bulletDamage;
 
     // 子弹尺寸
-     Vector2 bulletSize;
-     public Vector2 BulletSize => bulletSize;
+    Vector2 bulletSize;
+    public Vector2 BulletSize => bulletSize;
 
     // 子弹吸血
     public int bloodThirst;
@@ -99,10 +99,15 @@ public class BulletEntity : MonoBehaviour {
         rendererGO.transform.rotation = rotation;
     }
 
-    public void SetBulletSize(Vector2 size){
+    public void SetBulletSize(Vector2 size) {
         var scale = new Vector3(size.x, size.y, 1);
         logicGO.transform.localScale = scale;
         rendererGO.transform.localScale = scale;
+    }
+
+    public void SetBulletSprite(Sprite sprite) {
+        var spriteRenderer = rendererGO.GetComponentInChildren<SpriteRenderer>();
+        spriteRenderer.sprite = sprite;
     }
 
     // PHX
