@@ -17,11 +17,11 @@ MonoBehaviour:
     waveSpawnerTMArray:
     - waveID: 1
       isWaveEnd: 0
-      spawnTime: 3
+      spawnTime: 1
       typeID: 1000
     - waveID: 1
       isWaveEnd: 1
-      spawnTime: 3
+      spawnTime: 1
       typeID: 1000
     - waveID: 2
       isWaveEnd: 0

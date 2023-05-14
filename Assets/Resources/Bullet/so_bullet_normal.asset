@@ -19,5 +19,5 @@ MonoBehaviour:
     slow: 0
     hitBackDis: 0
     bulletDamage: 10
-    bulletSize: {x: 0.1, y: 0.1}
+    bulletSize: {x: 1, y: 1}
     flySpeed: 5
