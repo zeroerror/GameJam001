@@ -5,11 +5,13 @@ public class BulletDomain {
     MainContext mainContext;
     Factory factory;
     BulletFSMDomain bulletFSMDomain;
+    PhxDomain phxDomain;
 
-    public void Inject(MainContext mainContext, Factory factory, BulletFSMDomain bulletFSMDomain) {
+    public void Inject(MainContext mainContext, Factory factory, BulletFSMDomain bulletFSMDomain, PhxDomain phxDomain) {
         this.mainContext = mainContext;
         this.factory = factory;
         this.bulletFSMDomain = bulletFSMDomain;
+        this.phxDomain = phxDomain;
     }
 
     public bool TrySpawnBullet(BulletModel bulletModel,
@@ -28,8 +30,8 @@ public class BulletDomain {
         bulletRepo.TryAdd(bullet);
 
         // PHX
-        bullet.OnTriggerEnter += HandleTriggerEnter;
-        bullet.OnTriggerExit += HandleTriggerExit;
+        bullet.OnTriggerEnter += phxDomain.HandleTriggerEnter;
+        bullet.OnTriggerExit += phxDomain.HandleTriggerExit;
         return true;
     }
 
@@ -93,17 +95,5 @@ public class BulletDomain {
 
         bulletEntity.Bounce(normal);
     }
-
-
-    void HandleTriggerEnter(EntityIDArgs one, EntityIDArgs two, Vector2 normal, int layerMask_one, int layerMask_two) {
-        var phxEventRepo = mainContext.rootRepo.phxEventRepo;
-        phxEventRepo.TryAdd(one, two, normal, layerMask_one, layerMask_two);
-    }
-
-    void HandleTriggerExit(EntityIDArgs one, EntityIDArgs two, Vector2 normal, int layerMask_one, int layerMask_two) {
-        var phxEventRepo = mainContext.rootRepo.phxEventRepo;
-        phxEventRepo.TryAdd(one, two, normal, layerMask_one, layerMask_two);
-    }
-
 
 }

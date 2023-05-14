@@ -42,10 +42,6 @@ public class BulletEntity : MonoBehaviour {
     // 飞行速度
     public float flySpeed;
 
-    // PHX
-    public Action<EntityIDArgs, EntityIDArgs, Vector2, int, int> OnTriggerEnter;
-    public Action<EntityIDArgs, EntityIDArgs, Vector2, int, int> OnTriggerExit;
-
     public void Ctor() {
         idCom = new EntityIDComponent();
         idCom.SetEntityType(EntityType.Bullet);
@@ -104,6 +100,11 @@ public class BulletEntity : MonoBehaviour {
         logicGO.transform.rotation = rotation;
         rendererGO.transform.rotation = rotation;
     }
+
+
+    // PHX
+    public Action<EntityIDArgs, EntityIDArgs, Vector2, int, int> OnTriggerEnter;
+    public Action<EntityIDArgs, EntityIDArgs, Vector2, int, int> OnTriggerExit;
 
     void OnTriggerEnter2D(Collider2D other) {
         EntityIDComponent otherIDCom = null;

@@ -42,7 +42,6 @@ public class PhxDomain {
             bulletDomain.HandleHitMonster(two, one);
             return;
         }
-
         if (one.entityType == EntityType.Bullet && two.entityType == EntityType.Monster) {
             monsterDomain.HandleBeHitByBullet(two, one);
             bulletDomain.HandleHitMonster(one, two);
@@ -54,19 +53,6 @@ public class PhxDomain {
             weaponFormDomain.HandleBeHitByMonster(two, one);
             return;
         }
-
-        if (one.entityType == EntityType.WeaponForm && two.entityType == EntityType.Monster) {
-            monsterDomain.HandleHitWeaponForm(two, one);
-            weaponFormDomain.HandleBeHitByMonster(one, two);
-            return;
-        }
-
-        if (one.entityType == EntityType.Monster && two.entityType == EntityType.WeaponForm) {
-            monsterDomain.HandleHitWeaponForm(one, two);
-            weaponFormDomain.HandleBeHitByMonster(two, one);
-            return;
-        }
-
         if (one.entityType == EntityType.WeaponForm && two.entityType == EntityType.Monster) {
             monsterDomain.HandleHitWeaponForm(two, one);
             weaponFormDomain.HandleBeHitByMonster(one, two);
@@ -77,7 +63,6 @@ public class PhxDomain {
             bulletDomain.HandleHitWall(one, -evModel.normal);
             return;
         }
-
         if (LayerMask.LayerToName(evModel.layerMask_one) == "Wall" && two.entityType == EntityType.Bullet) {
             bulletDomain.HandleHitWall(two, evModel.normal);
             return;
@@ -106,6 +91,16 @@ public class PhxDomain {
 
             return;
         }
+    }
+
+    public void HandleTriggerEnter(EntityIDArgs one, EntityIDArgs two, Vector2 normal, int layerMask_one, int layerMask_two) {
+        var phxEventRepo = mainContext.rootRepo.phxEventRepo;
+        phxEventRepo.TryAdd(one, two, normal, layerMask_one, layerMask_two);
+    }
+
+    public void HandleTriggerExit(EntityIDArgs one, EntityIDArgs two, Vector2 normal, int layerMask_one, int layerMask_two) {
+        var phxEventRepo = mainContext.rootRepo.phxEventRepo;
+        phxEventRepo.TryAdd(one, two, normal, layerMask_one, layerMask_two);
     }
 
 }

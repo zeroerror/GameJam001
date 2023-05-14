@@ -10,6 +10,8 @@ public struct GlobalConfigTM {
     [SerializeField] public Vector2 weaponFormPos3;
     [SerializeField] public int playerRoleTypeID;
 
+    [SerializeField][Header("武器库闲置多久后开始装填")] public float weaponFormIdleToReloadCD;
+
     [Header("============================ 升级配置 ============================")]
     [SerializeField] public WeaponFormUpgradeTM weaponFormUpgradeTM;
 

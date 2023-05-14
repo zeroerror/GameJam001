@@ -68,6 +68,9 @@ public class Factory {
         monster.SetFallSpeed(tm.fallSpeed);
         monster.SetSize(tm.size);
 
+        monster.isDeadSpawnChildren = tm.isDeadSpawnChildren;
+        monster.deadSpawnChildrenTypeID = tm.deadSpawnChildrenTypeID;
+
         monster.Init();
 
         return true;
