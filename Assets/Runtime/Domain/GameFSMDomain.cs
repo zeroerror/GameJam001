@@ -123,14 +123,14 @@ public class GameFSMDomain {
         if (gameEntity.hasWaveUpgrade) {
             gameEntity.hasWaveUpgrade = false;
             // 升级选择
-            GetThreeRandomUpgradeType(out var upgradeType1, out var upgradeType2, out var upgradeType3);
-            Debug.Log($"升级选择 {upgradeType1} {upgradeType2} {upgradeType3} ");
+            GetThreeRandomUpgradeType(out var upgradeTM1, out var upgradeTM2, out var upgradeTM3);
+            Debug.Log($"升级选择 {upgradeTM1} {upgradeTM2} {upgradeTM3} ");
             var weaponForm1 = mainContext.rootRepo.weaponForm1;
             var weaponForm2 = mainContext.rootRepo.weaponForm2;
             var weaponForm3 = mainContext.rootRepo.weaponForm3;
-            UpgradeWeaponForm(weaponForm1, upgradeType1);
-            UpgradeWeaponForm(weaponForm2, upgradeType2);
-            UpgradeWeaponForm(weaponForm3, upgradeType3);
+            UpgradeWeaponForm(weaponForm1, upgradeTM1);
+            UpgradeWeaponForm(weaponForm2, upgradeTM2);
+            UpgradeWeaponForm(weaponForm3, upgradeTM3);
         }
     }
 
@@ -144,73 +144,91 @@ public class GameFSMDomain {
         fsmCom.EnterBattle();
     }
 
-    void GetThreeRandomUpgradeType(out UpgradeType upgradeType1, out UpgradeType upgradeType2, out UpgradeType upgradeType3) {
+    void GetThreeRandomUpgradeType(out UpgradeTM upgradeType1, out UpgradeTM upgradeType2, out UpgradeTM upgradeType3) {
         upgradeType1 = GetRandomUpgradeTypeExcept(UpgradeType.None);
-        upgradeType2 = GetRandomUpgradeTypeExcept(upgradeType1);
-        upgradeType3 = GetRandomUpgradeTypeExcept(upgradeType2);
+        upgradeType2 = GetRandomUpgradeTypeExcept(upgradeType1.upgradeType);
+        upgradeType3 = GetRandomUpgradeTypeExcept(upgradeType2.upgradeType);
     }
 
-    UpgradeType GetRandomUpgradeTypeExcept(UpgradeType type) {
-        var upgradeTM = mainContext.rootTemplate.upgradeTM;
-        var len = upgradeTM.upgradeTypeArray.Length;
+    UpgradeTM GetRandomUpgradeTypeExcept(UpgradeType type) {
+        var upgradeTMArray = mainContext.rootTemplate.upgradeTMArray;
+        var len = upgradeTMArray.Length;
         int randomIndex = Random.Range(0, len);
-        while (type == upgradeTM.upgradeTypeArray[randomIndex]) {
+
+        int count = 0;
+        while (type == upgradeTMArray[randomIndex].upgradeType) {
             randomIndex = Random.Range(0, len);
+            count++;
+            if (count > 100) {
+                break;
+            }
         }
 
-        return upgradeTM.upgradeTypeArray[randomIndex];
+        return upgradeTMArray[randomIndex];
     }
 
-    void UpgradeWeaponForm(WeaponFormEntity weaponForm, UpgradeType upgradeType) {
+    void UpgradeWeaponForm(WeaponFormEntity weaponForm, UpgradeTM upgradeTM) {
         weaponForm.LevelUp();
         var globalConfigTM = mainContext.rootTemplate.globalConfigTM;
-        var weaponFormUpgradeTM = globalConfigTM.weaponFormUpgradeTM;
-        var bulletTM = weaponFormUpgradeTM.bulletTM;
+        var upgradeType = upgradeTM.upgradeType;
 
         // - WeaponForm
         if (upgradeType == UpgradeType.AmmoCapacity) {
-            weaponForm.AttrModel.bulletCapacity += weaponFormUpgradeTM.ammoCapacity;
+            weaponForm.AttrModel.bulletCapacity += (int)upgradeTM.factor;
+            Debug.Log($"武器弹夹升级 {weaponForm.AttrModel.bulletCapacity}");
             return;
         }
 
         if (upgradeType == UpgradeType.ShootCD) {
-            weaponForm.AttrModel.shootCD += weaponFormUpgradeTM.shootCD;
+            weaponForm.AttrModel.shootCD += upgradeTM.factor;
+            Debug.Log($"武器射击升级 {weaponForm.AttrModel.shootCD}");
             return;
         }
 
         if (upgradeType == UpgradeType.ReloadCD) {
-            weaponForm.AttrModel.reloadCD += weaponFormUpgradeTM.reloadCD;
+            weaponForm.AttrModel.reloadCD += upgradeTM.factor;
+            Debug.Log($"武器装填升级 {weaponForm.AttrModel.reloadCD}");
             return;
         }
 
         // - Bullet        
         if (upgradeType == UpgradeType.BloodThirst) {
-            weaponForm.AttrModel.bulletModel.bloodThirst += bulletTM.bloodThirst;
+            weaponForm.AttrModel.bulletModel.bloodThirst += (int)upgradeTM.factor;
+            Debug.Log($"子弹吸血升级 {weaponForm.AttrModel.bulletModel.bloodThirst}");
             return;
         }
 
         if (upgradeType == UpgradeType.FanOut) {
-            weaponForm.AttrModel.bulletModel.fanOut += bulletTM.fanOut;
+            weaponForm.AttrModel.bulletModel.fanOut += (int)upgradeTM.factor;
+            Debug.Log($"子弹扇形升级 {weaponForm.AttrModel.bulletModel.fanOut}");
             return;
         }
 
         if (upgradeType == UpgradeType.Slow) {
-            weaponForm.AttrModel.bulletModel.slow += bulletTM.slow;
+            weaponForm.AttrModel.bulletModel.slow += upgradeTM.factor;
+            Debug.Log($"子弹减速升级 {weaponForm.AttrModel.bulletModel.slow}");
             return;
         }
 
         if (upgradeType == UpgradeType.HitBack) {
-            weaponForm.AttrModel.bulletModel.hitBackDis += bulletTM.hitBackDis;
+            weaponForm.AttrModel.bulletModel.hitBackDis += upgradeTM.factor;
+            Debug.Log($"子弹击退升级 {weaponForm.AttrModel.bulletModel.hitBackDis}");
             return;
         }
 
         if (upgradeType == UpgradeType.BulletDamage) {
-            weaponForm.AttrModel.bulletModel.bulletDamage += bulletTM.bulletDamage;
+            // 百分比
+            var damage_base = weaponForm.AttrModel.bulletModel.bulletDamage_base;
+            var addDamage = damage_base * upgradeTM.factor;
+            weaponForm.AttrModel.bulletModel.bulletDamage += (int)addDamage;
+            Debug.Log($"子弹伤害升级 {weaponForm.AttrModel.bulletModel.bulletDamage}");
             return;
         }
 
         if (upgradeType == UpgradeType.BulletSize) {
-            weaponForm.AttrModel.bulletModel.bulletSize += bulletTM.bulletSize;
+            var size_base = weaponForm.AttrModel.bulletModel.bulletSize_base;
+            weaponForm.AttrModel.bulletModel.bulletSize += upgradeTM.factor * size_base;
+            Debug.Log($"子弹大小升级 {weaponForm.AttrModel.bulletModel.bulletSize}");
             return;
         }
     }
