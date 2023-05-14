@@ -4,12 +4,12 @@ public class RoleFSMDomain {
 
     MainContext mainContext;
     RoleDomain roleDomain;
-    WeaponFormDomain weaponFormFSMDomain;
+    WeaponFormDomain weaponFormDomain;
 
     public void Inject(MainContext mainContext, RoleDomain roleDomain, WeaponFormDomain weaponFormFSMDomain) {
         this.mainContext = mainContext;
         this.roleDomain = roleDomain;
-        this.weaponFormFSMDomain = weaponFormFSMDomain;
+        this.weaponFormDomain = weaponFormFSMDomain;
     }
 
     public void TickFSM(float dt) {
@@ -94,11 +94,17 @@ public class RoleFSMDomain {
             var border1 = 40 / 3f - 20;
             var border2 = (40 * 2 / 3f) - 20;
             if (x1 < border1) {
-                weaponFormFSMDomain.Enter(weaponForm1.IDCom.ToEntityIDArgs(), role.IDCom.ToEntityIDArgs());
+                weaponFormDomain.Enter(weaponForm1.IDCom.ToEntityIDArgs(), role.IDCom.ToEntityIDArgs());
+                weaponFormDomain.Exit(weaponForm2.IDCom.ToEntityIDArgs(), role.IDCom.ToEntityIDArgs());
+                weaponFormDomain.Exit(weaponForm3.IDCom.ToEntityIDArgs(), role.IDCom.ToEntityIDArgs());
             } else if (border1 <= x1 && x1 < border2) {
-                weaponFormFSMDomain.Enter(weaponForm2.IDCom.ToEntityIDArgs(), role.IDCom.ToEntityIDArgs());
+                weaponFormDomain.Enter(weaponForm2.IDCom.ToEntityIDArgs(), role.IDCom.ToEntityIDArgs());
+                weaponFormDomain.Exit(weaponForm1.IDCom.ToEntityIDArgs(), role.IDCom.ToEntityIDArgs());
+                weaponFormDomain.Exit(weaponForm3.IDCom.ToEntityIDArgs(), role.IDCom.ToEntityIDArgs());
             } else {
-                weaponFormFSMDomain.Enter(weaponForm3.IDCom.ToEntityIDArgs(), role.IDCom.ToEntityIDArgs());
+                weaponFormDomain.Enter(weaponForm3.IDCom.ToEntityIDArgs(), role.IDCom.ToEntityIDArgs());
+                weaponFormDomain.Exit(weaponForm1.IDCom.ToEntityIDArgs(), role.IDCom.ToEntityIDArgs());
+                weaponFormDomain.Exit(weaponForm2.IDCom.ToEntityIDArgs(), role.IDCom.ToEntityIDArgs());
             }
 
         }

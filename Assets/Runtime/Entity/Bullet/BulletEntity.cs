@@ -70,6 +70,7 @@ public class BulletEntity : MonoBehaviour {
 
     public void Fly(Vector2 dir) {
         logicRB.velocity = new Vector2(dir.x * flySpeed, dir.y * flySpeed);
+        rendererGO.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
     }
 
     /// <summary>
