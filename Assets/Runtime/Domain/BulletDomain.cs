@@ -75,6 +75,11 @@ public class BulletDomain {
             Debug.LogWarning($"子弹打击失败 怪物已经死亡 {monster}");
             return;
         }
+        
+        if (bulletEntity.bulletType == BulletType.Rocket) {
+            var camMgr = mainContext.CameraManager;
+            camMgr.Shake_Rocket_Hit();
+        }
 
         bulletFSMDomain.Enter_Exploding(bulletEntity, 1000f);
     }
@@ -96,6 +101,12 @@ public class BulletDomain {
         if (bulletEntity.bulletType == BulletType.Bubble) {
             bulletEntity.Bounce(normal);
         }
+
+        if (bulletEntity.bulletType == BulletType.Rocket) {
+            var camMgr = mainContext.CameraManager;
+            camMgr.Shake_Rocket_Hit();
+        }
+
     }
 
 }

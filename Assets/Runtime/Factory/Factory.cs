@@ -112,7 +112,7 @@ public class Factory {
         bullet.flySpeed = bulletModel.flySpeed;
 
         // 子弹ICON
-        bullet.SetBulletSprite(bulletModel.bulletIcon);
+        bullet.SetBulletSprite(bulletModel.bulletIcon, bulletModel.themeColor);
 
         return true;
     }

@@ -59,6 +59,7 @@ public static class TM2ModelUtil {
         model.flySpeed_base = tm.flySpeed;
         model.bulletIcon = tm.bulletIcon;
         model.weaponIcon = tm.weaponIcon;
+        model.themeColor = tm.themeColor;
         
         return model;
     }

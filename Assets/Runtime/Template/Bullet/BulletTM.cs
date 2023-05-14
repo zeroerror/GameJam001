@@ -14,5 +14,6 @@ public struct BulletTM {
 
     [SerializeField][Header("子弹ICON")] public Sprite bulletIcon;
     [SerializeField][Header("武器ICON")] public Sprite weaponIcon;
+    [SerializeField][Header("主题颜色")] public Color themeColor;
 
 }
