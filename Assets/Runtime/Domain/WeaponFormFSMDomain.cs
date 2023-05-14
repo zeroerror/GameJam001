@@ -124,7 +124,14 @@ public class WeaponFormFSMDomain {
 
         } else if (bulletType == BulletType.Laser) {
             // 激光  
+            if (model.triplet_count < 1) {
+                weaponFormDomain.Shoot(weaponForm, shootTarPos);
+                model.triplet_count++;
+            }
 
+            if (model.time >= attrModel.shootCD) {
+                Enter_Idle(weaponForm);
+            }
         } else if (bulletType == BulletType.Triplet) {
             // 三连发 射3发就退出
             if (model.triplet_count >= 3
