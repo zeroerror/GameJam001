@@ -13,9 +13,6 @@ public struct GlobalConfigTM {
     [SerializeField][Header("武器库闲置多久后开始装填")] public float weaponFormIdleToReloadCD;
     [SerializeField][Header("子弹最长飞行时间")] public float bulletMaxFlyTime;
 
-    [Header("============================ 升级配置 ============================")]
-    [SerializeField] public WeaponFormUpgradeTM weaponFormUpgradeTM;
-
     [Header("============================ 武器库初始配置 ============================")]
     [SerializeField][Header("武器库 子弹容量")] public int bulletCapacity_init;
     [SerializeField][Header("武器库 射击间隔(S)")] public float shootCD_init;
