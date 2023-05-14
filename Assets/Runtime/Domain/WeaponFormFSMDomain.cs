@@ -60,7 +60,8 @@ public class WeaponFormFSMDomain {
         // ================== EXIT CHECK
         // 闲置 2s 后自动进入装填状态
         var cd = mainContext.rootTemplate.globalConfigTM.weaponFormIdleToReloadCD;
-        if (model.time >= cd) {
+        if (model.time >= cd
+        && weaponForm.curBulletCount < weaponForm.AttrModel.bulletCapacity) {
             Enter_Reloading(weaponForm);
         }
     }

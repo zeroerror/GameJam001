@@ -152,14 +152,14 @@ public class GameFSMDomain {
             uiManager.Upgrade_Open(((selectionID) => {
                 gameEntity.hasWaveUpgrade = false;
                 gameEntity.ContinueGame();
-                var upgradeTM = mainContext.rootTemplate.upgradeTMArray[selectionID];
-                Debug.Log($"升级选择 ==> {upgradeTM}");
+                var upgradeTM_chosen = mainContext.rootTemplate.upgradeTMArray[selectionID];
+                Debug.Log($"选择 升级 ==> {upgradeTM_chosen}");
+                var weaponForm1 = mainContext.rootRepo.weaponForm1;
+                UpgradeWeaponForm(weaponForm1, upgradeTM_chosen);
             }), args);
 
-            // var weaponForm1 = mainContext.rootRepo.weaponForm1;
             // var weaponForm2 = mainContext.rootRepo.weaponForm2;
             // var weaponForm3 = mainContext.rootRepo.weaponForm3;
-            // UpgradeWeaponForm(weaponForm1, upgradeTM1);
             // UpgradeWeaponForm(weaponForm2, upgradeTM2);
             // UpgradeWeaponForm(weaponForm3, upgradeTM3);
         }

@@ -32,13 +32,13 @@ public class RootDomain {
 
         this.roleFSMDomain.Inject(mainContext, roleDomain);
         this.roleDomain.Inject(mainContext, factory, roleFSMDomain, bulletFSMDomain, weaponFormDomain);
-        this.bulletDomain.Inject(mainContext, factory, bulletFSMDomain);
+        this.bulletDomain.Inject(mainContext, factory, bulletFSMDomain, phxDomain);
         this.bulletFSMDomain.Inject(mainContext);
         this.monsterDomain.Inject(mainContext, factory, monsterFSMDomain);
         this.monsterFSMDomain.Inject(mainContext, monsterDomain);
         this.gameFSMDomain.Inject(mainContext, weaponFormDomain, this);
         this.phxDomain.Inject(mainContext, this);
-        this.weaponFormDomain.Inject(mainContext, factory, bulletDomain, bulletFSMDomain, weaponFormFSMDomain);
+        this.weaponFormDomain.Inject(mainContext, factory, bulletDomain, bulletFSMDomain, weaponFormFSMDomain, phxDomain);
         this.weaponFormFSMDomain.Inject(mainContext, weaponFormDomain, bulletDomain, bulletFSMDomain);
     }
 
