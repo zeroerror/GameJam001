@@ -128,7 +128,9 @@ public class WeaponFormDomain {
             Debug.LogError("index error");
         }
 
-        if (weaponForm.FSMCom.State != WeaponFormFSMState.Idle) {
+        if (weaponForm.FSMCom.State != WeaponFormFSMState.Idle
+        && weaponForm.FSMCom.State != WeaponFormFSMState.Reloading
+        ) {
             return false;
         }
 

@@ -55,7 +55,13 @@ public class WeaponFormFSMDomain {
             model.SetIsEntering(false);
         }
 
+        model.time += dt;
+
         // ================== EXIT CHECK
+        // 闲置 2s 后自动进入装填状态
+        if (model.time >= 2f) {
+            Enter_Reloading(weaponForm);
+        }
     }
 
     public void TickReloading(WeaponFormEntity weaponForm, float dt) {
@@ -66,8 +72,19 @@ public class WeaponFormFSMDomain {
             model.SetIsEntering(false);
         }
 
-        // ================== EXIT CHECK
+        model.time += dt;
 
+        var attrModel = weaponForm.AttrModel;
+        var reloadCD = attrModel.reloadCD;
+
+        if (model.time >= reloadCD) {
+            var count = weaponForm.curBulletCount + 1;
+            count = count > attrModel.bulletCapacity ? attrModel.bulletCapacity : count;
+            weaponForm.curBulletCount = count;
+            model.time = 0;
+        }
+
+        // ================== EXIT CHECK
     }
 
     public void TickShooting(WeaponFormEntity weaponForm, float dt) {
@@ -159,6 +176,10 @@ public class WeaponFormFSMDomain {
     }
 
     public void Enter_Shooting(WeaponFormEntity weaponForm, Vector2 shootTarPos) {
+        if(weaponForm.curBulletCount <= 0) {
+            return;
+        }
+
         var fsmCom = weaponForm.FSMCom;
         fsmCom.EnterShooting(shootTarPos);
         Debug.Log($"WeaponFormFSM: ======> Enter_Shooting {shootTarPos}");

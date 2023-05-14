@@ -16,7 +16,7 @@ public class MonsterFSMDomain {
             if (monster.FSMCom.State == MonsterFSMState.None) {
                 return;
             }
-            
+
             TickFSM(monster, dt);
         });
     }
@@ -39,7 +39,7 @@ public class MonsterFSMDomain {
 
     public void TickAny(MonsterEntity monster, float dt) {
         var hp = monster.HP;
-        if (hp <= 0) {
+        if (hp <= 0 && monster.FSMCom.State != MonsterFSMState.Dying) {
             Enter_Dying(monster);
         }
     }
