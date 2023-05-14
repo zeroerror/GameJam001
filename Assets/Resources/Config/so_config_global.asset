@@ -21,8 +21,8 @@ MonoBehaviour:
     playerRoleTypeID: 1000
     weaponFormIdleToReloadCD: 1
     bulletMaxFlyTime: 15
-    bulletCapacity_init: 20
+    bulletCapacity_init: 9999
     shootCD_init: 0.5
     reloadCD_init: 1
-    bulletType_init: 0
+    bulletType_init: 1
     baseHP: 3

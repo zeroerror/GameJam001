@@ -169,10 +169,12 @@ public class WeaponFormDomain {
         if (weaponForm.FSMCom.State != WeaponFormFSMState.Idle
         && weaponForm.FSMCom.State != WeaponFormFSMState.Reloading
         ) {
+            Debug.Log("武器库不在闲置状态 无法射击");
             return false;
         }
 
         if (weaponForm.roleEntity == null) {
+            Debug.Log("roleEntity 无法射击");
             return false;
         }
 
