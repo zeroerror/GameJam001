@@ -64,8 +64,8 @@ public class WeaponFormEntity : MonoBehaviour {
 
     // 根据 WeaponFormUpgradeModel 升级
     public void LevelUp() {
-        this.curLevel++;
         bodyGO.transform.GetChild(this.curLevel).gameObject.SetActive(true);
+        this.curLevel++;
     }
 
     public void InitRenderer() {
@@ -77,7 +77,7 @@ public class WeaponFormEntity : MonoBehaviour {
             }
             child.gameObject.SetActive(false);
         }
-        bodyGO.transform.GetChild(this.curLevel).gameObject.SetActive(true);
+        bodyGO.transform.GetChild(this.curLevel - 1).gameObject.SetActive(true);
     }
 
     public void SetPos(Vector2 pos) {
