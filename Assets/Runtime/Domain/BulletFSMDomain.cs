@@ -49,8 +49,9 @@ public class BulletFSMDomain {
         // ================== Exit 
         var globalConfigTM = mainContext.rootTemplate.globalConfigTM;
         var bulletMaxFlyTime = globalConfigTM.bulletMaxFlyTime!;
+        var explodeRadius = globalConfigTM.rocketExplodeRadius;
         if (model.time > bulletMaxFlyTime) {
-            Enter_Exploding(bullet, 1000);
+            Enter_Exploding(bullet, explodeRadius);
             return;
         }
     }

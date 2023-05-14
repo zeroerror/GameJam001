@@ -139,10 +139,10 @@ public class WeaponFormDomain {
 
         weaponForm.curBulletCount--;
 
-        if (bullet.bulletType == BulletType.Rocket) {
-            var camMgr = mainContext.CameraManager;
-            camMgr.Shake_Rocket_Shoot();
-        }
+        // if (bullet.bulletType == BulletType.Rocket) {
+        //     var camMgr = mainContext.CameraManager;
+        //     camMgr.Shake_Rocket_Shoot();
+        // }
     }
 
     public bool TryShootFromWeaponForm_1(Vector2 shootTarPos, out BulletEntity bullet) {

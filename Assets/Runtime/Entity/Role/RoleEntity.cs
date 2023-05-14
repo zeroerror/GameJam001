@@ -15,7 +15,7 @@ public class RoleEntity : MonoBehaviour {
     WeaponFormSlotComponent weaponFormSlotCom;
     public WeaponFormSlotComponent WeaponFormSlotCom => weaponFormSlotCom;
 
-    float moveSpeed = 5f;
+    float moveSpeed = 10f;
     float jumpSpeed = 10f;
 
     GameObject rootGO;

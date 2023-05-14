@@ -92,6 +92,9 @@ public class MonsterDomain {
             return;
         }
 
+        var vfxMgr = mainContext.VFXManager;
+        vfxMgr.Hit_Bullet(bulletEntity.LogicPos, bulletEntity.bulletColor);
+
         var damage = bulletEntity.bulletDamage;
         var clampHP = System.Math.Clamp(monsterEntity.HP - damage, 0, int.MaxValue);
         monsterEntity.SetHP(clampHP);

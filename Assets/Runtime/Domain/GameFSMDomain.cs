@@ -60,6 +60,18 @@ public class GameFSMDomain {
     }
 
     public void TickAnyLogic(GameEntity gameEntity, float dt) {
+        var weaponForm1 = mainContext.rootRepo.weaponForm1;
+        var weaponForm2 = mainContext.rootRepo.weaponForm2;
+        var weaponForm3 = mainContext.rootRepo.weaponForm3;
+        if (weaponForm1 != null) {
+            weaponForm1.SetBulletCount();
+        }
+        if (weaponForm2 != null) {
+            weaponForm2.SetBulletCount();
+        }
+        if (weaponForm3 != null) {
+            weaponForm3.SetBulletCount();
+        }
     }
 
     public void TickLobbyLogic(GameEntity gameEntity, float dt) {

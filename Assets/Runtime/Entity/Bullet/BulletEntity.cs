@@ -42,6 +42,9 @@ public class BulletEntity : MonoBehaviour {
     // 飞行速度
     public float flySpeed;
 
+    // Color
+    public Color bulletColor;
+
     public void Ctor() {
         idCom = new EntityIDComponent();
         idCom.SetEntityType(EntityType.Bullet);

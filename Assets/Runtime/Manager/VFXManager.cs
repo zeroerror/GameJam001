@@ -26,7 +26,6 @@ public class VFXManager : MonoBehaviour {
     // 普通子弹-击中目标
     public void Hit_Bullet(Vector3 pos, Color color) {
         SpawnVFXWithColor(vfx_hit_bullet, pos, color);
-        Debug.Log(color);
     }
 
     // 基地-被击中

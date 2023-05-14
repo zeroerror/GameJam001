@@ -82,8 +82,10 @@ public class BulletDomain {
             camMgr.Shake_Rocket_Hit();
         }
 
+        var globalConfigTM = mainContext.rootTemplate.globalConfigTM;
+        var explodeRadius = globalConfigTM.rocketExplodeRadius;
         if (bulletType != BulletType.Laser) {
-            bulletFSMDomain.Enter_Exploding(bulletEntity, 1000f);
+            bulletFSMDomain.Enter_Exploding(bulletEntity, explodeRadius);
         }
     }
 

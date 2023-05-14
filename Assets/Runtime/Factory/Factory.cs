@@ -110,7 +110,8 @@ public class Factory {
         bullet.hitBackDis = bulletModel.hitBackDis;
         // 飞行速度
         bullet.flySpeed = bulletModel.flySpeed;
-
+        // Color
+        bullet.bulletColor = bulletModel.themeColor;
         // 子弹ICON
         bullet.SetBulletSprite(bulletModel.bulletIcon, bulletModel.themeColor, bulletModel.bulletMaterial);
 

@@ -20,8 +20,12 @@ public class GameEntity {
 
     bool isGamePaused;
     public bool IsGamePaused => isGamePaused;
-    public void PauseGame() => isGamePaused = true;
-    public void ContinueGame() => isGamePaused = false;
+    public void PauseGame() {
+        isGamePaused = true;
+    }
+    public void ContinueGame() {
+        isGamePaused = false;
+    }
 
 
     public bool hasWaveUpgrade;
