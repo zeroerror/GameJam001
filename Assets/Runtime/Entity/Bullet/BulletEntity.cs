@@ -42,8 +42,8 @@ public class BulletEntity : MonoBehaviour {
     public float flySpeed;
 
     // PHX
-    public Action<EntityIDArgs, EntityIDArgs> OnTriggerEnter;
-    public Action<EntityIDArgs, EntityIDArgs> OnTriggerExit;
+    public Action<EntityIDArgs, EntityIDArgs, Vector2, int, int> OnTriggerEnter;
+    public Action<EntityIDArgs, EntityIDArgs, Vector2, int, int> OnTriggerExit;
 
     public void Ctor() {
         idCom = new EntityIDComponent();
@@ -74,6 +74,21 @@ public class BulletEntity : MonoBehaviour {
         logicRB.velocity = new Vector2(dir.x * flySpeed, dir.y * flySpeed);
     }
 
+    /// <summary>
+    /// 子弹反弹
+    /// </summary>
+    /// <param name="normal"></param>
+    bool s = false;
+    public void Bounce(Vector2 normal) {
+        if (s) return;
+
+        s = true;
+        var velocity = logicRB.velocity;
+        var dot = Vector2.Dot(velocity, normal);
+        var bounce = velocity - 2 * dot * normal;
+        logicRB.velocity = bounce;
+    }
+
     // Easing renderer to logic
     public void EasingToDstPos(float dt) {
         rendererGO.transform.position = logicGO.transform.position;
@@ -97,9 +112,14 @@ public class BulletEntity : MonoBehaviour {
             otherIDCom = monster.IDCom;
         }
 
-        if (otherIDCom != null) {
-            OnTriggerEnter?.Invoke(idCom.ToEntityIDArgs(), otherIDCom.ToEntityIDArgs());
-        }
+        var oneIDArgs = idCom.ToEntityIDArgs();
+        var twoIDArgs = otherIDCom != null ? otherIDCom.ToEntityIDArgs() : new EntityIDArgs();
+        var normal = other.transform.position - transform.position;
+        normal = normal.x < 0 ? Vector2.left : Vector2.right;
+
+        var layerMask_one = gameObject.layer;
+        var layerMask_two = other.gameObject.layer;
+        OnTriggerEnter?.Invoke(oneIDArgs, twoIDArgs, normal, layerMask_one, layerMask_two);
     }
 
     void OnTriggerExit2D(Collider2D other) {
@@ -109,9 +129,14 @@ public class BulletEntity : MonoBehaviour {
             otherIDCom = monster.IDCom;
         }
 
-        if (otherIDCom != null) {
-            OnTriggerExit?.Invoke(idCom.ToEntityIDArgs(), otherIDCom.ToEntityIDArgs());
-        }
+        var oneIDArgs = idCom.ToEntityIDArgs();
+        var twoIDArgs = otherIDCom != null ? otherIDCom.ToEntityIDArgs() : new EntityIDArgs();
+        var normal = other.transform.position - transform.position;
+        normal = normal.x < 0 ? Vector2.left : Vector2.right;
+
+        var layerMask_one = gameObject.layer;
+        var layerMask_two = other.gameObject.layer;
+        // OnTriggerExit?.Invoke(oneIDArgs, twoIDArgs, normal, layerMask_one, layerMask_two);
     }
 
 }

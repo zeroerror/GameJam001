@@ -77,14 +77,32 @@ public class BulletDomain {
         bulletFSMDomain.Enter_Exploding(bulletEntity, 1000f);
     }
 
-    void HandleTriggerEnter(EntityIDArgs one, EntityIDArgs two) {
-        var phxEventRepo = mainContext.rootRepo.phxEventRepo;
-        phxEventRepo.TryAdd(one, two);
+    public void HandleHitWall(in EntityIDArgs bullet, Vector2 normal) {
+        var bulletRepo = mainContext.rootRepo.bulletRepo;
+        if (!bulletRepo.TryGet(bullet.entityID, out var bulletEntity)) {
+            Debug.LogError($"子弹打击失败 不存在 {bullet}");
+            return;
+        }
+
+        var fsmCom = bulletEntity.FSMCom;
+        var state = fsmCom.State;
+        if (state == BulletFSMState.Exploding) {
+            Debug.LogWarning($"子弹打击失败 子弹已经爆炸 {bullet}");
+            return;
+        }
+
+        bulletEntity.Bounce(normal);
     }
 
-    void HandleTriggerExit(EntityIDArgs one, EntityIDArgs two) {
+
+    void HandleTriggerEnter(EntityIDArgs one, EntityIDArgs two, Vector2 normal, int layerMask_one, int layerMask_two) {
         var phxEventRepo = mainContext.rootRepo.phxEventRepo;
-        phxEventRepo.TryAdd(one, two);
+        phxEventRepo.TryAdd(one, two, normal, layerMask_one, layerMask_two);
+    }
+
+    void HandleTriggerExit(EntityIDArgs one, EntityIDArgs two, Vector2 normal, int layerMask_one, int layerMask_two) {
+        var phxEventRepo = mainContext.rootRepo.phxEventRepo;
+        phxEventRepo.TryAdd(one, two, normal, layerMask_one, layerMask_two);
     }
 
 
