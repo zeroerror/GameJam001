@@ -194,6 +194,8 @@ public class WeaponFormDomain {
             var damage = hp - clampHP;
             Debug.Log($"武器库 1 受到怪物{monsterIDArgs}攻击 受到伤害{damage} 剩余血量{clampHP}");
             gameEntity.baseHP = clampHP;
+            var camMgr = mainContext.CameraManager;
+            camMgr.Shake_Normal();
             return;
         }
 
@@ -202,6 +204,8 @@ public class WeaponFormDomain {
             var damage = hp - clampHP;
             Debug.Log($"武器库 2 受到怪物{monsterIDArgs}攻击 受到伤害{damage} 剩余血量{clampHP}");
             gameEntity.baseHP = clampHP;
+            var camMgr = mainContext.CameraManager;
+            camMgr.Shake_Normal();
             return;
         }
 
@@ -210,6 +214,8 @@ public class WeaponFormDomain {
             var damage = hp - clampHP;
             Debug.Log($"武器库 3 受到怪物{monsterIDArgs}攻击 受到伤害{damage} 剩余血量{clampHP}");
             gameEntity.baseHP = clampHP;
+            var camMgr = mainContext.CameraManager;
+            camMgr.Shake_Normal();
             return;
         }
 
