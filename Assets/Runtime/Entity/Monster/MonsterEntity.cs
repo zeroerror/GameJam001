@@ -35,6 +35,7 @@ public class MonsterEntity : MonoBehaviour {
     GameObject rendererGO;
     GameObject rendererBodyGO;
     GameObject rendererWeaponGO;
+    SpriteRenderer mesh;
 
     Transform shieldRoot;
 
@@ -70,6 +71,7 @@ public class MonsterEntity : MonoBehaviour {
         this.rendererWeaponGO = rendererGO.transform.Find("WEAPON").gameObject;
         this.shieldRoot = rendererGO.transform.Find("ShieldRoot");
 
+        mesh = bodyMod.GetComponentInChildren<SpriteRenderer>();
         bodyMod.transform.SetParent(rendererBodyGO.transform, false);
 
         Debug.Assert(rootGO != null, "rootGO == null");
@@ -78,6 +80,8 @@ public class MonsterEntity : MonoBehaviour {
         Debug.Assert(rendererGO != null, "rendererGO == null");
         Debug.Assert(rendererWeaponGO != null, "rendererWeaponGO == null");
         Debug.Assert(shieldRoot != null, "shieldRoot == null");
+        Debug.Assert(mesh != null, "mesh == null");
+
     }
 
     public void Init() {
@@ -94,9 +98,11 @@ public class MonsterEntity : MonoBehaviour {
     public void Fall(float dt) {
         var velo = logicRB.velocity;
         if (fallPattern == FallPattern.SCurveFall) {
-            float xOffset = 5;
+            float xOffset = 8;
             float xSpeed = 3f;
             velo.x = WaveHelper.SinWave(time, xOffset, xSpeed, 0);
+            mesh.transform.Rotate(new Vector3(0, 0, 2));
+
         } else if (fallPattern == FallPattern.StraightFall) {
             velo.x = 0;
         }
