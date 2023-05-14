@@ -30,7 +30,7 @@ public class RootDomain {
     public void Inject(MainContext mainContext, Factory factory) {
         this.mainContext = mainContext;
 
-        this.roleFSMDomain.Inject(mainContext, roleDomain);
+        this.roleFSMDomain.Inject(mainContext, roleDomain, weaponFormDomain);
         this.roleDomain.Inject(mainContext, factory, roleFSMDomain, bulletFSMDomain, weaponFormDomain);
         this.bulletDomain.Inject(mainContext, factory, bulletFSMDomain, phxDomain);
         this.bulletFSMDomain.Inject(mainContext);

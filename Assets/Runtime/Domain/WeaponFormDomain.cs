@@ -169,12 +169,10 @@ public class WeaponFormDomain {
         if (weaponForm.FSMCom.State != WeaponFormFSMState.Idle
         && weaponForm.FSMCom.State != WeaponFormFSMState.Reloading
         ) {
-            Debug.Log("武器库不在闲置状态 无法射击");
             return false;
         }
 
         if (weaponForm.roleEntity == null) {
-            Debug.Log("roleEntity 无法射击");
             return false;
         }
 
@@ -235,6 +233,14 @@ public class WeaponFormDomain {
     }
 
     public void HandleHitRole(in EntityIDArgs weaponFormIDArgs, in EntityIDArgs roleIDArgs) {
+        return;
+
+
+
+        Debug.LogError($"怪物打击武器库失败 不存在 {weaponFormIDArgs}");
+    }
+
+    public void Enter(in EntityIDArgs weaponFormIDArgs, in EntityIDArgs roleIDArgs) {
         var roleRepo = mainContext.rootRepo.roleRepo;
         if (!roleRepo.TryGet(roleIDArgs.entityID, out var roleEntity)) {
             Debug.LogError($"角色 链接====》 武器库失败 不存在 {roleIDArgs}");
@@ -273,11 +279,15 @@ public class WeaponFormDomain {
             roleEntity.SetWeaponSprite(bulletModel.weaponIcon, bulletModel.themeColor);
             return;
         }
-
-        Debug.LogError($"怪物打击武器库失败 不存在 {weaponFormIDArgs}");
     }
 
     public void HandleExitRole(in EntityIDArgs weaponFormIDArgs, in EntityIDArgs roleIDArgs) {
+        return;
+
+    }
+
+    public void Exit(in EntityIDArgs weaponFormIDArgs, in EntityIDArgs roleIDArgs) {
+
         var roleRepo = mainContext.rootRepo.roleRepo;
         if (!roleRepo.TryGet(roleIDArgs.entityID, out var roleEntity)) {
             Debug.LogError($"角色打击武器库失败 不存在 {roleIDArgs}");

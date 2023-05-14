@@ -4,10 +4,12 @@ public class RoleFSMDomain {
 
     MainContext mainContext;
     RoleDomain roleDomain;
+    WeaponFormDomain weaponFormFSMDomain;
 
-    public void Inject(MainContext mainContext, RoleDomain roleDomain) {
+    public void Inject(MainContext mainContext, RoleDomain roleDomain, WeaponFormDomain weaponFormFSMDomain) {
         this.mainContext = mainContext;
         this.roleDomain = roleDomain;
+        this.weaponFormFSMDomain = weaponFormFSMDomain;
     }
 
     public void TickFSM(float dt) {
@@ -83,6 +85,22 @@ public class RoleFSMDomain {
         bool hasMoveDir = moveHorDir != 0;
         if (hasMoveDir) {
             role.SetMoveVelocity(moveHorDir, dt);
+
+            // WeaponFrorm Check
+            var weaponForm1 = mainContext.rootRepo.weaponForm1;
+            var weaponForm2 = mainContext.rootRepo.weaponForm2;
+            var weaponForm3 = mainContext.rootRepo.weaponForm3;
+            var x1 = role.LogicPos.x;
+            var border1 = 40 / 3f - 20;
+            var border2 = (40 * 2 / 3f) - 20;
+            if (x1 < border1) {
+                weaponFormFSMDomain.Enter(weaponForm1.IDCom.ToEntityIDArgs(), role.IDCom.ToEntityIDArgs());
+            } else if (border1 <= x1 && x1 < border2) {
+                weaponFormFSMDomain.Enter(weaponForm2.IDCom.ToEntityIDArgs(), role.IDCom.ToEntityIDArgs());
+            } else {
+                weaponFormFSMDomain.Enter(weaponForm3.IDCom.ToEntityIDArgs(), role.IDCom.ToEntityIDArgs());
+            }
+
         }
 
         roleDomain.TryShoot(role);

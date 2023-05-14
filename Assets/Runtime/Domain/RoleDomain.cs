@@ -135,8 +135,6 @@ public class RoleDomain {
         // Check WeaponForm Connection & Get Bullet
         bool hasShoot = false;
         var shootTarPos = inputCom.ChosenPoint;
-        var weaponFormSlotCom = role.WeaponFormSlotCom;
-
         weaponFormDomain.TryShootFromWeaponForm_1(shootTarPos, out var _);
         weaponFormDomain.TryShootFromWeaponForm_2(shootTarPos, out var _);
         weaponFormDomain.TryShootFromWeaponForm_3(shootTarPos, out var _);
