@@ -165,6 +165,7 @@ public class GameFSMDomain {
             WeaponFormEntity selectedWeaponForm = selectionID == 1 ?
             rootRepo.weaponForm1 : selectionID == 2 ?
             rootRepo.weaponForm2 : rootRepo.weaponForm3;
+            Debug.Log($" 选择 武器库 ==> {selectedWeaponForm.BulletType}");
             if (selectedWeaponForm.BulletType == BulletType.Normal) {
                 OpenChooseTypeUI(selectedWeaponForm);
             } else {
@@ -201,6 +202,7 @@ public class GameFSMDomain {
             selectBulletType = (BulletType)selectionID;
             gameEntity.hasWaveUpgrade = false;
             gameEntity.ContinueGame();
+            selectedWeaponForm.SetBulletType(selectBulletType);
             mainContext.rootTemplate.bulletTemplate.TryGet(selectBulletType, out var bulletTM);
             selectedWeaponForm.AttrModel.bulletModel = TM2ModelUtil.GetBulletModel(bulletTM);
             Debug.Log($"选择 武器库 子弹 ==> {selectBulletType}");
