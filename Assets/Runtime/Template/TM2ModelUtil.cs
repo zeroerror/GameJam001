@@ -57,6 +57,8 @@ public static class TM2ModelUtil {
         model.slow_base = tm.slow;
         model.hitBackDis_base = tm.hitBackDis;
         model.flySpeed_base = tm.flySpeed;
+        model.bulletIcon = tm.bulletIcon;
+        model.weaponIcon = tm.weaponIcon;
         
         return model;
     }

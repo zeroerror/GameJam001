@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// OBSOLETE
 public class WeaponFormSlotComponent {
 
     public bool isConnectedToWeaponForm1;
