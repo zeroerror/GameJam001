@@ -14,6 +14,10 @@ public class MonsterDomain {
 
     public bool TrySpawnMonster(WaveSpawnerModel spawnerModel, Vector2 rdPos, out MonsterEntity monster) {
         var typeID = spawnerModel.typeID;
+        return SpawnMonster(typeID, rdPos, out monster);
+    }
+
+    public bool SpawnMonster(int typeID, Vector2 rdPos, out MonsterEntity monster) {
         if (!factory.TryCreateMonster(typeID, out monster)) {
             Debug.LogError($"创建怪物失败 {typeID}");
             return false;

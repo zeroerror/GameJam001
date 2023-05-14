@@ -26,6 +26,9 @@ public class MonsterEntity : MonoBehaviour {
     public Vector2 Size => size;
     public void SetSize(Vector2 v) => this.size = v;
 
+    public bool isDeadSpawnChildren;
+    public int deadSpawnChildrenTypeID;
+
     GameObject rootGO;
     GameObject logicGO;
     Rigidbody2D logicRB;

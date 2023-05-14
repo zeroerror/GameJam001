@@ -11,6 +11,9 @@ public struct MonsterTM {
 
     [SerializeField] public Vector2 size;
 
+    public bool isDeadSpawnChildren;
+    public int deadSpawnChildrenTypeID;
+
     [SerializeField] public GameObject bodyMod;
 
 }

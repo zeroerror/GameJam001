@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MonsterFSMDomain {
@@ -29,7 +30,7 @@ public class MonsterFSMDomain {
         }
 
         TickAny(Monster, dt);
-        
+
         if (state == MonsterFSMState.Falling) {
             TickFalling(Monster, dt);
         } else if (state == MonsterFSMState.Dying) {
@@ -63,6 +64,24 @@ public class MonsterFSMDomain {
 
         if (model.IsEntering) {
             model.SetIsEntering(false);
+
+            if (monster.isDeadSpawnChildren) {
+                Span<Vector2> randomPosArray = stackalloc Vector2[6];
+                float gap = 1.2f;
+                randomPosArray[0] = new Vector2(-gap * 0.77f, -gap);
+                randomPosArray[1] = new Vector2(gap * 0.77f, -gap);
+                randomPosArray[2] = new Vector2(gap * 2, 0);
+                randomPosArray[3] = new Vector2(gap * 0.77f, gap);
+                randomPosArray[4] = new Vector2(-gap * 0.77f, gap);
+                randomPosArray[5] = new Vector2(-gap * 2, 0);
+                for (int i = 0; i < randomPosArray.Length; i += 1) {
+                    var rdPos = randomPosArray[i];
+                    bool has = monsterDomain.SpawnMonster(monster.deadSpawnChildrenTypeID, rdPos, out var child);
+                    if (has) {
+                        child.SetPos((Vector2)monster.LogicPos + new Vector2(-1f, -1f) + rdPos);
+                    }
+                }
+            }
             monster.TearDown();
         }
 
