@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using GameArki.FPEasing;
 
 public class MonsterEntity : MonoBehaviour {
 
@@ -38,6 +39,8 @@ public class MonsterEntity : MonoBehaviour {
 
     // temp
     public bool isNotValid;
+    float time;
+    EasingModel[] easingModelArray;
 
     public void Ctor() {
         idCom = new EntityIDComponent();
@@ -74,6 +77,20 @@ public class MonsterEntity : MonoBehaviour {
     // Update logic rb immediately, and also update renderer's rotation immediately
     public void SetFallVelocity(float dt) {
         logicRB.velocity = new Vector2(0, fallSpeed);
+    }
+
+    public void Fall(float dt) {
+        var velo = logicRB.velocity;
+        if (fallPattern == FallPattern.SCurveFall) {
+            float xOffset = 5;
+            float xSpeed = 3f;
+            velo.x = WaveHelper.SinWave(time, xOffset, xSpeed, 0);
+        } else if (fallPattern == FallPattern.StraightFall) {
+            velo.x = 0;
+        }
+        velo.y = fallSpeed;
+        time += dt;
+        logicRB.velocity = velo;
     }
 
     // Easing renderer to logic

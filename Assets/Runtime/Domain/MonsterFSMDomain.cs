@@ -50,8 +50,9 @@ public class MonsterFSMDomain {
 
         if (model.IsEntering) {
             model.SetIsEntering(false);
-            monster.SetFallVelocity(dt);
+            // monster.SetFallVelocity(dt);
         }
+        monster.Fall(dt);
 
         // ================== EXIT CHECK
     }
