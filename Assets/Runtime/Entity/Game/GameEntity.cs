@@ -10,7 +10,14 @@ public class GameEntity {
     public void SetWaveSpawnerModelArray(WaveSpawnerModel[] waveSpawnerModelArray) => this.waveSpawnerModelArray = waveSpawnerModelArray;
 
     public int curWaveIndex;
-    public bool wavePaused;
+
+    bool wavePaused;
+    public bool WavePaused => wavePaused;
+    public void ContinueWave() {
+        wavePaused = false;
+        
+    }
+
     public bool hasWaveUpgrade;
 
     public int baseHP;

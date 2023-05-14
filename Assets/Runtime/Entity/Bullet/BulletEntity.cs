@@ -82,11 +82,7 @@ public class BulletEntity : MonoBehaviour {
     /// 子弹反弹
     /// </summary>
     /// <param name="normal"></param>
-    bool s = false;
     public void Bounce(Vector2 normal) {
-        if (s) return;
-
-        s = true;
         var velocity = logicRB.velocity;
         var dot = Vector2.Dot(velocity, normal);
         var bounce = velocity - 2 * dot * normal;
