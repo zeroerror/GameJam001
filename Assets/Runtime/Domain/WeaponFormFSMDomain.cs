@@ -170,6 +170,8 @@ public class WeaponFormFSMDomain {
         } else {
             Debug.LogError($"未知的子弹类型 {bulletType}");
         }
+
+        weaponForm.SetBulletCount();
     }
 
     public void Enter_Idle(WeaponFormEntity weaponForm) {
