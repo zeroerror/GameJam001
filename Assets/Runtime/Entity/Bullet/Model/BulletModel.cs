@@ -21,5 +21,7 @@ public struct BulletModel {
 
     public Sprite bulletIcon;
     public Sprite weaponIcon;
+    public Color themeColor;
+    public Material bulletMaterial;
 
 }

@@ -100,9 +100,10 @@ public class RoleEntity : MonoBehaviour {
     public Vector3 LogicPos => logicGO.transform.position;
     public Vector3 RendererPos => rendererGO.transform.position;
 
-    public void SetWeaponSprite(Sprite sprite) {
+    public void SetWeaponSprite(Sprite sprite, Color color) {
         var spriteRenderer = rendererWeaponGO.GetComponentInChildren<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
+        spriteRenderer.color = color; 
     }
 
 }

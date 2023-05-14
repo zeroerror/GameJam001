@@ -12,7 +12,9 @@ public struct BulletTM {
     [SerializeField][Header("子弹尺寸(M)")] public Vector2 bulletSize;
     [SerializeField][Header("子弹飞行速度(M/S)")] public float flySpeed;
 
+    [SerializeField][Header("子弹武器主题颜色")] public Color themeColor;
     [SerializeField][Header("子弹ICON")] public Sprite bulletIcon;
+    [SerializeField][Header("子弹材质")] public Material bulletMaterial;
     [SerializeField][Header("武器ICON")] public Sprite weaponIcon;
 
 }

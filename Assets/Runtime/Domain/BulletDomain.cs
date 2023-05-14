@@ -76,7 +76,15 @@ public class BulletDomain {
             return;
         }
 
-        bulletFSMDomain.Enter_Exploding(bulletEntity, 1000f);
+        var bulletType = bulletEntity.bulletType;
+        if (bulletType == BulletType.Rocket) {
+            var camMgr = mainContext.CameraManager;
+            camMgr.Shake_Rocket_Hit();
+        }
+
+        if (bulletType != BulletType.Laser) {
+            bulletFSMDomain.Enter_Exploding(bulletEntity, 1000f);
+        }
     }
 
     public void HandleHitWall(in EntityIDArgs bullet, Vector2 normal) {
@@ -96,6 +104,12 @@ public class BulletDomain {
         if (bulletEntity.bulletType == BulletType.Bubble) {
             bulletEntity.Bounce(normal);
         }
+
+        if (bulletEntity.bulletType == BulletType.Rocket) {
+            var camMgr = mainContext.CameraManager;
+            camMgr.Shake_Rocket_Hit();
+        }
+
     }
 
 }
