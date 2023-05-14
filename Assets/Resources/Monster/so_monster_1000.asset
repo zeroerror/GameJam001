@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tm:
     typeID: 1000
-    hp: 1000
+    hp: 50
     fallPattern: 0
     fallSpeed: -2
     size: {x: 1, y: 2}

@@ -9,11 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe38e9d8c12056f40ae0223019945efb, type: 3}
-  m_Name: so_upgrade_all
+  m_Script: {fileID: 11500000, guid: b45538dfb5f2eb34aa0899e68dd16076, type: 3}
+  m_Name: so_bullet_bubble
   m_EditorClassIdentifier: 
   tm:
-    upgradeTypeArray: 010000000200000003000000040000000500000006000000070000000800000009000000
-    descArray:
-    - 
-    icon: {fileID: 0}
+    bulletType: 2
+    bloodThirst: 0
+    fanOut: 0
+    slow: 0
+    hitBackDis: 0
+    bulletDamage: 100
+    bulletSize: {x: 0, y: 0}
+    flySpeed: 8
