@@ -98,6 +98,8 @@ public class Factory {
         bullet.slow = bulletModel.slow;
         // 击退
         bullet.hitBackDis = bulletModel.hitBackDis;
+        // 飞行速度
+        bullet.flySpeed = bulletModel.flySpeed;
 
         return true;
     }

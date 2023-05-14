@@ -1109,10 +1109,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f468a87c67bd3b64dbf92f5135b71c8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vfx_hit_bullet: {fileID: 8163451916556780370, guid: 6f82a5a8b6dc2db45a0b30768852318d, type: 3}
-  vfx_hit_homebase: {fileID: 7322655384211280093, guid: be0ef8b5edcc19343814a487ba49bde9, type: 3}
-  vfx_shoot_normal: {fileID: 8163451916556780370, guid: 6f82a5a8b6dc2db45a0b30768852318d, type: 3}
-  vfx_shoot_rocket: {fileID: 4218480068898767780, guid: 65fa880ce5d5b1a4291e962df4361cd3, type: 3}
+  vfx_hit_bullet: {fileID: 0}
+  vfx_hit_homebase: {fileID: 0}
+  vfx_shoot_normal: {fileID: 0}
+  vfx_shoot_rocket: {fileID: 0}
 --- !u!114 &1736269071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1125,26 +1125,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50757eed1742d7e408f6794cd41a36c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSourcePrefab: {fileID: 1247068390021437142, guid: 5537c78c0070b064d9e1eca45fce3826, type: 3}
+  audioSourcePrefab: {fileID: 0}
   shootPlayer: {fileID: 96119714}
   bgmPlayer: {fileID: 1413073340}
   uiPlayer: {fileID: 1575708867}
-  bgm_login: {fileID: 8300000, guid: 37b7de142ca02454cbab99989f77dbe0, type: 3}
-  bgm_combat: {fileID: 8300000, guid: be6a500e72e456e489bd7aefee0b8398, type: 3}
-  gun_normal: {fileID: 8300000, guid: c58a9932c45a49b4a91f654c45717277, type: 3}
-  gun_normal_hit: {fileID: 8300000, guid: 38988e6ec34e84041a4812d21a0ef987, type: 3}
-  gun_laser: {fileID: 8300000, guid: 4f66f75ea8f112c4ca5cc3c0f747d371, type: 3}
-  gun_laser_hit: {fileID: 8300000, guid: 38988e6ec34e84041a4812d21a0ef987, type: 3}
-  gun_triplet: {fileID: 8300000, guid: 77b08a2a45bc90a4b9ea7a36134e609a, type: 3}
-  gun_triplet_hit: {fileID: 8300000, guid: 38988e6ec34e84041a4812d21a0ef987, type: 3}
-  gun_rocket: {fileID: 8300000, guid: b86d51cc7eab0d54e8fe19c143ea4d8f, type: 3}
-  gun_rocket_hit: {fileID: 8300000, guid: 38988e6ec34e84041a4812d21a0ef987, type: 3}
-  gun_bubble: {fileID: 8300000, guid: 8415a5d8dd963014ab046cad10d70508, type: 3}
-  gun_bubble_hit: {fileID: 8300000, guid: 38988e6ec34e84041a4812d21a0ef987, type: 3}
-  gun_bubble_impluse: {fileID: 8300000, guid: ae91b3d7111786f4eb2bf478ec107e16, type: 3}
-  behit_homebase: {fileID: 8300000, guid: f1002900a37f0a348aa75cd268c99dd2, type: 3}
-  ui_click: {fileID: 8300000, guid: 8f1041d6e9e1c7447b8321b0ab3b8341, type: 3}
-  ui_upgrade: {fileID: 8300000, guid: 73ed5d73d0adeed4fb2a7892f46be056, type: 3}
+  bgm_login: {fileID: 0}
+  bgm_combat: {fileID: 0}
+  gun_normal: {fileID: 0}
+  gun_normal_hit: {fileID: 0}
+  gun_laser: {fileID: 0}
+  gun_laser_hit: {fileID: 0}
+  gun_triplet: {fileID: 0}
+  gun_triplet_hit: {fileID: 0}
+  gun_rocket: {fileID: 0}
+  gun_rocket_hit: {fileID: 0}
+  gun_bubble: {fileID: 0}
+  gun_bubble_hit: {fileID: 0}
+  gun_bubble_impluse: {fileID: 0}
+  behit_homebase: {fileID: 0}
+  ui_click: {fileID: 0}
+  ui_upgrade: {fileID: 0}
 --- !u!114 &1736269072
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,10 +4,17 @@ public class WeaponFormFSMDomain {
 
     MainContext mainContext;
     WeaponFormDomain weaponFormDomain;
+    BulletDomain bulletDomain;
+    BulletFSMDomain bulletFSMDomain;
 
-    public void Inject(MainContext mainContext, WeaponFormDomain weaponFormDomain) {
+    public void Inject(MainContext mainContext,
+                       WeaponFormDomain weaponFormDomain,
+                       BulletDomain bulletDomain,
+                       BulletFSMDomain bulletFSMDomain) {
         this.mainContext = mainContext;
         this.weaponFormDomain = weaponFormDomain;
+        this.bulletDomain = bulletDomain;
+        this.bulletFSMDomain = bulletFSMDomain;
     }
 
     public void TickFSM(float dt) {
@@ -71,23 +78,59 @@ public class WeaponFormFSMDomain {
             model.SetIsEntering(false);
         }
 
+        // 弹药检查
+        if (weaponForm.curBulletCount <= 0) {
+            Enter_Idle(weaponForm);
+            return;
+        }
+
         model.time += dt;
+        model.triplet_time += dt;
+
+        var bulletType = weaponForm.BulletType;
+        var attrModel = weaponForm.AttrModel;
+        var shootTarPos = model.ShootTargetPos;
 
         // ================== EXIT CHECK
-        var attrModel = weaponForm.AttrModel;
-        var bulletType = weaponForm.BulletType;
         if (bulletType == BulletType.Normal) {
+            // 普通子弹 射一发就退出
+            if (model.triplet_count < 1) {
+                weaponFormDomain.Shoot(weaponForm, shootTarPos);
+                model.triplet_count++;
+            }
+
             if (model.time >= attrModel.shootCD) {
                 Enter_Idle(weaponForm);
-                return;
             }
-        }
-    }
 
-    public void TickDying(WeaponFormEntity weaponForm, float dt) {
-        var fsmCom = weaponForm.FSMCom;
-        fsmCom.Exit();
-        // ================== EXIT CHECK
+        } else if (bulletType == BulletType.Laser) {
+
+            // 普通子弹 
+
+        } else if (bulletType == BulletType.Triplet) {
+            // 三连发 射3发就退出
+            if (model.triplet_count >= 3
+            && model.time >= attrModel.shootCD) {
+                Enter_Idle(weaponForm);
+            } else {
+                if (model.triplet_time >= 0.16f
+                && model.triplet_count < 3) {
+                    model.triplet_time = 0;
+                    weaponFormDomain.Shoot(weaponForm, shootTarPos);
+                    model.triplet_count++;
+                    Debug.Log($"三连发");
+                }
+            }
+
+        } else if (bulletType == BulletType.Rocket) {
+
+            // 普通子弹 
+
+        } else if (bulletType == BulletType.Normal) {
+
+            // 普通子弹 
+
+        }
     }
 
     public void Enter_Idle(WeaponFormEntity weaponForm) {
@@ -102,16 +145,11 @@ public class WeaponFormFSMDomain {
         Debug.Log($"WeaponFormFSM: ======> Enter_Reloading");
     }
 
-    public void Enter_Shooting(WeaponFormEntity weaponForm) {
+    public void Enter_Shooting(WeaponFormEntity weaponForm, Vector2 shootTarPos) {
         var fsmCom = weaponForm.FSMCom;
-        fsmCom.EnterShooting();
-        Debug.Log($"WeaponFormFSM: ======> Enter_Shooting");
+        fsmCom.EnterShooting(shootTarPos);
+        Debug.Log($"WeaponFormFSM: ======> Enter_Shooting {shootTarPos}");
     }
 
-    public void Enter_Dying(WeaponFormEntity weaponForm) {
-        var fsmCom = weaponForm.FSMCom;
-        fsmCom.EnterDying();
-        Debug.Log($"WeaponFormFSM: ======> Enter_Dying");
-    }
 
 }

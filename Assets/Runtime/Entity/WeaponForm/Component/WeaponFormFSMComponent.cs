@@ -28,7 +28,7 @@ public class WeaponFormFSMComponent {
         shootingStateModel.Reset();
     }
 
-    public void Exit(){
+    public void Exit() {
         Reset();
     }
 
@@ -46,13 +46,14 @@ public class WeaponFormFSMComponent {
         state = WeaponFormFSMState.Reloading;
     }
 
-    public void EnterShooting() {
+    public void EnterShooting(Vector2 shootTarPos) {
         var model = shootingStateModel;
         model.Reset();
         model.SetIsEntering(true);
+        model.SetShootTargetPos(shootTarPos);
         state = WeaponFormFSMState.Shooting;
     }
-    
+
     public void EnterDying() {
         var model = shootingStateModel;
         model.Reset();

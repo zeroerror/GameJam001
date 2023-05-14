@@ -32,9 +32,8 @@ public class BulletEntity : MonoBehaviour {
     // 击退
     public float hitBackDis;
 
-    float flySpeed;
-    public float FlySpeed => flySpeed;
-    public void SetFlySpeed(float v) => this.flySpeed = v;
+    // 飞行速度
+    public float flySpeed;
 
     // PHX
     public Action<EntityIDArgs, EntityIDArgs> OnTriggerEnter;
@@ -47,7 +46,7 @@ public class BulletEntity : MonoBehaviour {
         fsmCom = new BulletFSMComponent();
     }
 
-    public void TearDown(){
+    public void TearDown() {
         // PHX
         OnTriggerEnter = null;
         OnTriggerExit = null;
@@ -86,7 +85,6 @@ public class BulletEntity : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("OnTriggerEnter2D");
         EntityIDComponent otherIDCom = null;
         var monster = other.GetComponentInParent<MonsterEntity>();
         if (monster != null) {
@@ -99,7 +97,6 @@ public class BulletEntity : MonoBehaviour {
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        Debug.Log("OnTriggerExit2D");
         EntityIDComponent otherIDCom = null;
         var monster = other.GetComponentInParent<MonsterEntity>();
         if (monster != null) {

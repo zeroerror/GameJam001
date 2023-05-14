@@ -165,7 +165,7 @@ public class GameFSMDomain {
 
         // - WeaponForm
         if (upgradeType == UpgradeType.AmmoCapacity) {
-            weaponForm.AttrModel.ammoCapacity += weaponFormUpgradeTM.ammoCapacity;
+            weaponForm.AttrModel.bulletCapacity += weaponFormUpgradeTM.ammoCapacity;
             return;
         }
 

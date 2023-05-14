@@ -10,5 +10,6 @@ public struct BulletTM {
     [SerializeField][Header("子弹击退距离(M)")] public float hitBackDis;
     [SerializeField][Header("子弹伤害")] public int bulletDamage;
     [SerializeField][Header("子弹尺寸(M)")] public Vector2 bulletSize;
+    [SerializeField][Header("子弹飞行速度(M/S)")] public float flySpeed;
 
 }

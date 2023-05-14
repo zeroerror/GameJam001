@@ -31,7 +31,7 @@ public static class TM2ModelUtil {
 
     public static WeaponFormAttrModel GetWeaponFormAttrModel(GlobalConfigTM tm) {
         WeaponFormAttrModel model = new WeaponFormAttrModel();
-        model.ammoCapacity = tm.ammoCapacity_init;
+        model.bulletCapacity = tm.bulletCapacity_init;
         model.shootCD = tm.shootCD_init;
         model.reloadCD = tm.reloadCD_init;
         return model;
@@ -46,6 +46,7 @@ public static class TM2ModelUtil {
         model.fanOut = tm.fanOut;
         model.slow = tm.slow;
         model.hitBackDis = tm.hitBackDis;
+        model.flySpeed = tm.flySpeed;
         return model;
     }
 

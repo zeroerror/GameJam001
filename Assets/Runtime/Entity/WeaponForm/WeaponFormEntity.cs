@@ -24,6 +24,7 @@ public class WeaponFormEntity {
 
     // Cache
     public int curBulletCount;     // 当前子弹数量
+    public RoleEntity roleEntity;  // 持有者
 
     public WeaponFormEntity() {
         idCom = new EntityIDComponent();

@@ -9,5 +9,6 @@ public struct BulletModel {
     public float hitBackDis;
     public int bulletDamage;
     public Vector2 bulletSize;
+    public float flySpeed;
 
 }

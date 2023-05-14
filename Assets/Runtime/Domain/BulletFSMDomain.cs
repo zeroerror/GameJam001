@@ -41,7 +41,7 @@ public class BulletFSMDomain {
         var flyDir = model.FlyDir;
         if (model.IsEntering) {
             model.SetIsEntering(false);
-            bullet.Fly(flyDir * bullet.FlySpeed);
+            bullet.Fly(flyDir * bullet.flySpeed);
         }
 
         model.time += dt;

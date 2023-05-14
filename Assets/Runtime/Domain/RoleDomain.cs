@@ -52,7 +52,7 @@ public class RoleDomain {
             inputCom.SetInputPick(true);
         }
 
-        if (inputGetter.GetDown(InputKeyCollection.SHOOT)) {
+        if (inputGetter.GetPressing(InputKeyCollection.SHOOT)) {
             inputCom.SetInputShoot(true);
         }
 
@@ -134,37 +134,17 @@ public class RoleDomain {
 
         // Check WeaponForm Connection & Get Bullet
         bool hasShoot = false;
-        var shootFromPos = role.LogicPos + new Vector3(0, 2, 0);
-        var endPos = inputCom.ChosenPoint;
-        var flyDir = (endPos - shootFromPos).normalized;
+        var shootTarPos = inputCom.ChosenPoint;
         var weaponFormSlotCom = role.WeaponFormSlotCom;
         // temp this
         if (true) {
-            if (weaponFormDomain.TryGetBulletFromWeaponForm_1(out var bullet)) {
-                bullet.IDCom.SetFather(role.IDCom.ToEntityIDArgs());
-                bullet.SetPos(shootFromPos);
-                bulletFSMDomain.Enter_Flying(bullet, flyDir);
-                hasShoot = true;
-                Debug.Log($"发射子弹：从武器库 1");
-            }
+            weaponFormDomain.TryShootFromWeaponForm_1(shootTarPos,out var bullet);
         }
         if (weaponFormSlotCom.isConnectedToWeaponForm2) {
-            if (weaponFormDomain.TryGetBulletFromWeaponForm_2(out var bullet)) {
-                bullet.IDCom.SetFather(role.IDCom.ToEntityIDArgs());
-                bullet.SetPos(shootFromPos);
-                bulletFSMDomain.Enter_Flying(bullet, flyDir);
-                hasShoot = true;
-                Debug.Log($"发射子弹：从武器库 2");
-            }
+            weaponFormDomain.TryShootFromWeaponForm_2(shootTarPos,out var bullet);
         }
         if (weaponFormSlotCom.isConnectedToWeaponForm3) {
-            if (weaponFormDomain.TryGetBulletFromWeaponForm_3(out var bullet)) {
-                bullet.IDCom.SetFather(role.IDCom.ToEntityIDArgs());
-                bullet.SetPos(shootFromPos);
-                bulletFSMDomain.Enter_Flying(bullet, flyDir);
-                hasShoot = true;
-                Debug.Log($"发射子弹：从武器库 3");
-            }
+            weaponFormDomain.TryShootFromWeaponForm_3(shootTarPos,out var bullet);
         }
 
         return hasShoot;

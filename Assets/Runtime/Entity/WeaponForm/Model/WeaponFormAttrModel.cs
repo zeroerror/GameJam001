@@ -3,7 +3,7 @@ using UnityEngine;
 public class WeaponFormAttrModel {
 
     // 子弹容量
-    public int ammoCapacity;
+    public int bulletCapacity;
     // 射击间隔
     public float shootCD;
     // 塔的装填时间

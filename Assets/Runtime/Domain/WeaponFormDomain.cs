@@ -5,15 +5,18 @@ public class WeaponFormDomain {
     MainContext mainContext;
     Factory factory;
     BulletDomain bulletDomain;
+    BulletFSMDomain bulletFSMDomain;
     WeaponFormFSMDomain weaponFormFSMDomain;
 
     public void Inject(MainContext mainContext,
                        Factory factory,
                        BulletDomain bulletDomain,
+                       BulletFSMDomain bulletFSMDomain,
                        WeaponFormFSMDomain weaponFormFSMDomain) {
         this.mainContext = mainContext;
         this.factory = factory;
         this.bulletDomain = bulletDomain;
+        this.bulletFSMDomain = bulletFSMDomain;
         this.weaponFormFSMDomain = weaponFormFSMDomain;
     }
 
@@ -30,12 +33,18 @@ public class WeaponFormDomain {
         var pos1 = globalConfigTM.weaponFormPos1;
         var pos2 = globalConfigTM.weaponFormPos2;
         var pos3 = globalConfigTM.weaponFormPos3;
-        TrySpawnWeaponForm(1, pos1);
-        TrySpawnWeaponForm(2, pos2);
-        TrySpawnWeaponForm(3, pos3);
+        TrySpawnWeaponForm(1, pos1, out var weaponForm1);
+        TrySpawnWeaponForm(2, pos2, out var weaponForm2);
+        TrySpawnWeaponForm(3, pos3, out var weaponForm3);
+
+        weaponForm1.roleEntity = rootRepo.roleRepo.PlayerRole;
+        weaponForm2.roleEntity = rootRepo.roleRepo.PlayerRole;
+        weaponForm3.roleEntity = rootRepo.roleRepo.PlayerRole;
     }
 
-    public bool TrySpawnWeaponForm(int index, Vector2 pos) {
+    public bool TrySpawnWeaponForm(int index, Vector2 pos, out WeaponFormEntity weaponForm) {
+        weaponForm = null;
+
         var str = "WeaponForm/go_template_weaponform";
         var prefab = Resources.Load(str);
         if (prefab == null) {
@@ -45,7 +54,7 @@ public class WeaponFormDomain {
 
         var rootGO = GameObject.Instantiate(prefab) as GameObject;
         GameObject.DontDestroyOnLoad(rootGO);
-        var weaponForm = new WeaponFormEntity();
+        weaponForm = new WeaponFormEntity();
         weaponForm.Inject(rootGO);
         weaponForm.SetPos(pos);
 
@@ -55,6 +64,8 @@ public class WeaponFormDomain {
                                                        out var bulletTM);
         attrModel.bulletModel = TM2ModelUtil.GetBulletModel(bulletTM);
         weaponForm.SetWeaponFormAttrModel(attrModel);
+        weaponForm.SetBulletType(globalConfigTM.bulletType_init);
+        weaponForm.curBulletCount = attrModel.bulletCapacity;
 
         var rootRepo = mainContext.rootRepo;
         if (index == 1) {
@@ -70,19 +81,39 @@ public class WeaponFormDomain {
         return true;
     }
 
-    public bool TryGetBulletFromWeaponForm_1(out BulletEntity bullet) {
-        return TryGetBulletFromWeaponForm(1, out bullet);
+    public void Shoot(WeaponFormEntity weaponForm, Vector3 shootTarPos) {
+        var role = weaponForm.roleEntity;
+        var attrModel = weaponForm.AttrModel;
+        var bulletType = weaponForm.BulletType;
+        if (!bulletDomain.TrySpawnBullet(attrModel.bulletModel, out var bullet)) {
+            Debug.LogWarning($"WeaponFormFSM: TickShooting: TrySpawnBullet failed");
+            return;
+        }
+
+        var inputCom = role.InputCom;
+        var shootFromPos = role.LogicPos + new Vector3(0, 2, 0);
+        var flyDir = (shootTarPos - shootFromPos).normalized;
+
+        bullet.IDCom.SetFather(role.IDCom.ToEntityIDArgs());
+        bullet.SetPos(shootFromPos);
+        bulletFSMDomain.Enter_Flying(bullet, flyDir);
+
+        weaponForm.curBulletCount--;
     }
 
-    public bool TryGetBulletFromWeaponForm_2(out BulletEntity bullet) {
-        return TryGetBulletFromWeaponForm(2, out bullet);
+    public bool TryShootFromWeaponForm_1(Vector2 shootTarPos, out BulletEntity bullet) {
+        return TryShootFromWeaponForm(1, shootTarPos, out bullet);
     }
 
-    public bool TryGetBulletFromWeaponForm_3(out BulletEntity bullet) {
-        return TryGetBulletFromWeaponForm(3, out bullet);
+    public bool TryShootFromWeaponForm_2(Vector2 shootTarPos, out BulletEntity bullet) {
+        return TryShootFromWeaponForm(2, shootTarPos, out bullet);
     }
 
-    public bool TryGetBulletFromWeaponForm(int index, out BulletEntity bullet) {
+    public bool TryShootFromWeaponForm_3(Vector2 shootTarPos, out BulletEntity bullet) {
+        return TryShootFromWeaponForm(3, shootTarPos, out bullet);
+    }
+
+    public bool TryShootFromWeaponForm(int index, Vector2 shootTarPos, out BulletEntity bullet) {
         bullet = null;
 
         var repo = mainContext.rootRepo;
@@ -97,23 +128,11 @@ public class WeaponFormDomain {
             Debug.LogError("index error");
         }
 
-        // FSM CHECK
-        var fsmCom = weaponForm.FSMCom;
-        var state = fsmCom.State;
-        if (state != WeaponFormFSMState.Idle) {
+        if (weaponForm.FSMCom.State != WeaponFormFSMState.Idle) {
             return false;
         }
 
-        var attrModel = weaponForm.AttrModel;
-        var bulletType = weaponForm.BulletType;
-        if (!bulletDomain.TrySpawnBullet(attrModel.bulletModel,
-                                         out bullet)) {
-
-            return false;
-        }
-
-        weaponFormFSMDomain.Enter_Shooting(weaponForm);
-        bullet.SetFlySpeed(10);
+        weaponFormFSMDomain.Enter_Shooting(weaponForm, shootTarPos);
         return true;
     }
 

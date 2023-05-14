@@ -38,8 +38,8 @@ public class RootDomain {
         this.monsterFSMDomain.Inject(mainContext, monsterDomain);
         this.gameFSMDomain.Inject(mainContext, weaponFormDomain, this);
         this.phxDomain.Inject(mainContext, this);
-        this.weaponFormDomain.Inject(mainContext, factory, bulletDomain, weaponFormFSMDomain);
-        this.weaponFormFSMDomain.Inject(mainContext, weaponFormDomain);
+        this.weaponFormDomain.Inject(mainContext, factory, bulletDomain, bulletFSMDomain, weaponFormFSMDomain);
+        this.weaponFormFSMDomain.Inject(mainContext, weaponFormDomain, bulletDomain, bulletFSMDomain);
     }
 
 }

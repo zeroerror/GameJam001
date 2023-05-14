@@ -31,8 +31,9 @@ MonoBehaviour:
         hitBackDis: 0
         bulletDamage: 0
         bulletSize: {x: 0, y: 0}
-    ammoCapacity_init: 0
+        flySpeed: 0
+    bulletCapacity_init: 20
     shootCD_init: 1
     reloadCD_init: 0
-    bulletType_init: 0
+    bulletType_init: 2
     baseHP: 20

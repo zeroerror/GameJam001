@@ -114,7 +114,7 @@ public class RoleFSMDomain {
         }
 
         roleDomain.TryShoot(role);
-        
+
         // ================== Exit 
         bool isGounded = true;
         if (!isGounded) {
@@ -154,9 +154,9 @@ public class RoleFSMDomain {
     }
 
     public void Enter_Jumping(RoleEntity role) {
-        var fsmCom = role.FSMCom;
-        fsmCom.EnterJumping();
-        Debug.Log("RoleFSM: ======> Enter_Jumping");
+        // var fsmCom = role.FSMCom;
+        // fsmCom.EnterJumping();
+        // Debug.Log("RoleFSM: ======> Enter_Jumping");
     }
 
 }
