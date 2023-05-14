@@ -123,7 +123,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7108005513368402380}
   - component: {fileID: 8857321549176172869}
-  - component: {fileID: 3381747129504460007}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -166,7 +165,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5b85b3859d26e49898a19e16cae48d53, type: 2}
+  - {fileID: 2100000, guid: a5027be5d0d4e4f0798d7760a9c6e421, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -198,22 +197,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3381747129504460007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5021326212676892211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee158225ee1e59f4791627785501d950, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shaderTypes: 0
-  normalStrength: 5
-  normalSmoothing: 1
-  computingNormal: 0
 --- !u!1 &5409174530973644309
 GameObject:
   m_ObjectHideFlags: 0
