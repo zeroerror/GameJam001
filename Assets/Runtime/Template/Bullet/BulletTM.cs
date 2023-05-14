@@ -13,6 +13,6 @@ public struct BulletTM {
     [SerializeField][Header("子弹飞行速度(M/S)")] public float flySpeed;
 
     [SerializeField][Header("子弹ICON")] public Sprite bulletIcon;
-    [SerializeField][Header("武器ICON")] public float weaponIcon;
+    [SerializeField][Header("武器ICON")] public Sprite weaponIcon;
 
 }
