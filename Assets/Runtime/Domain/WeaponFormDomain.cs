@@ -83,15 +83,16 @@ public class WeaponFormDomain {
         GameObject.DontDestroyOnLoad(rootGO);
 
         weaponForm = rootGO.AddComponent<WeaponFormEntity>();
+        var has = mainContext.rootTemplate.bulletTemplate.TryGet(bulletType, out var bulletTM);
         weaponForm.Ctor();
 
-        weaponForm.Inject(rootGO);
+        weaponForm.Inject(rootGO,bulletTM);
         weaponForm.SetPos(pos);
 
         var globalConfigTM = mainContext.rootTemplate.globalConfigTM;
         var attrModel = TM2ModelUtil.GetWeaponFormAttrModel(globalConfigTM);
         mainContext.rootTemplate.bulletTemplate.TryGet(bulletType,
-                                                       out var bulletTM);
+                                                       out  bulletTM);
         attrModel.bulletModel = TM2ModelUtil.GetBulletModel(bulletTM);
         weaponForm.SetWeaponFormAttrModel(attrModel);
 

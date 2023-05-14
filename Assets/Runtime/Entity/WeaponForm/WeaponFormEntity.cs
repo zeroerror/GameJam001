@@ -28,6 +28,7 @@ public class WeaponFormEntity : MonoBehaviour {
 
     public WeaponFormChild[] weaponFormChildren;
     public int weaponFormChildrenCount;
+    public WeaponFormChild w1;
 
     public void Ctor() {
         idCom = new EntityIDComponent();
@@ -41,7 +42,7 @@ public class WeaponFormEntity : MonoBehaviour {
         this.weaponFormChildren = new WeaponFormChild[20];
     }
 
-    public void Inject(GameObject rootGO) {
+    public void Inject(GameObject rootGO, BulletTM bulletTM) {
         this.rootGO = rootGO;
         this.bodyGO = rootGO.transform.Find("BODY").gameObject;
         Debug.Assert(rootGO != null, "rootGO == null");
@@ -54,12 +55,20 @@ public class WeaponFormEntity : MonoBehaviour {
                 break;
             }
             var weaponFormChild = child.gameObject.AddComponent<WeaponFormChild>();
-            weaponFormChild.Inject(this);
+            weaponFormChild.Inject(this, bulletTM);
             weaponFormChildren[i] = weaponFormChild;
+
+            if (i == 0) {
+                w1 = weaponFormChild;
+            }
         }
         this.weaponFormChildrenCount = childCount;
 
         InitRenderer();
+    }
+
+    public void SetBulletCount() {
+        w1.SetBulletCount(curBulletCount, attrModel.bulletCapacity);
     }
 
     // 根据 WeaponFormUpgradeModel 升级

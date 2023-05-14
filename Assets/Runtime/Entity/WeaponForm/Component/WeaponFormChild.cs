@@ -5,8 +5,26 @@ public class WeaponFormChild : MonoBehaviour {
 
     public WeaponFormEntity weaponFormEntity;
 
-    public void Inject(WeaponFormEntity weaponFormEntity) {
+    GameObject bar;
+    float originWidth;
+
+    public void Inject(WeaponFormEntity weaponFormEntity, BulletTM tm) {
         this.weaponFormEntity = weaponFormEntity;
+        if (name == "1") {
+            bar = transform.GetChild(0).GetChild(0).gameObject;
+            originWidth = bar.transform.localScale.x;
+            var color = bar.GetComponent<SpriteRenderer>().color;
+            color = new Color(tm.themeColor.r, tm.themeColor.g, tm.themeColor.b, color.a);
+            bar.GetComponent<SpriteRenderer>().color = color;
+            Debug.Log("设置弹药数量AA");
+        }
+    }
+
+    public void SetBulletCount(int count, int maxCount) {
+        var scaleX = (float)count / maxCount;
+        bar.transform.localScale = new Vector3(originWidth * scaleX, bar.transform.lossyScale.y, 1);
+        Debug.Log("设置弹药数量:" + count + "; " + maxCount);
+
     }
 
     // PHX
