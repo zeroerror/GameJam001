@@ -82,6 +82,18 @@ public class PhxDomain {
             weaponFormDomain.HandleHitRole(two, one);
             return;
         }
+
+        // MONSTER SHIELD & BULLET
+        if (one.entityType == EntityType.Monster && two.entityType == EntityType.Role) {
+            weaponFormDomain.HandleHitRole(one, two);
+            return;
+        }
+
+        if (one.entityType == EntityType.Role && two.entityType == EntityType.WeaponForm) {
+            weaponFormDomain.HandleHitRole(two, one);
+            return;
+        }
+
     }
 
     public void HandleExit(in PhxEventModel evModel) {
