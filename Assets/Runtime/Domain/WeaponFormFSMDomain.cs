@@ -131,11 +131,18 @@ public class WeaponFormFSMDomain {
             if (model.time >= attrModel.shootCD) {
                 Enter_Idle(weaponForm);
             }
+        } else if (bulletType == BulletType.Bubble) {
+            // 气泡弹 射一发就退出
+            if (model.triplet_count < 1) {
+                weaponFormDomain.Shoot(weaponForm, shootTarPos);
+                model.triplet_count++;
+            }
 
-        } else if (bulletType == BulletType.Normal) {
-
-            // 普通子弹 
-
+            if (model.time >= attrModel.shootCD) {
+                Enter_Idle(weaponForm);
+            }
+        } else {
+            Debug.LogError($"未知的子弹类型 {bulletType}");
         }
     }
 

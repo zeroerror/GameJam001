@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: so_bullet_bubble
   m_EditorClassIdentifier: 
   tm:
-    bulletType: 2
+    bulletType: 4
     bloodThirst: 0
     fanOut: 0
     slow: 0
