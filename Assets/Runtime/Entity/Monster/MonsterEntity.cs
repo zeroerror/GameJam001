@@ -85,7 +85,7 @@ public class MonsterEntity : MonoBehaviour {
     }
 
     public void Init() {
-        fallPattern = FallPattern.RollingShieldFall;
+        // fallPattern = FallPattern.RollingShieldFall;
         if (fallPattern != FallPattern.RollingShieldFall) {
             shieldRoot.gameObject.SetActive(false);
         }
