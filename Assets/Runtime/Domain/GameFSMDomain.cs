@@ -205,12 +205,13 @@ public class GameFSMDomain {
             selectedWeaponForm.SetBulletType(selectBulletType);
             mainContext.rootTemplate.bulletTemplate.TryGet(selectBulletType, out var bulletTM);
             selectedWeaponForm.AttrModel.bulletModel = TM2ModelUtil.GetBulletModel(bulletTM);
+            selectedWeaponForm.LevelUp();
             Debug.Log($"选择 武器库 子弹 ==> {selectBulletType}");
         }), chooseTypeArgs);
     }
 
     // ================= 打开 升级UI
-    void OpenUpgradeUI(WeaponFormEntity weaponForm) {
+    void OpenUpgradeUI(WeaponFormEntity selectedWeaponForm) {
         var uiManager = mainContext.UIManager;
         var gameEntity = mainContext.GameEntity;
         GetThreeRandomUpgradeType(out var upgradeTM1, out var randomIndex1, out var upgradeTM2, out var randomIndex2, out var upgradeTM3, out var randomIndex3);
@@ -235,7 +236,7 @@ public class GameFSMDomain {
             gameEntity.hasWaveUpgrade = false;
             gameEntity.ContinueGame();
             var upgradeTM_chosen = mainContext.rootTemplate.upgradeTMArray[selectUpgradeTMIndex];
-            UpgradeWeaponForm(weaponForm, upgradeTM_chosen);
+            UpgradeWeaponForm(selectedWeaponForm, upgradeTM_chosen);
             Debug.Log($"选择 升级 武器库 ==> {upgradeTM_chosen}");
         }), upgradeArgs);
     }
