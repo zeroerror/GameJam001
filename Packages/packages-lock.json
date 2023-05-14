@@ -1,11 +1,25 @@
 {
   "dependencies": {
+    "com.gamearki.fpeasing": {
+      "version": "ssh://git@github.com/gamearki/fpeasing.git?path=Assets/com.gamearki.fpeasing#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "eca777f00a8bbbea3159581e2f1ed77161a62426"
+    },
     "com.gamearki.freeinput": {
       "version": "ssh://git@github.com/gamearki/FreeInput.git?path=Assets/com.gamearki.freeinput#main",
       "depth": 0,
       "source": "git",
       "dependencies": {},
       "hash": "6f519e40d633b473dd122bed491864617c4f91c8"
+    },
+    "com.gamearki.platformercamera": {
+      "version": "ssh://git@github.com/gamearki/platformercamera.git?path=Assets/com.gamearki.platformercamera#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "270937a0000171c4564aaaeaf3105043fcbbbd03"
     },
     "com.unity.2d.animation": {
       "version": "7.0.4",

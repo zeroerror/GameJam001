@@ -15,6 +15,7 @@ public class BulletEntity : MonoBehaviour {
     public Vector3 LogicPos => logicGO.transform.position;
 
     Rigidbody2D logicRB;
+    public BoxCollider2D boxCollider;
     GameObject rendererGO;
 
     // 子弹类型
@@ -41,10 +42,6 @@ public class BulletEntity : MonoBehaviour {
     // 飞行速度
     public float flySpeed;
 
-    // PHX
-    public Action<EntityIDArgs, EntityIDArgs, Vector2, int, int> OnTriggerEnter;
-    public Action<EntityIDArgs, EntityIDArgs, Vector2, int, int> OnTriggerExit;
-
     public void Ctor() {
         idCom = new EntityIDComponent();
         idCom.SetEntityType(EntityType.Bullet);
@@ -63,10 +60,13 @@ public class BulletEntity : MonoBehaviour {
         this.rootGO = rootGO;
         this.logicGO = rootGO.transform.Find("LOGIC").gameObject;
         this.logicRB = logicGO.GetComponent<Rigidbody2D>();
+        this.boxCollider = logicRB.GetComponent<BoxCollider2D>();
         this.rendererGO = rootGO.transform.Find("RENDERER").gameObject;
 
         Debug.Assert(rootGO != null, "rootGO == null");
         Debug.Assert(logicGO != null, "logicGO == null");
+        Debug.Assert(logicRB != null, "logicRB == null");
+        Debug.Assert(boxCollider != null, "collider == null");
         Debug.Assert(rendererGO != null, "rendererGO == null");
     }
 
@@ -78,11 +78,7 @@ public class BulletEntity : MonoBehaviour {
     /// 子弹反弹
     /// </summary>
     /// <param name="normal"></param>
-    bool s = false;
     public void Bounce(Vector2 normal) {
-        if (s) return;
-
-        s = true;
         var velocity = logicRB.velocity;
         var dot = Vector2.Dot(velocity, normal);
         var bounce = velocity - 2 * dot * normal;
@@ -104,6 +100,11 @@ public class BulletEntity : MonoBehaviour {
         logicGO.transform.rotation = rotation;
         rendererGO.transform.rotation = rotation;
     }
+
+
+    // PHX
+    public Action<EntityIDArgs, EntityIDArgs, Vector2, int, int> OnTriggerEnter;
+    public Action<EntityIDArgs, EntityIDArgs, Vector2, int, int> OnTriggerExit;
 
     void OnTriggerEnter2D(Collider2D other) {
         EntityIDComponent otherIDCom = null;

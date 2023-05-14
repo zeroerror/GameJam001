@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using GameArki.FPEasing;
 
 public class MonsterEntity : MonoBehaviour {
 
@@ -25,12 +26,18 @@ public class MonsterEntity : MonoBehaviour {
     public Vector2 Size => size;
     public void SetSize(Vector2 v) => this.size = v;
 
+    public bool isDeadSpawnChildren;
+    public int deadSpawnChildrenTypeID;
+
     GameObject rootGO;
     GameObject logicGO;
     Rigidbody2D logicRB;
     GameObject rendererGO;
     GameObject rendererBodyGO;
     GameObject rendererWeaponGO;
+    SpriteRenderer mesh;
+
+    Transform shieldRoot;
 
     // Phx
     public Action OnTriggerEnter;
@@ -38,6 +45,7 @@ public class MonsterEntity : MonoBehaviour {
 
     // temp
     public bool isNotValid;
+    float time;
 
     public void Ctor() {
         idCom = new EntityIDComponent();
@@ -61,7 +69,9 @@ public class MonsterEntity : MonoBehaviour {
         this.rendererGO = rootGO.transform.Find("RENDERER").gameObject;
         this.rendererBodyGO = rendererGO.transform.Find("BODY").gameObject;
         this.rendererWeaponGO = rendererGO.transform.Find("WEAPON").gameObject;
+        this.shieldRoot = rendererGO.transform.Find("ShieldRoot");
 
+        mesh = bodyMod.GetComponentInChildren<SpriteRenderer>();
         bodyMod.transform.SetParent(rendererBodyGO.transform, false);
 
         Debug.Assert(rootGO != null, "rootGO == null");
@@ -69,11 +79,39 @@ public class MonsterEntity : MonoBehaviour {
         Debug.Assert(logicGO != null, "logicGO == null");
         Debug.Assert(rendererGO != null, "rendererGO == null");
         Debug.Assert(rendererWeaponGO != null, "rendererWeaponGO == null");
+        Debug.Assert(shieldRoot != null, "shieldRoot == null");
+        Debug.Assert(mesh != null, "mesh == null");
+
+    }
+
+    public void Init() {
+        if (fallPattern != FallPattern.RollingShieldFall) {
+            shieldRoot.gameObject.SetActive(false);
+        }
     }
 
     // Update logic rb immediately, and also update renderer's rotation immediately
     public void SetFallVelocity(float dt) {
         logicRB.velocity = new Vector2(0, fallSpeed);
+    }
+
+    public void Fall(float dt) {
+        var velo = logicRB.velocity;
+        if (fallPattern == FallPattern.SCurveFall) {
+            float xOffset = 8;
+            float xSpeed = 3f;
+            velo.x = WaveHelper.SinWave(time, xOffset, xSpeed, 0);
+            mesh.transform.Rotate(new Vector3(0, 0, 2));
+
+        } else if (fallPattern == FallPattern.StraightFall) {
+            velo.x = 0;
+        }
+        if (fallPattern == FallPattern.RollingShieldFall) {
+            shieldRoot.Rotate(new Vector3(0, 0, 1));
+        }
+        velo.y = fallSpeed;
+        time += dt;
+        logicRB.velocity = velo;
     }
 
     // Easing renderer to logic

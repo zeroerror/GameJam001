@@ -7,17 +7,20 @@ public class WeaponFormDomain {
     BulletDomain bulletDomain;
     BulletFSMDomain bulletFSMDomain;
     WeaponFormFSMDomain weaponFormFSMDomain;
+    PhxDomain phxDomain;
 
     public void Inject(MainContext mainContext,
                        Factory factory,
                        BulletDomain bulletDomain,
                        BulletFSMDomain bulletFSMDomain,
-                       WeaponFormFSMDomain weaponFormFSMDomain) {
+                       WeaponFormFSMDomain weaponFormFSMDomain,
+                       PhxDomain phxDomain) {
         this.mainContext = mainContext;
         this.factory = factory;
         this.bulletDomain = bulletDomain;
         this.bulletFSMDomain = bulletFSMDomain;
         this.weaponFormFSMDomain = weaponFormFSMDomain;
+        this.phxDomain = phxDomain;
     }
 
     public void TrySpawnWeaponFormThree() {
@@ -40,6 +43,27 @@ public class WeaponFormDomain {
         weaponForm1.roleEntity = rootRepo.roleRepo.PlayerRole;
         weaponForm2.roleEntity = rootRepo.roleRepo.PlayerRole;
         weaponForm3.roleEntity = rootRepo.roleRepo.PlayerRole;
+
+        // PHX
+        var weaponFormChildren1 = weaponForm1.weaponFormChildren;
+        for (var i = 0; i < weaponForm1.weaponFormChildrenCount; i++) {
+            var weaponFormChild = weaponFormChildren1[i];
+            weaponFormChild.OnTriggerEnter += phxDomain.HandleTriggerEnter;
+            weaponFormChild.OnTriggerExit += phxDomain.HandleTriggerExit;
+        }
+        var weaponFormChildren2 = weaponForm2.weaponFormChildren;
+        for (var i = 0; i < weaponForm1.weaponFormChildrenCount; i++) {
+            var weaponFormChild = weaponFormChildren2[i];
+            weaponFormChild.OnTriggerEnter += phxDomain.HandleTriggerEnter;
+            weaponFormChild.OnTriggerExit += phxDomain.HandleTriggerExit;
+        }
+
+        var weaponFormChildren3 = weaponForm3.weaponFormChildren;
+        for (var i = 0; i < weaponForm1.weaponFormChildrenCount; i++) {
+            var weaponFormChild = weaponFormChildren3[i];
+            weaponFormChild.OnTriggerEnter += phxDomain.HandleTriggerEnter;
+            weaponFormChild.OnTriggerExit += phxDomain.HandleTriggerExit;
+        }
     }
 
     public bool TrySpawnWeaponForm(int index, Vector2 pos, out WeaponFormEntity weaponForm) {
@@ -54,7 +78,10 @@ public class WeaponFormDomain {
 
         var rootGO = GameObject.Instantiate(prefab) as GameObject;
         GameObject.DontDestroyOnLoad(rootGO);
-        weaponForm = new WeaponFormEntity();
+
+        weaponForm = rootGO.AddComponent<WeaponFormEntity>();
+        weaponForm.Ctor();
+
         weaponForm.Inject(rootGO);
         weaponForm.SetPos(pos);
 
@@ -128,7 +155,9 @@ public class WeaponFormDomain {
             Debug.LogError("index error");
         }
 
-        if (weaponForm.FSMCom.State != WeaponFormFSMState.Idle) {
+        if (weaponForm.FSMCom.State != WeaponFormFSMState.Idle
+        && weaponForm.FSMCom.State != WeaponFormFSMState.Reloading
+        ) {
             return false;
         }
 
@@ -138,7 +167,7 @@ public class WeaponFormDomain {
 
     public void HandleBeHitByMonster(in EntityIDArgs weaponFormIDArgs, in EntityIDArgs monsterIDArgs) {
         var monsterRepo = mainContext.rootRepo.monsterRepo;
-        if (!monsterRepo.TryGet(monsterIDArgs.typeID, out var monsterEntity)) {
+        if (!monsterRepo.TryGet(monsterIDArgs.entityID, out var monsterEntity)) {
             Debug.LogError($"怪物打击武器库失败 不存在 {monsterIDArgs}");
             return;
         }
@@ -157,21 +186,30 @@ public class WeaponFormDomain {
 
         if (idCom1.EntityID == entityID) {
             var clampHP = System.Math.Clamp(hp - 1, 0, int.MaxValue);
+            var damage = hp - clampHP;
+            Debug.Log($"武器库 1 受到怪物{monsterIDArgs}攻击 受到伤害{damage} 剩余血量{clampHP}");
             gameEntity.baseHP = clampHP;
             return;
         }
 
         if (idCom2.EntityID == entityID) {
             var clampHP = System.Math.Clamp(hp - 1, 0, int.MaxValue);
+            var damage = hp - clampHP;
+            Debug.Log($"武器库 2 受到怪物{monsterIDArgs}攻击 受到伤害{damage} 剩余血量{clampHP}");
             gameEntity.baseHP = clampHP;
             return;
         }
 
         if (idCom3.EntityID == entityID) {
             var clampHP = System.Math.Clamp(hp - 1, 0, int.MaxValue);
+            var damage = hp - clampHP;
+            Debug.Log($"武器库 3 受到怪物{monsterIDArgs}攻击 受到伤害{damage} 剩余血量{clampHP}");
             gameEntity.baseHP = clampHP;
             return;
         }
+
+        Debug.LogError($"怪物打击武器库失败 不存在 {weaponFormIDArgs}");
+
     }
 
 }

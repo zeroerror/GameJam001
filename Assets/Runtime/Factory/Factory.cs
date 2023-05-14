@@ -68,6 +68,11 @@ public class Factory {
         monster.SetFallSpeed(tm.fallSpeed);
         monster.SetSize(tm.size);
 
+        monster.isDeadSpawnChildren = tm.isDeadSpawnChildren;
+        monster.deadSpawnChildrenTypeID = tm.deadSpawnChildrenTypeID;
+
+        monster.Init();
+
         return true;
     }
 
@@ -92,6 +97,7 @@ public class Factory {
         bullet.bulletDamage = bulletModel.bulletDamage;
         // 子弹尺寸
         bullet.bulletSize = bulletModel.bulletSize;
+        bullet.boxCollider.size = bulletModel.bulletSize;
         // 子弹吸血
         bullet.bloodThirst = bulletModel.bloodThirst;
         // 散射

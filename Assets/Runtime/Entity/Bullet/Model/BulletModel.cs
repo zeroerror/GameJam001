@@ -11,4 +11,12 @@ public struct BulletModel {
     public Vector2 bulletSize;
     public float flySpeed;
 
+    public int bloodThirst_base;
+    public int fanOut_base;
+    public float slow_base;
+    public float hitBackDis_base;
+    public int bulletDamage_base;
+    public Vector2 bulletSize_base;
+    public float flySpeed_base;
+
 }

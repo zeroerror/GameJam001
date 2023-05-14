@@ -16,6 +16,7 @@ public class Panel_Upgrade_Element : MonoBehaviour {
         btn.onClick.RemoveAllListeners();
         btn.onClick.AddListener(() => {
             onClick.Invoke(selectionID);
+            Debug.Log("Panel_Upgrade_Element:OnClick");
         });
     }
 
