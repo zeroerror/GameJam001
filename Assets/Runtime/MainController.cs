@@ -9,7 +9,7 @@ public class MainController {
     MainContext mainContext;
     RootDomain rootDomain;
 
-    public MainController(VFXManager vfxManager, SFXManager sfxManager, UIManager uiManager) {
+    public MainController(VFXManager vfxManager, SFXManager sfxManager, UIManager uiManager, CameraManager cameraManager) {
 
         // Input Bind
         this.freeInputCore = new FreeInputCore();
@@ -25,7 +25,7 @@ public class MainController {
 
         this.factory.Inject(mainContext);
         this.rootDomain.Inject(mainContext, factory);
-        this.mainContext.Inject(vfxManager, sfxManager, uiManager, freeInputCore);
+        this.mainContext.Inject(vfxManager, sfxManager, uiManager, cameraManager, freeInputCore);
         
     }
 
