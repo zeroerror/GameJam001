@@ -12,7 +12,7 @@ public class MonsterDomain {
         this.monsterFSMDomain = monsterFSMDomain;
     }
 
-    public bool TrySpawnMonster(WaveSpawnerModel spawnerModel, out MonsterEntity monster) {
+    public bool TrySpawnMonster(WaveSpawnerModel spawnerModel, Vector2 rdPos, out MonsterEntity monster) {
         var typeID = spawnerModel.typeID;
         if (!factory.TryCreateMonster(typeID, out monster)) {
             Debug.LogError($"创建怪物失败 {typeID}");
@@ -25,10 +25,8 @@ public class MonsterDomain {
 
         monsterFSMDomain.Enter_Falling(monster);
 
-        var globalConfigTM = mainContext.rootTemplate.globalConfigTM;
-        var xRange = globalConfigTM.monsterSpawnPosXRange;
-        var posX = Random.Range(xRange.x, xRange.y);
-        var posY = globalConfigTM.monsterSpawnPosY;
+        var posX = rdPos.x + 2 - 20;
+        var posY = 22.5f - rdPos.y;
         monster.SetPos(new Vector2(posX, posY));
 
         var monsterRepo = mainContext.rootRepo.monsterRepo;
