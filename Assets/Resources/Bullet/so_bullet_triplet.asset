@@ -21,3 +21,5 @@ MonoBehaviour:
     bulletDamage: 5
     bulletSize: {x: 1, y: 1}
     flySpeed: 7
+    bulletIcon: {fileID: 21300000, guid: 4b40fc0f65c85f14fbc9c7c5f40ca686, type: 3}
+    weaponIcon: {fileID: 21300000, guid: 903e27af8f1fbb047b75df2347467627, type: 3}

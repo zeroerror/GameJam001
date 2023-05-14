@@ -19,5 +19,7 @@ MonoBehaviour:
     slow: 0
     hitBackDis: 0
     bulletDamage: 8
-    bulletSize: {x: 1, y: 1}
+    bulletSize: {x: 4, y: 1}
     flySpeed: 8
+    bulletIcon: {fileID: 21300000, guid: fab06e0be9375cc4d823efa71629885c, type: 3}
+    weaponIcon: {fileID: 21300000, guid: df86a80680f498642a07738611d9512d, type: 3}
