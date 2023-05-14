@@ -103,7 +103,7 @@ public class RoleEntity : MonoBehaviour {
     public void SetWeaponSprite(Sprite sprite, Color color) {
         var spriteRenderer = rendererWeaponGO.GetComponentInChildren<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
-        spriteRenderer.color = color;
+        spriteRenderer.color = color; 
     }
 
 }
