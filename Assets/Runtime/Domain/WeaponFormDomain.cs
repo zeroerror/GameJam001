@@ -111,6 +111,11 @@ public class WeaponFormDomain {
 
     public void Shoot(WeaponFormEntity weaponForm, Vector3 shootTarPos) {
         var role = weaponForm.roleEntity;
+        if (role == null) {
+            Debug.LogWarning("Shoot: role==null");
+            return;
+        }
+
         var attrModel = weaponForm.AttrModel;
         var bulletType = weaponForm.BulletType;
         if (!bulletDomain.TrySpawnBullet(attrModel.bulletModel, out var bullet)) {
